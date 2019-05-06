@@ -38,10 +38,10 @@
     <ClCompile Include="Request.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IRequestHandler.cpp">
+    <ClCompile Include="RequestResult.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RequestResult.cpp">
+    <ClCompile Include="IRequestHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

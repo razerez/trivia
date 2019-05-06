@@ -8,7 +8,7 @@ struct IRequestHandler
 public:
 	IRequestHandler();
 	~IRequestHandler();
-	bool isRequestRelevant(Request req);
-	RequestResult handleRequest(Request req);
+	virtual bool isRequestRelevant(Request req) = 0;
+	virtual RequestResult handleRequest(Request req) = 0;
 private:
 };
