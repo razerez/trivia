@@ -2,6 +2,10 @@
 
 #include <iostream>
 #include "IDatabase.h"
+#include <map>
+#include <list>
+#include "LoggedUser.h"
+#include "Question.h"
 
 
 class SqliteDatabase : public IDataBase
