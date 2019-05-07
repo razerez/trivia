@@ -3,6 +3,7 @@
 #include "RequestResult.h"
 #include <ctime>
 #include <vector>
+struct RequestResult;
 struct IRequestHandler
 {
 public:
