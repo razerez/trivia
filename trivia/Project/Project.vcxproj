@@ -136,6 +136,7 @@
     <ClCompile Include="IRequestHandler.cpp" />
     <ClCompile Include="LoggedUser.cpp" />
     <ClCompile Include="LoginManager.cpp" />
+    <ClCompile Include="LoginRequestHandler.cpp" />
     <ClCompile Include="Question.cpp" />
     <ClCompile Include="Request.cpp" />
     <ClCompile Include="RequestResult.cpp" />

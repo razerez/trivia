@@ -1,9 +1,12 @@
 #pragma once
 #include "IRequestHandler.h"
+
+struct IRequestHandler;
+
 struct RequestResult
 {
 public:
-	RequestResult(std::vector<char> response, IRequestHandler * newHandler);
+	RequestResult(std::vector<char>, IRequestHandler *);
 	~RequestResult();
 
 private:
