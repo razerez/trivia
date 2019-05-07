@@ -4,7 +4,10 @@
 
 struct SignupRequest
 {
-	std::string username;
-	std::string password;
-	std::string email;
+	std::string _username;
+	std::string _password;
+	std::string _email;
+public:
+	SignupRequest(std::string, std::string, std::string);
+	~SignupRequest();
 };

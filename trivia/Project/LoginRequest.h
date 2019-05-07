@@ -1,10 +1,11 @@
 #pragma once
-
 #include <iostream>
-
 struct LoginRequest
 {
-	std::string userName;
-	std::string password;
-};
+	std::string _username;
+	std::string _password;
+public:
+	LoginRequest(std::string, std::string);
+	~LoginRequest();
 
+};

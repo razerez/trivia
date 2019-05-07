@@ -42,19 +42,10 @@
     <ClInclude Include="Question.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JsonResponsePacketSerializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RequestResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SignupResponse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IRequestHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LoginResponse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Request.h">
@@ -93,6 +84,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RequestHandlerFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonRequestPacketDeserializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SignupRequest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
