@@ -2,9 +2,10 @@
 struct LoginResponse
 {
 public:
-	LoginResponse();
+	LoginResponse(int status);
 	~LoginResponse();
 
 private:
+	int _status;
 
 };

@@ -2,9 +2,9 @@
 struct SignupResponse
 {
 public:
-	SignupResponse();
+	SignupResponse(int status);
 	~SignupResponse();
 
 private:
-
+	int _status;
 };
