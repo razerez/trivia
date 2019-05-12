@@ -1,23 +1,18 @@
 #pragma once
 
 #include <iostream>
-
-using namespace std;
+#include <vector>
 
 class Question
 {
 private:
-	string _question;
-	string _rightAnswer;
-	string _wrongAnswer1;
-	string _wrongAnswer2;
-	string _wrongAnswer3;
+	std::string _m_question;
+	std::vector<std::string> _m_possibleAnswers;
 public:
-	Question(string question, string rightAns, string wrongAns1,
-		string wrongAns2, string wrongAns3);
+	Question(std::string m_question, std::vector<std::string> m_possibleAnswers);
 	~Question();
-
-
-
+	std::string getQuestion();
+	std::string getPossibleAnswers();
+	std::string getCurrectAnswer();
 
 };
