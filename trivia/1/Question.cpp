@@ -1,14 +1,29 @@
 #include "Question.h"
 
-Question::Question(string question, string rightAns, string wrongAns1,
-	string wrongAns2, string wrongAns3)
+Question::Question(std::string m_question, std::vector<std::string> m_possibleAnswers)
 {
-
+	this->_m_possibleAnswers = m_possibleAnswers;
+	this->_m_question = m_question;
 }
-
 
 Question::~Question()
 {
+}
 
+std::string Question::getQuestion()
+{
+	return this->_m_question;
+}
+
+std::string Question::getPossibleAnswers()
+{
+	std::string possibleAnswer =  this->_m_possibleAnswers.back();
+	this->_m_possibleAnswers.pop_back();
+	return possibleAnswer;
+}
+
+std::string Question::getCurrectAnswer()
+{
+	return this->_m_possibleAnswers[0];
 }
 

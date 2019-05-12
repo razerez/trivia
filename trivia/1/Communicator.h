@@ -8,7 +8,7 @@
 class Communicator
 {
 private:
-	std::map</*Socket*/ int, IRequestHandler> _m_clients;
+	std::map</*Socket*/ int, IRequestHandler*> _m_clients;
 	RequestHandlerFactory * _m_handlerFacroty;
 
 public:
