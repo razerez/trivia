@@ -1,4 +1,8 @@
 #pragma once
+#include <iostream>
+#include <string>
+#include "LoginRequest.h"
+#include "JsonRequestPacketDeserializer.h"
 #include "IRequestHandler.h"
 #include "RequestResult.h"
 #include "RequestHandlerFactory.h"
@@ -11,9 +15,12 @@ public:
 	~LoginRequestHandler();
 	bool isRequestRelevant(Request req);
 	RequestResult handleRequest(Request req);
-	RequestResult login(Request req);
-	RequestResult signup(Request req);
+
 private:
 	LoginManager* _m_loginManager;
 	RequestHandlerFactory* _m_handlerFacroty;
+	RequestResult login(Request req);
+	RequestResult signup(Request req);
 };
+
+string getBytes(int startPoint, int amount, std::vector<char> buffer);
