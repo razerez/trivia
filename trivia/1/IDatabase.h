@@ -16,6 +16,7 @@ public:
 
 	virtual map<LoggedUser, int> getHighscores() = 0;
 	virtual bool doesUserExiste(string name) = 0;
+	virtual void addUserToDB(string name, string password, string email) = 0;
 	virtual list<Question> getQuestions(int numberOfQuestions) = 0;
 
 private:

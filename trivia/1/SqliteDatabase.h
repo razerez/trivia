@@ -22,7 +22,7 @@ public:
 
 	virtual map<LoggedUser, int> getHighscores();
 	virtual bool doesUserExist(string name);
-	void addUserToDB(string name, string password, string email);
+	virtual void addUserToDB(string name, string password, string email);
 	virtual list<Question> getQuestions(int numberOfQuestions);
 private:
 	sqlite3 *_db;
