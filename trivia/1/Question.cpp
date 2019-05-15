@@ -6,6 +6,13 @@ Question::Question(std::string m_question, std::vector<std::string> m_possibleAn
 	this->_m_question = m_question;
 }
 
+Question::Question(const Question & other)
+{
+	this->_m_question = other._m_question;
+	this->_m_possibleAnswers = other._m_possibleAnswers;
+}
+
+
 Question::~Question()
 {
 }

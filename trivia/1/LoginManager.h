@@ -11,7 +11,7 @@
 class LoginManager
 {
 public:
-	LoginManager(IDataBase * dataBase);
+	LoginManager(IDataBase * dataBase, vector<LoggedUser> loggedUsers);
 	~LoginManager();
 	void signup(std::string username, std::string password, std::string email);
 	void login(std::string username, std::string password);
