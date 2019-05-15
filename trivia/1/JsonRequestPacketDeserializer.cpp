@@ -1,12 +1,11 @@
-#pragma once
 #include "JsonRequestPacketDeserializer.h"
 
-static LoginRequest deserializeLoginRequest(int x /*should return buffer*/)
+static LoginRequest deserializeLoginRequest(std::vector<char> buffer /*should return buffer*/)
 {
 
 }
 
-static SignupRequest deserializeSignupRequest(int x /*should return buffer*/)
+static SignupRequest deserializeSignupRequest(std::vector<char> buffer /*should return buffer*/)
 {
 
 }

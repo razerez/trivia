@@ -10,3 +10,13 @@ LoginRequest::~LoginRequest()
 {
 }
 
+std::string LoginRequest::getUsername()
+{
+	return this->getUsername;
+}
+
+std::string LoginRequest::getPassword()
+{
+	return this->_password;
+}
+

@@ -7,5 +7,7 @@ struct LoginRequest
 public:
 	LoginRequest(std::string, std::string);
 	~LoginRequest();
+	std::string getUsername();
+	std::string getPassword();
 
 };
