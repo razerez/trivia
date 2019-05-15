@@ -1,19 +1,20 @@
 #pragma once
-#include "IDatabase.h"
-#include "LoginManager.h"
-#include "LoginRequest.h"
-#include "LoginRequestHandler.h"
+#include "RequestHandlerFactory.h"
 
-class RequestHandlerFactory
+LoginRequestHandler RequestHandlerFactory::createLoginRequestHandler()
 {
-private:
-	LoginManager* _m_loginManager;
+	LoginRequestHandler * nb = new LoginRequestHandler(this->_m_loginManager, this);
+	return *nb;
+}
 
-public:
-	LoginRequestHandler createLoginRequestHandler();
-	RequestHandlerFactory(IDataBase* l);
-	~RequestHandlerFactory();
+RequestHandlerFactory::RequestHandlerFactory(IDataBase * l)
+{
 
+	vector<LoggedUser> mb;
+	_m_loginManager = new LoginManager(l, mb);
+}
 
-
-};
+RequestHandlerFactory::~RequestHandlerFactory()
+{
+	delete(_m_loginManager);
+}
