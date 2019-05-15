@@ -3,6 +3,9 @@
 #include "LoginManager.h"
 #include "LoginRequest.h"
 #include "LoginRequestHandler.h"
+#include <vector>
+
+class LoginRequestHandler;
 
 class RequestHandlerFactory
 {
@@ -17,18 +20,3 @@ public:
 
 
 };
-
-LoginRequestHandler RequestHandlerFactory::createLoginRequestHandler()
-{
-	return LoginRequestHandler();
-}
-
-RequestHandlerFactory::RequestHandlerFactory(IDataBase * l)
-{
-	_m_loginManager = new LoginManager(l);
-}
-
-RequestHandlerFactory::~RequestHandlerFactory()
-{
-	delete(_m_loginManager);
-}

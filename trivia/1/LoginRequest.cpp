@@ -12,7 +12,7 @@ LoginRequest::~LoginRequest()
 
 std::string LoginRequest::getUsername()
 {
-	return this->getUsername;
+	return this->_username;
 }
 
 std::string LoginRequest::getPassword()
