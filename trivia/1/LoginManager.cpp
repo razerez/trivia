@@ -11,27 +11,35 @@ LoginManager::~LoginManager()
 {
 }
 
-void LoginManager::signup(std::string username, std::string password, std::string email)
+int LoginManager::signup(std::string username, std::string password, std::string email)
 {
-	if (!this->_m_dataBase->doesUserExiste(username))
+	int isOk = int(this->_m_dataBase->doesUserExiste(username));
+
+	if (isOk == 0)
 	{
 		this->_m_dataBase->addUserToDB(username, password, email);
 		LoggedUser newUser(username);
 		this->_m_loggedUsers.push_back(newUser);
+		return 1;
 	}
+	return 0;
 }
 
 
-void LoginManager::login(std::string username, std::string password)
+int LoginManager::login(std::string username, std::string password)
 {
-	if (!this->_m_dataBase->doesUserExiste(username))
+	int isOk = int(this->_m_dataBase->doesUserExiste(username));
+
+	if (!isOk);
 	{
 		LoggedUser newUser(username);
 		this->_m_loggedUsers.push_back(newUser);
+		return 1;
 	}
+	return 0;
 }
 
-void LoginManager::logout()
+int LoginManager::logout()
 {
-	this->_m_loggedUsers.clear();
+	return 1;
 }
