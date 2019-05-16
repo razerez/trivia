@@ -17,7 +17,7 @@ LoginRequestHandler::~LoginRequestHandler()
 bool LoginRequestHandler::isRequestRelevant(Request req)
 {
 	char reqId = req.getBuffer()[0];
-	if (reqId == 0b00000001 )
+	if (reqId == 'I' || reqId == 'U')
 	{
 		return true;
 	}
@@ -28,21 +28,28 @@ bool LoginRequestHandler::isRequestRelevant(Request req)
 
 RequestResult LoginRequestHandler::handleRequest(Request req)
 {
-	if (!isRequestRelevant(req))
-	{
-		throw std::exception("request is not relevant");
-	}
 	LoginRequest request = deserializeLoginRequest(req.getBuffer());
-	std::vector<char> a('x');
-	IRequestHandler* b = new LoginRequestHandler(this->_m_loginManager, this->_m_handlerFacroty);
-	return RequestResult(a, b);
+	char reqId = req.getBuffer()[0];
+	if (reqId == 'I' )
+	{
+		return login(req);
+	}
+	else if (reqId == 'U')
+	{
+		return signup(req);
+	}
+
 }
+
 
 RequestResult LoginRequestHandler::login(Request req)
 {
-	std::vector<char> a('x');
-	IRequestHandler* b = new LoginRequestHandler(this->_m_loginManager, this->_m_handlerFacroty);
-	return RequestResult(a, b);
+	LoginRequest user = deserializeLoginRequest(req.getBuffer());
+	this->_m_loginManager->login(user.getUsername(), user.getPassword());
+	std::string str = "";
+	std::vector<char> buff = serializeResponse(LoginResponse(1));
+	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
+	return RequestResult(buff, nextHandler);
 }
 
 RequestResult LoginRequestHandler::signup(Request req)
