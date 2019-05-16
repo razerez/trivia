@@ -48,8 +48,6 @@ RequestResult LoginRequestHandler::login(Request req)
 	this->_m_loginManager->login(user.getUsername(), user.getPassword());
 	std::string str = "";
 	std::vector<char> buff = serializeResponse(LoginResponse(1));
-	buff.push_back('S');
-	insertStringToVector(buff, str);
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
 	return RequestResult(buff, nextHandler);
 }
