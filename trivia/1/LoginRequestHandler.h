@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "LoginRequest.h"
+#include "JsonResponsePacketSerializer.h"
 #include "JsonRequestPacketDeserializer.h"
 #include "IRequestHandler.h"
 #include "RequestResult.h"
