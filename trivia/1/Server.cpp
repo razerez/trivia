@@ -9,11 +9,23 @@ Server::Server(IDataBase * db)
 
 Server::~Server()
 {
+	delete(_m_database);
+	_m_database = nullptr;
+	delete(_m_communicator);
+	_m_communicator = nullptr;
 	delete(_m_handlerFactory);
 	_m_handlerFactory = nullptr;
 }
 
 void Server::run()
 {
-
+	try
+	{
+		WSAInitializer wsaInit;
+		_m_communicator->bindAndListen();//port 8821
+	}
+	catch (std::exception& e)
+	{
+		std::cout << "Error occured: " << e.what() << std::endl;
+	}
 }
