@@ -1,11 +1,9 @@
 #pragma once
 #include <string>
-class ErrorResponse
+struct ErrorResponse
 {
-public:
 	ErrorResponse(std::string message);
 	~ErrorResponse();
 
-private:
 	std::string message;
 };
