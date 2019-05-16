@@ -13,17 +13,22 @@ LoginManager::~LoginManager()
 
 void LoginManager::signup(std::string username, std::string password, std::string email)
 {
-	
-	this->_m_dataBase->addUserToDB(username, password, email);
-	LoggedUser * newUser = new LoggedUser(username);
-	this->_m_loggedUsers.push_back(*newUser);
+	if (!this->_m_dataBase->doesUserExiste(username))
+	{
+		this->_m_dataBase->addUserToDB(username, password, email);
+		LoggedUser newUser(username);
+		this->_m_loggedUsers.push_back(newUser);
+	}
 }
 
 
 void LoginManager::login(std::string username, std::string password)
 {
-	LoggedUser * newUser = new LoggedUser(username);
-	this->_m_loggedUsers.push_back(*newUser);
+	if (!this->_m_dataBase->doesUserExiste(username))
+	{
+		LoggedUser newUser(username);
+		this->_m_loggedUsers.push_back(newUser);
+	}
 }
 
 void LoginManager::logout()
