@@ -1,9 +1,11 @@
 #pragma once
-
+#pragma comment (lib, "ws2_32.lib")
+//#pragma comment (lib, "ws2_32.lib")
 #include "IDatabase.h"
 #include "Communicator.h"
 #include "RequestHandlerFactory.H"
-
+#include "WSAInitializer.h"
+#include <exception>
 class Server
 {
 public:
@@ -15,7 +17,5 @@ private:
 	IDataBase * _m_database;
 	Communicator * _m_communicator;
 	RequestHandlerFactory * _m_handlerFactory;
-
+	WSAInitializer wsaInit;
 };
-
-

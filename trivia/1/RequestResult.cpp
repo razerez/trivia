@@ -11,3 +11,8 @@ RequestResult::~RequestResult()
 	delete(this->_newHandler);
 	this->_newHandler = nullptr;
 }
+
+std::vector<char> RequestResult::getResponse()
+{
+	return _response;
+}

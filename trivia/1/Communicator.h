@@ -1,16 +1,32 @@
 #pragma once
+#include <WinSock2.h>
+#include <Windows.h>
+#include <iostream>
 
+#include <thread>
+#include <mutex>
+#include <exception>
+
+#include <string>
+#include <queue>
 #include <map>
-#include "IRequestHandler.h"
 
+#include "Helper.h"
+#include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
+#define PORT 8821
 
 class Communicator
 {
 private:
-	std::map</*Socket*/ int, IRequestHandler*> _m_clients;
+	Request getMessageFromClient();
+	std::map<SOCKET, IRequestHandler*> _m_clients;
 	RequestHandlerFactory * _m_handlerFacroty;
-
+	SOCKET serverSocket;
+	void clientHandler(SOCKET socket);
+	string vectorCharToString(vector<char> v);
+	vector<char> stringToVectorChar(string str);
+	void sendMsg(string message, SOCKET sc);
 public:
 	Communicator(IDataBase * db);
 	~Communicator();
@@ -18,10 +34,3 @@ public:
 	void handleRequests();
 	void startThreadForNewClient();
 };
-
-
-
-
-
-
-

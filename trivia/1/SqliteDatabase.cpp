@@ -95,7 +95,7 @@ list<Question> SqliteDatabase::getQuestions(int numberOfQuestions)
 {
 	list<Question> s;
 	char * errMessage = nullptr;
-	string strSqlStatement = "SELECT * FROM Question ORDER BY random() LIMIT " + to_string(numberOfQuestions) + ";";
+	string strSqlStatement = "SELECT * FROM Question ORDER BY random() LIMIT " + std::to_string(numberOfQuestions) + ";";
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, &s, &errMessage);
 	return s;
 }
