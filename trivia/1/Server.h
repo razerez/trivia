@@ -16,6 +16,5 @@ public:
 private:
 	IDataBase * _m_database;
 	Communicator * _m_communicator;
-	RequestHandlerFactory * _m_handlerFactory;
 	WSAInitializer wsaInit;
 };

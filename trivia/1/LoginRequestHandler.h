@@ -15,14 +15,14 @@ class RequestHandlerFactory;
 class LoginRequestHandler: public IRequestHandler
 {
 public:
-	LoginRequestHandler(LoginManager* m_loginManager, RequestHandlerFactory* m_handlerFacroty);
+	LoginRequestHandler(LoginManager* m_loginManager, RequestHandlerFactory* m_handlerFactory);
 	~LoginRequestHandler();
 	bool isRequestRelevant(Request req);
 	RequestResult handleRequest(Request req);
 
 private:
 	LoginManager* _m_loginManager;
-	RequestHandlerFactory* _m_handlerFacroty;
+	RequestHandlerFactory* _m_handlerFactory;
 	RequestResult login(Request req);
 	RequestResult signup(Request req);
 };

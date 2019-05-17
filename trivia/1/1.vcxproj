@@ -115,7 +115,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\backup\Helper.h" />
     <ClInclude Include="..\..\..\..\backup\WSAInitializer.h" />
     <ClInclude Include="CloseRoomResponse.h" />
     <ClInclude Include="Communicator.h" />
@@ -156,7 +155,6 @@
     <ClInclude Include="SubmitAnswerResponse.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\backup\Helper.cpp" />
     <ClCompile Include="..\..\..\..\backup\WSAInitializer.cpp" />
     <ClCompile Include="CloseRoomResponse.cpp" />
     <ClCompile Include="Communicator.cpp" />

@@ -14,7 +14,7 @@ private:
 
 public:
 	LoginRequestHandler createLoginRequestHandler();
-	RequestHandlerFactory(IDataBase* l);
+	RequestHandlerFactory(IDataBase* l, vector<LoggedUser>);
 	~RequestHandlerFactory();
 
 

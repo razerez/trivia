@@ -5,14 +5,14 @@ Communicator::Communicator(IDataBase * db)
 	serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);//new socket
 	if (serverSocket == INVALID_SOCKET)//if it didn't work
 		throw std::exception(__FUNCTION__ " - socket");
-	_m_handlerFacroty = new RequestHandlerFactory(db);
+	_m_handlerFactory = new RequestHandlerFactory(db,LoggedUsers);
 }
 
 Communicator::~Communicator()
 {
 	_m_clients.clear();
-	delete(_m_handlerFacroty);
-	_m_handlerFacroty = nullptr;
+	delete(_m_handlerFactory);
+	_m_handlerFactory = nullptr;
 	try
 	{
 		closesocket(serverSocket);//if you exit
@@ -52,11 +52,33 @@ void Communicator::handleRequests()
 {
 }
 
-Request Communicator::getMessageFromClient() 
+Request Communicator::getMessageFromClient(SOCKET sc)
 {
-	vector<char> v;
-	time_t t=0;
-	Request r(1, t, v);
+	string dataString = "";
+	int bytes = 3;
+	char* data;
+	int res;
+	for(int i=0; i<2;i++)
+	{
+		data= new char[bytes + 1];
+		res = recv(sc, data, bytes, 0);
+
+		if (res == INVALID_SOCKET)
+		{
+			std::string s = "Error while recieving from socket: ";
+			s += std::to_string(sc);
+			throw std::exception(s.c_str());
+		}
+		data[bytes] = 0;
+		dataString += data;
+		if (!i)bytes = (dataString[1] << 8) + dataString[2];
+		delete(data);
+		data = nullptr;
+	}
+	vector<char> v=stringToVectorChar(dataString);
+	time_t t=time(0);
+	int id = dataString[0];
+	Request r(id, t, v);
 	return r;
 }
 
@@ -67,20 +89,20 @@ void Communicator::clientHandler(SOCKET socket)
 		try
 		{
 			RequestResult * response;
-			
-			Request req(getMessageFromClient());
-			IRequestHandler* handler = (*_m_clients.find(socket)).second;
+			Request req(getMessageFromClient(socket));
+			IRequestHandler* handler =_m_clients[socket];
 			if (handler==nullptr)
 			{
-				return;
+				return;//we need to check it
 			}
 			if (handler->isRequestRelevant(req))
 			{
 				response = new RequestResult(handler->handleRequest(req));
+				_m_clients[socket] = response->getNewHandler();
 			}
 			else
 			{
-				string errorString="";
+				string errorString="";///add Protocol
 				vector<char> vectorOfResponse;
 				response=new RequestResult(vectorOfResponse,handler);
 			}
@@ -105,7 +127,6 @@ vector<char> Communicator::stringToVectorChar(string str)
 void Communicator::sendMsg(string message, SOCKET sc)
 {
 	const char* data = message.c_str();
-
 	if (send(sc, data, message.size(), 0) == INVALID_SOCKET)
 	{
 		throw std::exception("Error while sending message to client");
@@ -122,10 +143,10 @@ void Communicator::startThreadForNewClient()
 	if (client_socket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__);
 	IRequestHandler * handler;
-	handler=&(_m_handlerFacroty->createLoginRequestHandler());
+	handler=&(_m_handlerFactory->createLoginRequestHandler());
 	_m_clients.insert(std::pair<SOCKET, IRequestHandler*>(client_socket,handler));
 	std::cout << "Client accepted. Server and client can speak" << std::endl;
 
 	std::thread  t1(&Communicator::clientHandler, this, client_socket);//new thread for the client
-	t1.detach();
+	t1.detach();//thread can work separately
 }

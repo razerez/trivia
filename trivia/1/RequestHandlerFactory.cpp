@@ -7,11 +7,9 @@ LoginRequestHandler RequestHandlerFactory::createLoginRequestHandler()
 	return *nb;
 }
 
-RequestHandlerFactory::RequestHandlerFactory(IDataBase * l)
+RequestHandlerFactory::RequestHandlerFactory(IDataBase * l, vector<LoggedUser> v)
 {
-
-	vector<LoggedUser> mb;
-	_m_loginManager = new LoginManager(l, mb);
+	_m_loginManager = new LoginManager(l, v);
 }
 
 RequestHandlerFactory::~RequestHandlerFactory()

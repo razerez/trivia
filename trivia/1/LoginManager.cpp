@@ -30,7 +30,7 @@ int LoginManager::login(std::string username, std::string password)
 {
 	int isOk = int(this->_m_dataBase->doesUserExiste(username));
 
-	if (!isOk);
+	if (!isOk)
 	{
 		LoggedUser newUser(username);
 		this->_m_loggedUsers.push_back(newUser);
