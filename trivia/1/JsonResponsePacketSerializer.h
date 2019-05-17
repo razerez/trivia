@@ -4,7 +4,6 @@
 #include "LoginResponse.h"
 #include "SignupResponse.h"
 #include <vector>
-
-static std::vector<char> serializeResponse(ErrorResponse err);
-static std::vector<char> serializeResponse(LoginResponse login);
-static std::vector<char> serializeResponse(SignupResponse signup);
+std::vector<char> serializeResponse(ErrorResponse err);
+std::vector<char> serializeResponse(LoginResponse login);
+std::vector<char> serializeResponse(SignupResponse signup);

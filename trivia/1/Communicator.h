@@ -1,7 +1,10 @@
 #pragma once
 
 
+#include <map>
 
+#include "IRequestHandler.h"
+#include "RequestHandlerFactory.h"
 #include <fstream>
 #include <iomanip>
 #include <sstream>
@@ -15,12 +18,9 @@
 
 #include <string>
 #include <queue>
-#include <map>
 
-#include "IRequestHandler.h"
-#include "RequestHandlerFactory.h"
 #define PORT 8821
-
+class RequestHandlerFactory;
 class Communicator
 {
 private:
@@ -32,7 +32,7 @@ private:
 	
 	std::map<SOCKET, IRequestHandler*> _m_clients;
 	vector<LoggedUser> LoggedUsers;
-	RequestHandlerFactory * _m_handlerFactory;
+	RequestHandlerFactory* _m_handlerFactory;
 	SOCKET serverSocket;
 public:
 	Communicator(IDataBase * db);
@@ -41,7 +41,6 @@ public:
 	void handleRequests();
 	void startThreadForNewClient();
 };
-
 
 
 #ifdef _DEBUG // vs add this define in debug mode

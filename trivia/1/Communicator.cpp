@@ -22,7 +22,7 @@ Communicator::~Communicator()
 
 void Communicator::bindAndListen()
 {
-
+	
 	struct sockaddr_in sa = { 0 };
 
 	sa.sin_port = htons(PORT); // port that server will listen for
