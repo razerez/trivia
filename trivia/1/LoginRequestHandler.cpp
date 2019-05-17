@@ -1,15 +1,15 @@
 #include "LoginRequestHandler.h"
 
-LoginRequestHandler::LoginRequestHandler(LoginManager* m_loginManager, RequestHandlerFactory* m_handlerFacroty)
+LoginRequestHandler::LoginRequestHandler(LoginManager* m_loginManager, RequestHandlerFactory* m_handlerFactory)
 {
 	this->_m_loginManager = m_loginManager;
-	this->_m_handlerFacroty = m_handlerFacroty;
+	this->_m_handlerFactory = m_handlerFactory;
 }
 
 LoginRequestHandler::~LoginRequestHandler()
 {
-	delete(this->_m_handlerFacroty);
-	this->_m_handlerFacroty = nullptr;
+	delete(this->_m_handlerFactory);
+	this->_m_handlerFactory = nullptr;
 	delete(this->_m_loginManager);
 	this->_m_loginManager = nullptr;
 }
@@ -55,7 +55,7 @@ RequestResult LoginRequestHandler::login(Request req)
 RequestResult LoginRequestHandler::signup(Request req)
 {
 	std::vector<char> a('x');
-	IRequestHandler* b = new LoginRequestHandler(this->_m_loginManager, this->_m_handlerFacroty);
+	IRequestHandler* b = new LoginRequestHandler(this->_m_loginManager, this->_m_handlerFactory);
 	return RequestResult(a, b);
 }
 

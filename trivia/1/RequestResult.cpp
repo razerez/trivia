@@ -16,3 +16,8 @@ std::vector<char> RequestResult::getResponse()
 {
 	return _response;
 }
+
+IRequestHandler * RequestResult::getNewHandler()
+{
+	return this->_newHandler;
+}
