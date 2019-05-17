@@ -126,7 +126,7 @@
     <ClInclude Include="SubmitAnswerResponse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\backup\WSAInitializer.h">
+    <ClInclude Include="WSAInitializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -245,7 +245,7 @@
     <ClCompile Include="SubmitAnswerResponse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\backup\WSAInitializer.cpp">
+    <ClCompile Include="WSAInitializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
