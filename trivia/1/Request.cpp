@@ -10,18 +10,3 @@ Request::Request(int id, std::time_t receivalTime, std::vector<char> buffer)
 Request::~Request()
 {
 }
-
-int Request::getId()
-{
-	return this->_id;
-}
-
-std::time_t Request::getReceivalTime()
-{
-	return this->_receivalTime;
-}
-
-std::vector<char> Request::getBuffer()
-{
-	return this->_buffer;
-}

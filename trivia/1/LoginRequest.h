@@ -9,8 +9,4 @@ struct LoginRequest
 
 	std::string _username;
 	std::string _password;
-	
-	std::string getUsername();
-	std::string getPassword();
-
 };

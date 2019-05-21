@@ -10,7 +10,6 @@ public:
 	~RequestResult();
 	std::vector<char> getResponse();
 	IRequestHandler* getNewHandler();
-private:
 	std::vector<char> _response;
 	IRequestHandler * _newHandler;
 };
