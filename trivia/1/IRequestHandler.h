@@ -11,5 +11,4 @@ public:
 	~IRequestHandler();
 	virtual bool isRequestRelevant(Request req) = 0;
 	virtual RequestResult handleRequest(Request req) = 0;
-private:
 };
