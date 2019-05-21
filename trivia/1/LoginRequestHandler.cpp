@@ -44,10 +44,11 @@ RequestResult LoginRequestHandler::handleRequest(Request req)
 
 RequestResult LoginRequestHandler::login(Request req)
 {
+
 	LoginRequest user = deserializeLoginRequest(req._buffer);
 	this->_m_loginManager->login(user._username, user._password);
 	std::string str = "";
-	std::vector<char> buff = serializeResponse(LoginResponse(1));
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LoginResponse(1));
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
 	return RequestResult(buff, nextHandler);
 }
