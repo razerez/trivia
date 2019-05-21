@@ -46,18 +46,21 @@ RequestResult LoginRequestHandler::login(Request req)
 {
 
 	LoginRequest user = JsonRequestPacketDeserializer::deserializeLoginRequest(req._buffer);
-	this->_m_loginManager->login(user._username, user._password);
+	int stat = this->_m_loginManager->login(user._username, user._password);
 	std::string str = "";
-	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LoginResponse(1));
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LoginResponse(stat));
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
 	return RequestResult(buff, nextHandler);
 }
 
 RequestResult LoginRequestHandler::signup(Request req)
 {
-	std::vector<char> a('x');
-	IRequestHandler* b = new LoginRequestHandler(this->_m_loginManager, this->_m_handlerFactory);
-	return RequestResult(a, b);
+	SignupRequest user = JsonRequestPacketDeserializer::deserializeSignupRequest(req._buffer);
+	int stat = this->_m_loginManager->signup(user._username, user._password, user._email);
+	std::string str = "";
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LoginResponse(stat));
+	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
+	return RequestResult(buff, nextHandler);
 }
 
 
