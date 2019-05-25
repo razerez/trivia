@@ -10,12 +10,12 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<
 {
 	int usernameSize = stoi(getBytes(CODE_SEGMENT, USERNAME_SIZE_SEGMENT, buffer));
 	int usernameKeyIndex = findStrIndex("username:", buffer, DATA_SIZE_SEGMENT);
-	int usernameIndex = findStrIndex("\"", buffer, usernameIndex);
+	int usernameIndex = findStrIndex("\"", buffer, usernameKeyIndex);
 	std::string username = getBytes(usernameIndex, usernameSize, buffer);
 
 	int passwordSize = stoi(getBytes(CODE_SEGMENT + USERNAME_SIZE_SEGMENT, PASSWORD_SIZE_SEGMENT, buffer));
 	int passwordKeyIndex = findStrIndex("password:", buffer, DATA_SIZE_SEGMENT);
-	int passwordIndex = findStrIndex("\"", buffer, passwordIndex);
+	int passwordIndex = findStrIndex("\"", buffer, passwordKeyIndex);
 	std::string password = getBytes(passwordIndex, passwordSize, buffer);
 
 	LoginRequest myLogin(username, password);
@@ -26,7 +26,7 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(std::vecto
 {
 	int emailSize = stoi(getBytes(CODE_SEGMENT + USERNAME_SIZE_SEGMENT + PASSWORD_SIZE_SEGMENT, EMAIL_SIZE_SEGMENT, buffer));
 	int emailKeyIndex = findStrIndex("email:", buffer, DATA_SIZE_SEGMENT);
-	int emailIndex = findStrIndex("\"", buffer, emailIndex);
+	int emailIndex = findStrIndex("\"", buffer, emailKeyIndex);
 	std::string email = getBytes(emailIndex, emailSize, buffer);
 
 	LoginRequest myLogin = deserializeLoginRequest(buffer);
