@@ -65,12 +65,3 @@ RequestResult LoginRequestHandler::signup(Request req)
 
 
 
-string getBytes(int startPoint, int amount, std::vector<char> buffer)
-{
-	std::string ret;
-	for (size_t i = startPoint; i < amount; i++)
-	{
-		ret.push_back(buffer[i]);
-	}
-	return ret;
-}

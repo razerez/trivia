@@ -26,5 +26,3 @@ private:
 	RequestResult login(Request req);
 	RequestResult signup(Request req);
 };
-
-string getBytes(int startPoint, int amount, std::vector<char> buffer);
