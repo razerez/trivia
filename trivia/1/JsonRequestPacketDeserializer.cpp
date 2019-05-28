@@ -20,7 +20,7 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(std::vecto
 	LoginRequest myLogin = deserializeLoginRequest(buffer);
 	std::string username = myLogin._username;
 	std::string password = myLogin._password;
-	std::string email = analyzeJson(buffer, "email:", this->_dataLocation, CODE_SEGMENT +LENGTH_SEGMENT + USERNAME_SIZE_SEGMENT + PASSWORD_SIZE_SEGMENT, EMAIL_SIZE_SEGMENT);
+	std::string email = analyzeJson(buffer, "email:", this->_dataLocation, CODE_SEGMENT + LENGTH_SEGMENT + USERNAME_SIZE_SEGMENT + PASSWORD_SIZE_SEGMENT, EMAIL_SIZE_SEGMENT);
 
 	SignupRequest mySignup(username, password, email);
 	return mySignup;
