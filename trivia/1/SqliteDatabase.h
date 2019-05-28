@@ -17,11 +17,11 @@
 class SqliteDatabase : public IDataBase
 {
 public:
-	SqliteDatabase(list<Question> questions);
+	SqliteDatabase();
 	~SqliteDatabase();
 
 	virtual map<LoggedUser, int> getHighscores();
-	virtual bool doesUserExist(string name);
+	virtual bool doesUserExiste(string name);
 	virtual void addUserToDB(string name, string password, string email);
 	virtual list<Question> getQuestions(int numberOfQuestions);
 private:
