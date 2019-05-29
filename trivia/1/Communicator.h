@@ -29,7 +29,6 @@ private:
 	string vectorCharToString(vector<char> v);
 	vector<char> stringToVectorChar(string str);
 	void sendMsg(string message, SOCKET sc);
-	
 	std::map<SOCKET, IRequestHandler*> _m_clients;
 	vector<LoggedUser> LoggedUsers;
 	RequestHandlerFactory* _m_handlerFactory;
@@ -38,7 +37,6 @@ public:
 	Communicator(IDataBase * db);
 	~Communicator();
 	void bindAndListen();
-	void handleRequests();
 	void startThreadForNewClient();
 };
 

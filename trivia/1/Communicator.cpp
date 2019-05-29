@@ -48,9 +48,6 @@ void Communicator::bindAndListen()
 	}
 }
 
-void Communicator::handleRequests()
-{
-}
 
 Request Communicator::getMessageFromClient(SOCKET sc)
 {
@@ -92,24 +89,25 @@ void Communicator::clientHandler(SOCKET socket)
 			Request req(getMessageFromClient(socket));
 			IRequestHandler* handler =_m_clients[socket];
 			if (handler==nullptr)
-			{
-				return;//we need to check it
-			}
-			if (handler->isRequestRelevant(req))
+				response=new RequestResult(stringToVectorChar("x"),handler);
+			else if (handler->isRequestRelevant(req))
 			{
 				response = new RequestResult(handler->handleRequest(req));
 				_m_clients[socket] = response->getNewHandler();
 			}
 			else
-			{
-				string errorString="";///add Protocol
-				vector<char> vectorOfResponse;
-				response=new RequestResult(vectorOfResponse,handler);
-			}
+				response=new RequestResult(stringToVectorChar("e"),handler);
+			
 			sendMsg(vectorCharToString(response->getResponse()), socket);
+			if (response->getNewHandler() == nullptr)//EXIT
+			{
+				if (response != nullptr)delete(response);
+				_m_clients.erase(socket);
+				return;
+			}
+			if (response != nullptr)delete(response);
 		}
 		catch (...) {
-
 		}
 	}
 }
@@ -133,11 +131,9 @@ void Communicator::sendMsg(string message, SOCKET sc)
 	}
 }
 
+
 void Communicator::startThreadForNewClient()
 {
-	// notice that we step out to the global namespace
-	// for the resolution of the function accept
-	// this accepts the client and create a specific socket from server to this client
 	SOCKET client_socket = ::accept(serverSocket, NULL, NULL);
 
 	if (client_socket == INVALID_SOCKET)

@@ -84,6 +84,14 @@ bool SqliteDatabase::doesUserExiste(string name)
 
 }
 
+bool SqliteDatabase::doesPasswordExist(string name, string password)
+{
+	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE user = " + name + " and password = "+password+";";
+	char * errMessage = nullptr;
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
+	return ret;
+}
+
 void SqliteDatabase::addUserToDB(string name, string password,string email)
 {
 	string strSqlStatement = "INSERT INTO User(user, password, email) VALUES('"+ name +"', '" +password + "', '" + email+ "'); ";
