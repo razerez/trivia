@@ -1,9 +1,9 @@
 #include "IDatabase.h"
 
 
-IDataBase::IDataBase(list<Question> questions)
+IDataBase::IDataBase()
 {
-	this->_questions = questions;
+	this->_questions = list<Question>();
 }
 
 IDataBase::~IDataBase()

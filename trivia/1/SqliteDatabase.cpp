@@ -34,7 +34,7 @@ void SqliteDatabase::clean()
 {
 }
 
-SqliteDatabase::SqliteDatabase(list<Question> questions) : IDataBase(questions)
+SqliteDatabase::SqliteDatabase() : IDataBase()
 {
 	string dbFileName = "TriviaDB.sqlite";
 	int doesFileExist = _access(dbFileName.c_str(), 0);
@@ -75,7 +75,7 @@ map<LoggedUser, int> SqliteDatabase::getHighscores()
 	return mp;
 }
 
-bool SqliteDatabase::doesUserExist(string name)
+bool SqliteDatabase::doesUserExiste(string name)
 {
 	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE user = " + name + ";";
 	char * errMessage = nullptr;

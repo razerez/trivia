@@ -28,7 +28,6 @@ bool LoginRequestHandler::isRequestRelevant(Request req)
 
 RequestResult LoginRequestHandler::handleRequest(Request req)
 {
-	LoginRequest request = JsonRequestPacketDeserializer().deserializeLoginRequest(req._buffer);
 	char reqId = req._buffer[0];
 	if (reqId == 'I' )
 	{
@@ -58,7 +57,7 @@ RequestResult LoginRequestHandler::signup(Request req)
 	SignupRequest user = JsonRequestPacketDeserializer().deserializeSignupRequest(req._buffer);
 	int stat = this->_m_loginManager->signup(user._username, user._password, user._email);
 	std::string str = "";
-	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LoginResponse(stat));
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(SignupResponse(stat));
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
 	return RequestResult(buff, nextHandler);
 }

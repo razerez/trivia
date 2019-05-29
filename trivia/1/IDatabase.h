@@ -16,7 +16,7 @@ using std::endl;
 class IDataBase
 {
 public:
-	IDataBase(list<Question> questions);
+	IDataBase();
 	~IDataBase();
 
 	virtual map<LoggedUser, int> getHighscores() = 0;

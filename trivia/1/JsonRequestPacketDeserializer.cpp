@@ -1,16 +1,16 @@
 #include "JsonRequestPacketDeserializer.h"
 
 #define CODE_SEGMENT 1
-#define DATA_SIZE_SEGMENT 4
+#define LOGIN_DATA_SIZE_SEGMENT 2
 #define USERNAME_SIZE_SEGMENT 1
 #define PASSWORD_SIZE_SEGMENT 1
-
+#define LENGTH_SEGMENT 3
 #define EMAIL_SIZE_SEGMENT 1
 
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<char> buffer)
 {
-	std::string username = analyzeJson(buffer, "username:",  DATA_SIZE_SEGMENT, CODE_SEGMENT, USERNAME_SIZE_SEGMENT);
-	std::string password = analyzeJson(buffer, "password:", this->_dataLocation , CODE_SEGMENT + USERNAME_SIZE_SEGMENT, PASSWORD_SIZE_SEGMENT);
+	std::string username = analyzeJson(buffer, "username:",   LENGTH_SEGMENT + LOGIN_DATA_SIZE_SEGMENT, CODE_SEGMENT + LENGTH_SEGMENT, USERNAME_SIZE_SEGMENT);
+	std::string password = analyzeJson(buffer, "password:", this->_dataLocation , CODE_SEGMENT + LENGTH_SEGMENT + USERNAME_SIZE_SEGMENT, PASSWORD_SIZE_SEGMENT);
 	LoginRequest myLogin(username, password);
 	return myLogin;
 }
@@ -20,7 +20,7 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(std::vecto
 	LoginRequest myLogin = deserializeLoginRequest(buffer);
 	std::string username = myLogin._username;
 	std::string password = myLogin._password;
-	std::string email = analyzeJson(buffer, "email:", this->_dataLocation, CODE_SEGMENT + USERNAME_SIZE_SEGMENT + PASSWORD_SIZE_SEGMENT, EMAIL_SIZE_SEGMENT);
+	std::string email = analyzeJson(buffer, "email:", this->_dataLocation, CODE_SEGMENT + LENGTH_SEGMENT + USERNAME_SIZE_SEGMENT + PASSWORD_SIZE_SEGMENT, EMAIL_SIZE_SEGMENT);
 
 	SignupRequest mySignup(username, password, email);
 	return mySignup;
