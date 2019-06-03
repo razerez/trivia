@@ -55,6 +55,10 @@ Request Communicator::getMessageFromClient(SOCKET sc)
 	int bytes = 3;
 	char* data;
 	int res;
+	/*
+	this is the problem
+	dont get all the buffer
+	*/
 	for(int i=0; i<2;i++)
 	{
 		data= new char[bytes + 1];
@@ -76,28 +80,37 @@ Request Communicator::getMessageFromClient(SOCKET sc)
 	time_t t=time(0);
 	int id = dataString[0];
 	Request r(id, t, v);
+
+	std::cout << "this is my request:\n" << r._id << "\n" << r._receivalTime << std::endl;
+	std::cout << "the buffer is:\n";
+	for (std::vector<char>::const_iterator i = r._buffer.begin(); i != r._buffer.end(); ++i)
+		std::cout << *i << ' ';
+	std::cout << "\n" << std::endl;
+
+
 	return r;
 }
 
 void Communicator::clientHandler(SOCKET socket)
 {
-	while(true)
+	try
 	{
-		try
+		while (true)
 		{
+			std::cout << "enter to here" << std::endl;
 			RequestResult * response;
 			Request req(getMessageFromClient(socket));
-			IRequestHandler* handler =_m_clients[socket];
-			if (handler==nullptr)
-				response=new RequestResult(stringToVectorChar("x"),handler);
+			IRequestHandler* handler = _m_clients[socket];
+			if (handler == nullptr)
+				response = new RequestResult(stringToVectorChar("x"), handler);
 			else if (handler->isRequestRelevant(req))
 			{
 				response = new RequestResult(handler->handleRequest(req));
 				_m_clients[socket] = response->getNewHandler();
 			}
 			else
-				response=new RequestResult(stringToVectorChar("e"),handler);
-			
+				response = new RequestResult(stringToVectorChar("e"), handler);
+
 			sendMsg(vectorCharToString(response->getResponse()), socket);
 			if (response->getNewHandler() == nullptr)//EXIT
 			{
@@ -107,9 +120,12 @@ void Communicator::clientHandler(SOCKET socket)
 			}
 			if (response != nullptr)delete(response);
 		}
-		catch (...) {
-		}
 	}
+	catch (...) 
+	{
+		std::cout << "error" << std::endl;
+	}
+	
 }
 string Communicator::vectorCharToString(vector<char> v)
 {
@@ -139,7 +155,7 @@ void Communicator::startThreadForNewClient()
 	if (client_socket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__);
 	IRequestHandler * handler;
-	handler=&(_m_handlerFactory->createLoginRequestHandler());
+	handler=(_m_handlerFactory->createLoginRequestHandler());
 	_m_clients.insert(std::pair<SOCKET, IRequestHandler*>(client_socket,handler));
 	std::cout << "Client accepted. Server and client can speak" << std::endl;
 
