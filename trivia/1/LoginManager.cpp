@@ -30,8 +30,8 @@ int LoginManager::login(std::string username, std::string password)
 {
 
 	int isOk = int(this->_m_dataBase->doesUserExiste(username));
-	//int isPasswordOk = int(this->_m_dataBase->doesPasswordExist(username, password));
-	if (!isOk/*&& isPasswordOk*/)
+	int isPasswordOk = int(this->_m_dataBase->doesPasswordExist(username, password));
+	if (!isOk && isPasswordOk)
 	{
 		LoggedUser newUser(username);
 		this->_m_loggedUsers.push_back(newUser);

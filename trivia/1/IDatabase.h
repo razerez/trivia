@@ -18,7 +18,7 @@ class IDataBase
 public:
 	IDataBase();
 	~IDataBase();
-
+	virtual bool doesPasswordExist(string name, string password) = 0;
 	virtual map<LoggedUser, int> getHighscores() = 0;
 	virtual bool doesUserExiste(string name) = 0;
 	virtual void addUserToDB(string name, string password, string email) = 0;
