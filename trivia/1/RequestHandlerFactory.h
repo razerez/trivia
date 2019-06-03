@@ -13,7 +13,7 @@ private:
 	LoginManager * _m_loginManager;
 
 public:
-	LoginRequestHandler createLoginRequestHandler();
+	LoginRequestHandler * createLoginRequestHandler();
 	RequestHandlerFactory(IDataBase* l, vector<LoggedUser>);
 	~RequestHandlerFactory();
 
