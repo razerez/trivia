@@ -9,18 +9,17 @@ BUFFER_SIZE = 1024
 
 def main():
     messages = ['I'+chr(4) + chr(4) + chr(0)+chr(0)+" {\nusername:raz1\npassword:raz2\n}",
-                'I'+chr(4) + chr(4) + chr(0)+chr(0) + " {\nusername:raz1\npassword:raz0\n}",
-                'I'+chr(4) + chr(4) + chr(4) + chr(0) + " {\nusername:raz1\npassword:raz2\nemail:raz3\n}",
+                'U'+chr(4) + chr(4) + chr(4) + chr(0) + " {\nusername:raz1\npassword:raz2\nemail:raz3\n}",
                 'X']
     data = ""
     msg = """Enter what you want to do:
             1. Send valid login message
-            2. Send invalid login message
-            3. Send valid signup message
-            4. send exit message
+            2. Send valid signup message
+            3. send exit message
             (All messages will by followed up with a request to exit)
             """
 
+    data_msg = ""
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = (IP, PORT)
     
@@ -33,19 +32,21 @@ def main():
     try:
         while True:
             choice = int(input(msg))
-            print("Sending: " + messages[choice-1])
-            sock.sendall(messages[choice-1])
-            data = s.recv(BUFFER_SIZE)
-            print("received data:" + data)
+            data_msg = messages[choice-1]
+            print("Sending: " + data_msg)
+            data_msg = data_msg.encode()
+            sock.sendall(data_msg)
+            print("hello")
+            data = sock.recv(BUFFER_SIZE)
+            print("received data:" + data.decode())
             os.system('cls')
 
     except Exception as e:
+        print("the error is:")
         print(e)
 
 
 
 if __name__ == '__main__':
     main()
-
-
 
