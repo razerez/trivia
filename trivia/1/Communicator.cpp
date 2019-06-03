@@ -52,14 +52,14 @@ void Communicator::bindAndListen()
 Request Communicator::getMessageFromClient(SOCKET sc)
 {
 	string dataString = "";
-	int bytes = 3;
+	int bytes = 4;
 	char* data;
 	int res;
 	/*
 	this is the problem
 	dont get all the buffer
 	*/
-	for(int i=0; i<2;i++)
+	for (int i = 0; i < 2; i++)
 	{
 		data= new char[bytes + 1];
 		res = recv(sc, data, bytes, 0);
@@ -72,7 +72,9 @@ Request Communicator::getMessageFromClient(SOCKET sc)
 		}
 		data[bytes] = 0;
 		dataString += data;
-		if (!i)bytes = (dataString[1] << 8) + dataString[2];
+		if (!i)bytes = int((unsigned char)(dataString[1]) << 16 |
+			(unsigned char)(dataString[2]) << 8 |
+			(unsigned char)(dataString[3]));
 		delete(data);
 		data = nullptr;
 	}
