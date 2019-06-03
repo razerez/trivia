@@ -28,9 +28,10 @@ int LoginManager::signup(std::string username, std::string password, std::string
 
 int LoginManager::login(std::string username, std::string password)
 {
-	int isOk = int(this->_m_dataBase->doesUserExiste(username));
 
-	if (!isOk)
+	int isOk = int(this->_m_dataBase->doesUserExiste(username));
+	//int isPasswordOk = int(this->_m_dataBase->doesPasswordExist(username, password));
+	if (!isOk/*&& isPasswordOk*/)
 	{
 		LoggedUser newUser(username);
 		this->_m_loggedUsers.push_back(newUser);
