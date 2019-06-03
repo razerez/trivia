@@ -33,10 +33,9 @@ def main():
         while True:
             choice = int(input(msg))
             data_msg = messages[choice-1]
-            print("Sending: " + data_msg)
+            print("Sending:\n" + data_msg)
             data_msg = data_msg.encode()
             sock.sendall(data_msg)
-            print("hello")
             data = sock.recv(BUFFER_SIZE)
             print("received data:" + data.decode())
             os.system('cls')
