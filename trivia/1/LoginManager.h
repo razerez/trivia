@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include "IDatabase.h"
 #include "LoggedUser.h"
@@ -15,7 +16,7 @@ public:
 	~LoginManager();
 	int signup(std::string username, std::string password, std::string email);
 	int login(std::string username, std::string password);
-	int logout();
+	int logout(std::string username);
 
 
 private:
