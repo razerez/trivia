@@ -44,22 +44,28 @@ int LoginManager::logout(std::string username)
 {
 	try
 	{
-		/*
-		for (std::vector<char>::const_iterator i = path.begin(); i != path.end(); ++i)
-			std::cout << *i << ' ';
-			*/
 		bool flag = true;
 		int counter = 0;
+<<<<<<< HEAD
 		for (std::vector<LoggedUser>::const_iterator i = this->_m_loggedUsers.begin(); i != this->_m_loggedUsers.end() && flag; ++i)
 		{
 
+=======
+
+		for (std::vector<LoggedUser>::iterator i = this->_m_loggedUsers.begin(); i != this->_m_loggedUsers.end() && flag; ++i)
+		{		
+>>>>>>> Nitay
 			if ((*i).getUsername() == username)
 			{
 				flag = !false;
 			}
 			counter++;
 		}
+<<<<<<< HEAD
 
+=======
+		_m_loggedUsers.erase(_m_loggedUsers.begin() + counter);
+>>>>>>> Nitay
 		return 1;
 	}
 	catch (...)
