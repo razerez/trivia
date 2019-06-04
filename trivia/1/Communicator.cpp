@@ -123,7 +123,9 @@ void Communicator::clientHandler(SOCKET socket)
 	}
 	catch (...) 
 	{
-		std::cout << "error" << std::endl;
+		std::cout << "User Disconnected" << std::endl;
+		logout(socket);
+		return;
 	}
 	
 }
