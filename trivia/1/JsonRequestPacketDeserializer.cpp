@@ -7,10 +7,18 @@
 #define LENGTH_SEGMENT 3
 #define EMAIL_SIZE_SEGMENT 1
 
+LogoutRequest JsonRequestPacketDeserializer::deserializeLogoutRequest(std::vector<char> buffer)
+{
+	//  std::string username = analyzeJson(buffer, "username:" 5, 4, 1)
+	std::string username = analyzeJson(buffer, "username:", LENGTH_SEGMENT + LOGIN_DATA_SIZE_SEGMENT, CODE_SEGMENT + LENGTH_SEGMENT, USERNAME_SIZE_SEGMENT);
+	LogoutRequest myLogout(username);
+	return myLogout;
+}
+
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<char> buffer)
 {
-//  std::string username = analyzeJson(buffer, "username:" 5, 4, 1)
-	std::string username = analyzeJson(buffer, "username:",   LENGTH_SEGMENT + LOGIN_DATA_SIZE_SEGMENT, CODE_SEGMENT + LENGTH_SEGMENT, USERNAME_SIZE_SEGMENT);
+	LogoutRequest myLogout = deserializeLogoutRequest(buffer);
+	std::string username = myLogout._username;
 	std::string password = analyzeJson(buffer, "password:", this->_dataLocation , CODE_SEGMENT + LENGTH_SEGMENT + USERNAME_SIZE_SEGMENT, PASSWORD_SIZE_SEGMENT);
 	LoginRequest myLogin(username, password);
 	return myLogin;

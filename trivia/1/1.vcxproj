@@ -138,6 +138,7 @@
     <ClInclude Include="LoginRequest.h" />
     <ClInclude Include="LoginRequestHandler.h" />
     <ClInclude Include="LoginResponse.h" />
+    <ClInclude Include="LogoutRequest.h" />
     <ClInclude Include="LogoutResponse.h" />
     <ClInclude Include="PlayerResults.h" />
     <ClInclude Include="Question.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="LoginRequest.cpp" />
     <ClCompile Include="LoginRequestHandler.cpp" />
     <ClCompile Include="LoginResponse.cpp" />
+    <ClCompile Include="LogoutRequest.cpp" />
     <ClCompile Include="LogoutResponse.cpp" />
     <ClCompile Include="PlayerResults.cpp" />
     <ClCompile Include="Question.cpp" />
