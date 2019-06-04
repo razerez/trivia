@@ -52,14 +52,14 @@ int LoginManager::logout(std::string username)
 		int counter = 0;
 		for (std::vector<LoggedUser>::const_iterator i = this->_m_loggedUsers.begin(); i != this->_m_loggedUsers.end() && flag; ++i)
 		{
-			
+
 			if ((*i).getUsername() == username)
 			{
 				flag = !false;
 			}
 			counter++;
 		}
-			
+
 		return 1;
 	}
 	catch (...)
