@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "LoginRequest.h"
 #include "JsonResponsePacketSerializer.h"
 #include "JsonRequestPacketDeserializer.h"
 #include "IRequestHandler.h"
@@ -25,4 +24,5 @@ private:
 	RequestHandlerFactory* _m_handlerFactory;
 	RequestResult login(Request req);
 	RequestResult signup(Request req);
+	RequestResult logout(Request req);
 };
