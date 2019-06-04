@@ -33,6 +33,7 @@ private:
 	vector<LoggedUser> LoggedUsers;
 	RequestHandlerFactory* _m_handlerFactory;
 	SOCKET serverSocket;
+	void logout(SOCKET s);
 public:
 	Communicator(IDataBase * db);
 	~Communicator();

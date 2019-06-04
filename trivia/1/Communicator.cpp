@@ -115,7 +115,7 @@ void Communicator::clientHandler(SOCKET socket)
 			if (response->getNewHandler() == nullptr||response->getResponse()[0]=='x')//EXIT
 			{
 				if (response != nullptr)delete(response);
-				_m_clients.erase(socket);
+				logout(socket);
 				return;
 			}
 			if (response != nullptr)delete(response);
@@ -161,4 +161,9 @@ void Communicator::startThreadForNewClient()
 
 	std::thread  t1(&Communicator::clientHandler, this, client_socket);//new thread for the client
 	t1.detach();//thread can work separately
+}
+
+void Communicator::logout(SOCKET s)
+{
+	_m_clients.erase(s);
 }
