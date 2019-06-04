@@ -69,7 +69,7 @@ RequestResult LoginRequestHandler::signup(Request req)
 RequestResult LoginRequestHandler::logout(Request req)
 {
 	LogoutRequest user = JsonRequestPacketDeserializer().deserializeLogoutRequest(req._buffer);
-	int stat = this->_m_loginManager->logout();
+	int stat = this->_m_loginManager->logout(user._username);
 	std::string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(SignupResponse(stat));
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
