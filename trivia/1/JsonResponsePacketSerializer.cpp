@@ -29,3 +29,10 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(SignupResponse
 	vec.push_back(char(signup._status));
 	return vec;
 }
+
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse logout)
+{
+	std::vector<char> vec;
+	return vec;
+}
