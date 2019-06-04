@@ -77,7 +77,7 @@ map<LoggedUser, int> SqliteDatabase::getHighscores()
 
 bool SqliteDatabase::doesUserExiste(string name)
 {
-	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE user = " + name + ";";
+	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE user = '" + name + "';";
 	char * errMessage = nullptr;
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
@@ -86,7 +86,7 @@ bool SqliteDatabase::doesUserExiste(string name)
 
 bool SqliteDatabase::doesPasswordExist(string name, string password)
 {
-	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE user = " + name + " and password = "+password+";";
+	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE user = '" + name + "' and password = '"+password+"';";
 	char * errMessage = nullptr;
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;

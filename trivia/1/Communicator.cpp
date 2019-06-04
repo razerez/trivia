@@ -51,15 +51,15 @@ void Communicator::bindAndListen()
 
 Request Communicator::getMessageFromClient(SOCKET sc)
 {
-	string dataString = "";
-	int bytes = 3;
+	std::vector<char> buffer = std::vector<char>();
+	int bytes = 4;
 	char* data;
 	int res;
 	/*
 	this is the problem
 	dont get all the buffer
 	*/
-	for(int i=0; i<2;i++)
+	for (int i = 0; i < 2; i++)
 	{
 		data= new char[bytes + 1];
 		res = recv(sc, data, bytes, 0);
@@ -71,15 +71,19 @@ Request Communicator::getMessageFromClient(SOCKET sc)
 			throw std::exception(s.c_str());
 		}
 		data[bytes] = 0;
-		dataString += data;
-		if (!i)bytes = (dataString[1] << 8) + dataString[2];
+		for (size_t i = 0; i < bytes; i++)
+		{
+			buffer.push_back(data[i]);
+		}
+		if (!i)bytes = int((unsigned char)(data[1]) << 16 |
+			(unsigned char)(data[2]) << 8 |
+			(unsigned char)(data[3]));
 		delete(data);
 		data = nullptr;
 	}
-	vector<char> v=stringToVectorChar(dataString);
 	time_t t=time(0);
-	int id = dataString[0];
-	Request r(id, t, v);
+	int id = buffer[0];
+	Request r(id, t, buffer);
 
 	std::cout << "this is my request:\n" << r._id << "\n" << r._receivalTime << std::endl;
 	std::cout << "the buffer is:\n";

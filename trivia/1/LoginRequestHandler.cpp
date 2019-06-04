@@ -43,7 +43,6 @@ RequestResult LoginRequestHandler::handleRequest(Request req)
 
 RequestResult LoginRequestHandler::login(Request req)
 {
-	std::cout << req._buffer.size() << std::endl;
 	LoginRequest user = JsonRequestPacketDeserializer().deserializeLoginRequest(req._buffer);
 	int stat = this->_m_loginManager->login(user._username, user._password);
 	std::string str = "";

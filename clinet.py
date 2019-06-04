@@ -8,8 +8,12 @@ BUFFER_SIZE = 1024
 
 
 def main():
-    messages = ['I'+chr(4) + chr(4) + chr(0)+chr(0)+" {\nusername:raz1\npassword:raz2\n}",
-                'U'+chr(4) + chr(4) + chr(4) + chr(0) + " {\nusername:raz1\npassword:raz2\nemail:raz3\n}",
+    strdata =  " {\nusername:\"raz1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}"
+    strDataLen = len(strdata) + 2
+    print(strDataLen)
+
+    messages = ['I'+ chr(0) + chr(0) + chr(38)  + chr(4)+ chr(4)+" {\nusername:\"raz1\"\npassword:\"raz2\"\n}",
+                'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"raz1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}",
                 'X']
     data = ""
     msg = """Enter what you want to do:
