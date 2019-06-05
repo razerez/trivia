@@ -2,7 +2,7 @@ import socket
 import sys
 import os
 
-IP = "127.0.0.1"
+IP = "172.16.25.101"
 PORT = 8821
 BUFFER_SIZE = 1024
 
@@ -12,9 +12,9 @@ def main():
     strDataLen = len(strdata) + 2
     print(strDataLen)
 
-    messages = ['I'+ chr(0) + chr(0) + chr(38)  + chr(4)+ chr(4)+" {\nusername:\"raz1\"\npassword:\"raz2\"\n}",
-                'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"raz1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}",
-                'X']
+    messages = ['I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"raz1\"\npassword:\"raz2\"\n}",
+                'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"rez1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}",
+                'X'+chr(0) + chr(0)+chr(0)]
     data = ""
     msg = """Enter what you want to do:
             1. Send valid login message
@@ -37,13 +37,18 @@ def main():
         while True:
             choice = int(input(msg))
             data_msg = messages[choice-1]
-            print("Sending:\n" + data_msg)
+            print("Client Says:\n" + data_msg)
             data_msg = data_msg.encode()
             sock.sendall(data_msg)
-            data = sock.recv(BUFFER_SIZE)
-            print("received data:" + data.decode())
-            os.system('cls')
-
+            data = (sock.recv(BUFFER_SIZE)).decode()
+            if data == "x":
+                print("Server Says: Goodbye")
+                return
+            if len(data) > 2 and (ord(data[2]) == 1 or ord(data[2]) == 0):
+                data = list(data)
+                data[2] = chr(ord(data[2])+48)
+                data = "".join(data)
+            print("Server Says:" + data)
     except Exception as e:
         print("the error is:")
         print(e)

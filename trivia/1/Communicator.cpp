@@ -59,7 +59,7 @@ Request Communicator::getMessageFromClient(SOCKET sc)
 	this is the problem
 	dont get all the buffer
 	*/
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 2&& bytes; i++)
 	{
 		data= new char[bytes + 1];
 		res = recv(sc, data, bytes, 0);
@@ -84,14 +84,6 @@ Request Communicator::getMessageFromClient(SOCKET sc)
 	time_t t=time(0);
 	int id = buffer[0];
 	Request r(id, t, buffer);
-
-	std::cout << "this is my request:\n" << r._id << "\n" << r._receivalTime << std::endl;
-	std::cout << "the buffer is:\n";
-	for (std::vector<char>::const_iterator i = r._buffer.begin(); i != r._buffer.end(); ++i)
-		std::cout << *i << ' ';
-	std::cout << "\n" << std::endl;
-
-
 	return r;
 }
 
@@ -105,8 +97,12 @@ void Communicator::clientHandler(SOCKET socket)
 			RequestResult * response;
 			Request req(getMessageFromClient(socket));
 			IRequestHandler* handler = _m_clients[socket];
-			if (handler == nullptr)
-				response = new RequestResult(stringToVectorChar("x"), handler);
+			if (handler == nullptr || req._buffer[0] == 'X') 
+			{
+				std::vector<char> buffer;
+				buffer.push_back('x');
+				response = new RequestResult(buffer, handler);
+			}
 			else if (handler->isRequestRelevant(req))
 			{
 				response = new RequestResult(handler->handleRequest(req));
@@ -116,7 +112,7 @@ void Communicator::clientHandler(SOCKET socket)
 				response = new RequestResult(stringToVectorChar("e"), handler);
 
 			sendMsg(vectorCharToString(response->getResponse()), socket);
-			if (response->getNewHandler() == nullptr)//EXIT
+			if (response->getNewHandler() == nullptr||response->getResponse()[0]=='x')//EXIT
 			{
 				if (response != nullptr)delete(response);
 				_m_clients.erase(socket);
