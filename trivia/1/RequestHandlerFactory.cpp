@@ -7,12 +7,14 @@ LoginRequestHandler * RequestHandlerFactory::createLoginRequestHandler()
 	return nb;
 }
 
-RequestHandlerFactory::RequestHandlerFactory(IDataBase * l, vector<LoggedUser> v)
+RequestHandlerFactory::RequestHandlerFactory(IDataBase * l)
 {
-	_m_loginManager = new LoginManager(l, v);
+	loggedUsers = new std::vector<LoggedUser>;
+	_m_loginManager = new LoginManager(l, *loggedUsers);
 }
 
 RequestHandlerFactory::~RequestHandlerFactory()
 {
 	delete(_m_loginManager);
+	delete(loggedUsers);
 }

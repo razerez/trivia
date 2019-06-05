@@ -11,10 +11,10 @@ class RequestHandlerFactory
 {
 private:
 	LoginManager * _m_loginManager;
-
+	std::vector<LoggedUser> * loggedUsers;
 public:
 	LoginRequestHandler * createLoginRequestHandler();
-	RequestHandlerFactory(IDataBase* l, vector<LoggedUser>);
+	RequestHandlerFactory(IDataBase* l);
 	~RequestHandlerFactory();
 
 

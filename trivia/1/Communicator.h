@@ -30,7 +30,6 @@ private:
 	vector<char> stringToVectorChar(string str);
 	void sendMsg(string message, SOCKET sc);
 	std::map<SOCKET, IRequestHandler*> _m_clients;
-	vector<LoggedUser> LoggedUsers;
 	RequestHandlerFactory* _m_handlerFactory;
 	SOCKET serverSocket;
 	void logout(SOCKET s);

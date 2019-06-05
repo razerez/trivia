@@ -1,58 +1,60 @@
 import socket
 import sys
 import os
+from termcolor import colored
 
-IP = "172.16.25.101"
+
+IP = "127.0.0.1"
 PORT = 8821
 BUFFER_SIZE = 1024
 
 
+def make_numbers_visible(s):
+    for i in range(0, len(s)):
+            if 10 >= ord(s[i]) >= 0:
+                s = s.replace(s[i], chr(ord(s[i])+48))
+    return s
+
+
 def main():
-    strdata =  " {\nusername:\"raz1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}"
-    strDataLen = len(strdata) + 2
-    print(strDataLen)
-
     messages = ['I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"raz1\"\npassword:\"raz2\"\n}",
+                'I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"yee1\"\npassword:\"raz2\"\n}",
                 'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"rez1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}",
+                'J'+chr(0) + chr(0)+chr(0),
                 'X'+chr(0) + chr(0)+chr(0)]
-    data = ""
     msg = """Enter what you want to do:
-            1. Send valid login message
-            2. Send valid signup message
-            3. send exit message
-            (All messages will by followed up with a request to exit)
-            """
+1. Valid Login
+2. Invalid Login
+3. Signup
+4. Irrelevant Request
+5. Exit
+"""
 
-    data_msg = ""
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = (IP, PORT)
-    
     try:
         sock.connect(server_address)
     except Exception as e:
         print(e)
-        return 
-
+        return
     try:
         while True:
             choice = int(input(msg))
             data_msg = messages[choice-1]
-            print("Client Says:\n" + data_msg)
+            print("Client Says: " + make_numbers_visible(data_msg))
             data_msg = data_msg.encode()
             sock.sendall(data_msg)
             data = (sock.recv(BUFFER_SIZE)).decode()
-            if data == "x":
+            if data == "x" or data[0] == 'i' or data[0] == 'u':
                 print("Server Says: Goodbye")
                 return
-            if len(data) > 2 and (ord(data[2]) == 1 or ord(data[2]) == 0):
-                data = list(data)
-                data[2] = chr(ord(data[2])+48)
-                data = "".join(data)
-            print("Server Says:" + data)
+            data = make_numbers_visible(data)
+            print("Server Says: " + data)
+            input()
+            os.system('cls' if os.name == 'nt' else 'clear')  # clear screen
     except Exception as e:
         print("the error is:")
         print(e)
-
 
 
 if __name__ == '__main__':
