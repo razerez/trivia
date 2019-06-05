@@ -37,6 +37,10 @@ RequestResult LoginRequestHandler::handleRequest(Request req)
 	{
 		return signup(req);
 	}
+	else if (reqId == 'O')
+	{
+		return signup(req);
+	}
 
 }
 
@@ -55,6 +59,17 @@ RequestResult LoginRequestHandler::signup(Request req)
 {
 	SignupRequest user = JsonRequestPacketDeserializer().deserializeSignupRequest(req._buffer);
 	int stat = this->_m_loginManager->signup(user._username, user._password, user._email);
+	std::string str = "";
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(SignupResponse(stat));
+	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
+	return RequestResult(buff, nextHandler);;
+}
+
+
+RequestResult LoginRequestHandler::logout(Request req)
+{
+	LogoutRequest user = JsonRequestPacketDeserializer().deserializeLogoutRequest(req._buffer);
+	int stat = this->_m_loginManager->logout(user._username);
 	std::string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(SignupResponse(stat));
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler

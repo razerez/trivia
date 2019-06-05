@@ -3,6 +3,7 @@
 #include "Communicator.h"
 #include "LoginResponse.h"
 #include "SignupResponse.h"
+#include "LogoutResponse.h"
 #include <vector>
 
 

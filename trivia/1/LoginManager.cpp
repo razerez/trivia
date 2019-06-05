@@ -31,7 +31,7 @@ int LoginManager::login(std::string username, std::string password)
 
 	int isOk = int(this->_m_dataBase->doesUserExiste(username));
 	int isPasswordOk = int(this->_m_dataBase->doesPasswordExist(username, password));
-	if (!isOk && isPasswordOk)
+	if (isOk && isPasswordOk)
 	{
 		LoggedUser newUser(username);
 		this->_m_loggedUsers.push_back(newUser);
@@ -40,7 +40,27 @@ int LoginManager::login(std::string username, std::string password)
 	return 0;
 }
 
-int LoginManager::logout()
+int LoginManager::logout(std::string username)
 {
-	return 1;
+	try
+	{
+		bool flag = true;
+		int counter = 0;
+
+		for (std::vector<LoggedUser>::iterator i = this->_m_loggedUsers.begin(); i != this->_m_loggedUsers.end() && flag; ++i)
+		{
+			if ((*i).getUsername() == username)
+			{
+				flag = !false;
+			}
+			counter++;
+		}
+		_m_loggedUsers.erase(_m_loggedUsers.begin() + counter);
+		return 1;
+	}
+	catch (...)
+	{
+		return 0;
+	}
 }
+
