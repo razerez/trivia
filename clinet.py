@@ -2,7 +2,7 @@ import socket
 import sys
 import os
 
-IP = "127.0.0.1"
+IP = "172.16.25.101"
 PORT = 8821
 BUFFER_SIZE = 1024
 
@@ -13,7 +13,7 @@ def main():
     print(strDataLen)
 
     messages = ['I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"raz1\"\npassword:\"raz2\"\n}",
-                'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"raz1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}",
+                'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"rez1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}",
                 'X'+chr(0) + chr(0)+chr(0)]
     data = ""
     msg = """Enter what you want to do:
@@ -44,9 +44,9 @@ def main():
             if data == "x":
                 print("Server Says: Goodbye")
                 return
-            if len(data) > 1 and (ord(data[1]) == 1 or ord(data[1]) == 0):
+            if len(data) > 2 and (ord(data[2]) == 1 or ord(data[2]) == 0):
                 data = list(data)
-                data[1] = chr(ord(data[1])+48)
+                data[2] = chr(ord(data[2])+48)
                 data = "".join(data)
             print("Server Says:" + data)
     except Exception as e:
