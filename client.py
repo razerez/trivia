@@ -21,11 +21,7 @@ def main():
                 'I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"yee1\"\npassword:\"raz2\"\n}",
                 'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"raz1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}",
                 'J'+chr(0) + chr(0)+chr(0),
-                'X'+chr(0) + chr(0)+chr(0),
-				'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"elay\"\npassword:\"elay\"\nemail:\"elay\"\n}",
-				'U'+chr(0) + chr(0) + chr(52) + chr(5) + chr(5) + chr(5) + " {\nusername:\"nitay\"\npassword:\"nitay\"\nemail:\"nitay\"\n}",
-				'I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"elay\"\npassword:\"elay\"\n}",
-				'I' + chr(0) + chr(0) + chr(38) + chr(5) + chr(5)+" {\nusername:\"nitay\"\npassword:\"nitay\"\n}",]
+                'X'+chr(0) + chr(0)+chr(0)]
     msg = """Enter what you want to do:
 1. Valid Login
 2. Invalid Login
