@@ -25,3 +25,4 @@ private:
 	std::vector<LoggedUser> _m_loggedUsers;
 };
 
+

@@ -19,9 +19,13 @@ def make_numbers_visible(s):
 def main():
     messages = ['I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"raz1\"\npassword:\"raz2\"\n}",
                 'I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"yee1\"\npassword:\"raz2\"\n}",
-                'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"rez1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}",
+                'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"raz1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}",
                 'J'+chr(0) + chr(0)+chr(0),
-                'X'+chr(0) + chr(0)+chr(0)]
+                'X'+chr(0) + chr(0)+chr(0),
+				'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"elay\"\npassword:\"elay\"\nemail:\"elay\"\n}",
+				'U'+chr(0) + chr(0) + chr(52) + chr(5) + chr(5) + chr(5) + " {\nusername:\"nitay\"\npassword:\"nitay\"\nemail:\"nitay\"\n}",
+				'I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"elay\"\npassword:\"elay\"\n}",
+				'I' + chr(0) + chr(0) + chr(38) + chr(5) + chr(5)+" {\nusername:\"nitay\"\npassword:\"nitay\"\n}",]
     msg = """Enter what you want to do:
 1. Valid Login
 2. Invalid Login
@@ -45,11 +49,13 @@ def main():
             data_msg = data_msg.encode()
             sock.sendall(data_msg)
             data = (sock.recv(BUFFER_SIZE)).decode()
-            if data == "x" or data[0] == 'i' or data[0] == 'u':
+            if data == "x":
                 print("Server Says: Goodbye")
                 return
             data = make_numbers_visible(data)
             print("Server Says: " + data)
+            if data[0] == 'i' or data[0] == 'u':
+                return
             input()
             os.system('cls' if os.name == 'nt' else 'clear')  # clear screen
     except Exception as e:
