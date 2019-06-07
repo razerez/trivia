@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <mutex>
 
 #include "IDatabase.h"
 #include "LoggedUser.h"
@@ -23,4 +24,5 @@ private:
 	IDataBase * _m_dataBase;
 	std::vector<LoggedUser> _m_loggedUsers;
 };
+
 
