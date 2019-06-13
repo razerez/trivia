@@ -20,11 +20,10 @@ int LoginManager::signup(std::string username, std::string password, std::string
 	{
 		this->_m_dataBase->addUserToDB(username, password, email);
 		LoggedUser newUser(username);
-
+		std::cout << username << " Signed Up" << std::endl;
 		std::unique_lock<std::mutex> myLock(mutexLock);
 		this->_m_loggedUsers.push_back(newUser);
 		myLock.unlock();
-
 		return 1;
 	}
 	return 0;
@@ -53,7 +52,7 @@ int LoginManager::login(std::string username, std::string password)
 	if (isOk && isPasswordOk && flag)
 	{
 		LoggedUser newUser(username);
-
+		std::cout << username <<" Logged In"<< std::endl;
 		std::unique_lock<std::mutex> myLock(mutexLock);
 		this->_m_loggedUsers.push_back(newUser);
 		myLock.unlock();
@@ -74,12 +73,14 @@ int LoginManager::logout(std::string username)
 			if ((*i).getUsername() == username)
 			{
 				flag = !flag;
+				counter--;
 			}
 			counter++;
 		}
 		std::unique_lock<std::mutex> myLock(mutexLock);
 		_m_loggedUsers.erase(_m_loggedUsers.begin() + counter);
 		myLock.unlock();
+		std::cout << username << " Logged Out" << std::endl;
 		return 1;
 	}
 	catch (...)

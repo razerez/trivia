@@ -4,7 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <mutex>
-
+#include <string>
 #include "IDatabase.h"
 #include "LoggedUser.h"
 

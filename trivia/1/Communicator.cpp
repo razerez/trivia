@@ -96,9 +96,10 @@ void Communicator::clientHandler(SOCKET socket)
 			else if (handler->isRequestRelevant(req))
 			{
 				response = new RequestResult(handler->handleRequest(req));//take care of request
-				l.lock();
-				_m_clients[socket] = response->getNewHandler();
-				l.unlock();
+				//l.lock();
+				//_m_clients[socket] = response->getNewHandler();
+				//l.unlock();
+				response->_newHandler = handler;//for now
 			}
 			else
 				response = new RequestResult(stringToVectorChar("e"), handler);//if request is irrelevant
@@ -106,8 +107,11 @@ void Communicator::clientHandler(SOCKET socket)
 			sendMsg(vectorCharToString(response->getResponse()), socket);
 			if (response->getNewHandler() == nullptr||response->getResponse()[0]=='x')//EXIT
 			{
-				if (response != nullptr)delete(response);
-				logout(socket);
+				if (response != nullptr)
+				{
+					delete(response);
+					logout(socket);
+				}
 				return;
 			}
 			response->_newHandler = nullptr;//in order to not delete the new handler

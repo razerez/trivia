@@ -37,9 +37,9 @@ RequestResult LoginRequestHandler::handleRequest(Request req)
 	{
 		return signup(req);
 	}
-	else if (reqId == 'O')
+	else if (reqId == 'O' or reqId=='X')
 	{
-		return signup(req);
+		return logout(req);
 	}
 
 }
