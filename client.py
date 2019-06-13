@@ -4,7 +4,7 @@ import os
 from termcolor import colored
 
 
-IP = "127.0.0.1"
+IP = "192.168.43.213"
 PORT = 8821
 BUFFER_SIZE = 1024
 
@@ -17,17 +17,10 @@ def make_numbers_visible(s):
 
 
 def main():
-    messages = ['I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"raz1\"\npassword:\"raz2\"\n}",
-                'I' + chr(0) + chr(0) + chr(38) + chr(4) + chr(4)+" {\nusername:\"yee1\"\npassword:\"raz2\"\n}",
-                'U'+chr(0) + chr(0) + chr(52) + chr(4) + chr(4) + chr(4) + " {\nusername:\"raz1\"\npassword:\"raz2\"\nemail:\"raz3\"\n}",
-                'J'+chr(0) + chr(0)+chr(0),
-                'X'+chr(0) + chr(0)+chr(0)]
-    msg = """Enter what you want to do:
-1. Valid Login
-2. Invalid Login
-3. Signup
-4. Irrelevant Request
-5. Exit
+    message = """Enter what you want to do:
+1. Login
+2. Signup
+3. Exit
 """
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -39,10 +32,21 @@ def main():
         return
     try:
         while True:
-            choice = int(input(msg))
-            data_msg = messages[choice-1]
-            print("Client Says: " + make_numbers_visible(data_msg))
-            data_msg = data_msg.encode()
+            choice = int(input(message))
+            if choice == 1:
+                username = input("Enter Username: ")
+                password = input("Enter Password: ")
+                msg = 'I' + chr(0) + chr(0) +chr(30+len(username)+len(password))+chr(len(username))+chr(len(password)) + " {\nusername:\""+username+"\"\npassword:\""+password+"\"\n}"
+            elif choice == 2:
+                username = input("Enter Username: ")
+                password = input("Enter Password: ")
+                email = input("Enter Email: ")
+                msg = 'U' + chr(0) + chr(0) + chr(40+len(username)+len(password)+len(email))+chr(len(username))+chr(len(password)) + chr(len(email)) + " {\nusername:\""+username+"\"\npassword:\""+password+"\"\nemail:\""+email+"\"\n}"
+
+            else:
+                msg = 'X'+chr(0) + chr(0)+chr(0)
+            print("Client Says: " + make_numbers_visible(msg))
+            data_msg = msg.encode()
             sock.sendall(data_msg)
             data = (sock.recv(BUFFER_SIZE)).decode()
             if data == "x":
@@ -50,8 +54,8 @@ def main():
                 return
             data = make_numbers_visible(data)
             print("Server Says: " + data)
-            if data[0] == 'i' or data[0] == 'u':
-                return
+            # if data[0] == 'i' or data[0] == 'u':
+            #    return
             input()
             os.system('cls' if os.name == 'nt' else 'clear')  # clear screen
     except Exception as e:
