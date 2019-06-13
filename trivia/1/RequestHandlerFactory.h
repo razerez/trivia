@@ -5,8 +5,7 @@
 #include "LoginRequestHandler.h"
 #include "RoomManager.h"
 #include"HighscoreTable.h"
-//#include "MenuRequestHandler"
-
+#include "MenuRequestHandler.h"
 #include <vector>
 
 class LoginRequestHandler;
@@ -17,11 +16,11 @@ private:
 	LoginManager * _m_loginManager;
 	std::vector<LoggedUser> * loggedUsers;
 	RoomManager _m_roomManager;
-	//HighscoreTable _m_highscoreTable;
+	HighscoreTable _m_highscoreTable;
 
 public:
 	LoginRequestHandler * createLoginRequestHandler();
-	//MenuRequestHandler createMenuRequestHandler();
+	MenuRequestHandler createMenuRequestHandler();
 
 	
 	RequestHandlerFactory(IDataBase* l);

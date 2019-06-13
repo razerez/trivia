@@ -29,3 +29,33 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(SignupResponse
 	vec.push_back(char(signup._status));
 	return vec;
 }
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse logoutRes)
+{
+	return std::vector<char>();
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse roomRes)
+{
+	return std::vector<char>();
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializerResponse(GetPlayersInRoomResponse playerInRoomRes)
+{
+	return std::vector<char>();
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse roomRes)
+{
+	return std::vector<char>();
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse createRoomRes)
+{
+	return std::vector<char>();
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(HighscoreResponse highscoreRes)
+{
+	return std::vector<char>();
+}

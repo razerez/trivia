@@ -195,7 +195,9 @@
     <ClCompile Include="Request.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="RequestResult.cpp" />
+    <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomData.cpp" />
+    <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="SignupRequest.cpp" />
     <ClCompile Include="SignupResponse.cpp" />
