@@ -190,6 +190,7 @@
     <ClCompile Include="LoginResponse.cpp" />
     <ClCompile Include="LogoutRequest.cpp" />
     <ClCompile Include="LogoutResponse.cpp" />
+    <ClCompile Include="MenuRequestHandler.cpp" />
     <ClCompile Include="PlayerResults.cpp" />
     <ClCompile Include="Question.cpp" />
     <ClCompile Include="Request.cpp" />

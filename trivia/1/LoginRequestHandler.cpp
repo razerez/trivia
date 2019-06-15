@@ -62,7 +62,7 @@ RequestResult LoginRequestHandler::signup(Request req)
 	std::string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(SignupResponse(stat));
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
-	return RequestResult(buff, nextHandler);;
+	return RequestResult(buff, nextHandler);
 }
 
 
@@ -73,7 +73,7 @@ RequestResult LoginRequestHandler::logout(Request req)
 	std::string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(SignupResponse(stat));
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
-	return RequestResult(buff, nextHandler);;
+	return RequestResult(buff, nextHandler);
 }
 
 

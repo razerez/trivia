@@ -1,8 +1,8 @@
 #include "RoomManager.h"
 
-RoomManager::RoomManager(std::map<int, Room> m_rooms)
+
+RoomManager::RoomManager()
 {
-	this->_m_rooms = _m_rooms;
 }
 
 RoomManager::~RoomManager()

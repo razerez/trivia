@@ -9,18 +9,19 @@
 #include <vector>
 
 class LoginRequestHandler;
+class MenuRequestHandler;
 
 class RequestHandlerFactory
 {
 private:
 	LoginManager * _m_loginManager;
 	std::vector<LoggedUser> * loggedUsers;
-	RoomManager _m_roomManager;
-	HighscoreTable _m_highscoreTable;
+	RoomManager * _m_roomManager;
+	HighscoreTable * _m_highscoreTable;
 
 public:
 	LoginRequestHandler * createLoginRequestHandler();
-	MenuRequestHandler createMenuRequestHandler();
+	MenuRequestHandler * createMenuRequestHandler();
 
 	
 	RequestHandlerFactory(IDataBase* l);

@@ -6,13 +6,18 @@
 #include "RequestHandlerFactory.h"
 #include "Request.h"
 #include "RequestResult.h"
+#include "JsonResponsePacketSerializer.h"
+#include "JsonRequestPacketDeserializer.h"
+
+class RequestHandlerFactory;
+
 
 class MenuRequestHandler
 {
-	LoggedUser _m_user;
-	RoomManager _m_roomMnager;
-	HighscoreTable _m_highscoreTable;
-	RequestHandlerFactory _m_handlerFactory;
+	LoggedUser * _m_user;
+	RoomManager * _m_roomManager;
+	HighscoreTable * _m_highscoreTable;
+	RequestHandlerFactory * _m_handlerFactory;
 
 	//private functions
 	RequestResult signOut(Request req);
@@ -25,7 +30,7 @@ class MenuRequestHandler
 
 
 public:
-	MenuRequestHandler();
+	MenuRequestHandler(LoggedUser * m_user, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory);
 	~MenuRequestHandler();
 
 	bool isRequestRelevant(Request req);

@@ -5,6 +5,10 @@ Room::Room(RoomData m_metadata, std::vector<LoggedUser> m_users) : _m_metadata(m
 	this->_m_users = m_users;
 }
 
+Room::~Room()
+{
+}
+
 void Room::addUser()
 {
 }

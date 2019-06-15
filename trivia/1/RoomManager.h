@@ -12,7 +12,7 @@ class RoomManager
 {
 	std::map<int, Room> _m_rooms;
 public:
-	RoomManager(std::map<int, Room> m_rooms);
+	RoomManager();
 	~RoomManager();
 
 	void createRoom(LoggedUser loggedUsers);
