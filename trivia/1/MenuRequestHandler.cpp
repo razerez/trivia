@@ -5,13 +5,19 @@
 
 RequestResult MenuRequestHandler::signOut(Request req)
 {
-	std::vector<char> buff;
-	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
-	return RequestResult(buff, nextHandler);
+	
+	RequestResult result = this->_m_handlerFactory->createLoginRequestHandler()->handleRequest(req);
+	result._newHandler = nullptr; // need to change
+	return result;
 }
 
 RequestResult MenuRequestHandler::getRooms(Request req)
 {
+
+
+
+
+	//this->_m_roomManager->getRooms();
 	std::vector<char> buff;
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
 	return RequestResult(buff, nextHandler);
@@ -19,6 +25,10 @@ RequestResult MenuRequestHandler::getRooms(Request req)
 
 RequestResult MenuRequestHandler::getPlayersInRoom(Request req)
 {
+	//GetPlayersInRoomRequest rooms = JsonRequestPacketDeserializer().deserializeGetPlayersRequest(req._buffer);
+	//int stat = this->
+	//std::vector<char> buff = JsonResponsePacketSerializer(GetPlayersInRoomResponse(stat));
+
 	std::vector<char> buff;
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
 	return RequestResult(buff, nextHandler);
@@ -26,6 +36,9 @@ RequestResult MenuRequestHandler::getPlayersInRoom(Request req)
 
 RequestResult MenuRequestHandler::getHighscores(Request req)
 {
+	
+
+
 	std::vector<char> buff;
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
 	return RequestResult(buff, nextHandler);

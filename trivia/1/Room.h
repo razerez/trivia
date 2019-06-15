@@ -3,7 +3,7 @@
 #include "RoomData.h"
 #include "LoggedUser.h"
 #include <vector>
-
+#include <string>
 
 class Room
 {
@@ -12,9 +12,9 @@ class Room
 public:
 	Room(RoomData m_metadata, std::vector<LoggedUser> m_users);
 	~Room();
-	void addUser();
-	void deleteUser();
-	void getAllUsers();
+	void addUser(LoggedUser user);
+	void deleteUser(LoggedUser user);
+	std::vector<LoggedUser> getAllUsers();
 
 
 };

@@ -3,6 +3,7 @@
 
 RoomManager::RoomManager()
 {
+	this->_m_counter = 0;
 }
 
 RoomManager::~RoomManager()
@@ -11,6 +12,7 @@ RoomManager::~RoomManager()
 
 void RoomManager::createRoom(LoggedUser loggedUsers)
 {
+		
 }
 
 void RoomManager::deleteRoom()

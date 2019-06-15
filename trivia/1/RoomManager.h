@@ -11,6 +11,7 @@
 class RoomManager
 {
 	std::map<int, Room> _m_rooms;
+	int _m_counter;
 public:
 	RoomManager();
 	~RoomManager();
