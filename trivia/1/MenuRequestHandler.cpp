@@ -53,9 +53,13 @@ RequestResult MenuRequestHandler::joinRoom(Request req)
 
 RequestResult MenuRequestHandler::createRoom(Request req)
 {
+	CreateRoomRequest user = JsonRequestPacketDeserializer().deserializeCreateRoomRequest(req._buffer);
+	//int stat = this->_m_roomManager->createRoom()
+
 	std::vector<char> buff;
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
 	return RequestResult(buff, nextHandler);
+	
 }
 
 MenuRequestHandler::MenuRequestHandler(LoggedUser * m_user, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory)
@@ -76,11 +80,9 @@ MenuRequestHandler::~MenuRequestHandler()
 
 bool MenuRequestHandler::isRequestRelevant(Request req)
 {
-	/*
-	Need to change 	
-	*/
+	
 	char reqId = req._buffer[0];
-	if (reqId == 'I' || reqId == 'U')
+	if (reqId == 'S' || reqId == 'G' || reqId == 'P' || reqId == 'H'|| reqId == 'J' || reqId == 'C')
 	{
 		return true;
 	}
@@ -89,17 +91,30 @@ bool MenuRequestHandler::isRequestRelevant(Request req)
 
 RequestResult MenuRequestHandler::handlerRequest(Request req)
 {
-	/*
-	Need to change
-	*/
 	char reqId = req._buffer[0];
-	if (reqId == 'I')
+	if (reqId == 'S')
 	{
 		return signOut(req);
 	}
-	else
+	else if (reqId == 'G')
 	{
 		return getRooms(req);
+	}
+	else if (reqId == 'P')
+	{
+		return getPlayersInRoom(req);
+	}
+	else if (reqId == 'H')
+	{
+		return getHighscores(req);
+	}
+	else if (reqId == 'J')
+	{
+		return joinRoom(req);
+	}
+	else if (reqId == 'C')
+	{
+		return createRoom(req);
 	}
 }
 
