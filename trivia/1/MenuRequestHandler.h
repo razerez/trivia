@@ -14,7 +14,7 @@
 class RequestHandlerFactory;
 
 
-class MenuRequestHandler
+class MenuRequestHandler : public IRequestHandler
 {
 	LoggedUser * _m_user;
 	RoomManager * _m_roomManager;

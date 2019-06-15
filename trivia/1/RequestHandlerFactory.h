@@ -21,7 +21,7 @@ private:
 
 public:
 	LoginRequestHandler * createLoginRequestHandler();
-	MenuRequestHandler * createMenuRequestHandler();
+	MenuRequestHandler * createMenuRequestHandler(LoggedUser l);
 
 	
 	RequestHandlerFactory(IDataBase* l);
