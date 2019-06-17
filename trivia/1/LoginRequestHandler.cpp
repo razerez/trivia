@@ -54,7 +54,7 @@ RequestResult LoginRequestHandler::login(Request req)
 	IRequestHandler* nextHandler=this;
 	if (stat)//nitay check this out 
 		nextHandler = _m_handlerFactory->createMenuRequestHandler(LoggedUser(user._username));
-	return RequestResult(buff, this);
+	return RequestResult(buff, nextHandler);
 }
 
 RequestResult LoginRequestHandler::signup(Request req)
@@ -66,7 +66,7 @@ RequestResult LoginRequestHandler::signup(Request req)
 	IRequestHandler* nextHandler = this;
 	if (stat)
 		nextHandler = _m_handlerFactory->createMenuRequestHandler(LoggedUser(user._username));
-	return RequestResult(buff, this);
+	return RequestResult(buff, nextHandler);
 }
 
 

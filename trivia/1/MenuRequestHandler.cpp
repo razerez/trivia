@@ -14,10 +14,6 @@ RequestResult MenuRequestHandler::signOut(Request req)
 RequestResult MenuRequestHandler::getRooms(Request req)
 {
 
-
-
-
-	//this->_m_roomManager->getRooms();
 	std::vector<char> buff;
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
 	return RequestResult(buff, nextHandler);
@@ -89,7 +85,7 @@ bool MenuRequestHandler::isRequestRelevant(Request req)
 	return false;
 }
 
-RequestResult MenuRequestHandler::handlerRequest(Request req)
+RequestResult MenuRequestHandler::handleRequest(Request req)
 {
 	char reqId = req._buffer[0];
 	if (reqId == 'S')

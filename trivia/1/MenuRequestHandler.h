@@ -35,8 +35,8 @@ public:
 	MenuRequestHandler(LoggedUser * m_user, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory);
 	~MenuRequestHandler();
 
-	bool isRequestRelevant(Request req);
-	RequestResult handlerRequest(Request req);
+	virtual bool isRequestRelevant(Request req);
+	virtual RequestResult handleRequest(Request req);
 
 
 

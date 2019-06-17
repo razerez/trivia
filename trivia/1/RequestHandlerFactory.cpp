@@ -9,7 +9,7 @@ LoginRequestHandler * RequestHandlerFactory::createLoginRequestHandler()
 
 MenuRequestHandler * RequestHandlerFactory::createMenuRequestHandler(LoggedUser l)
 {
-	MenuRequestHandler * nb = new MenuRequestHandler(l, this->_m_roomManager, this->_m_highscoreTable, this);
+	MenuRequestHandler * nb = new MenuRequestHandler(&l, this->_m_roomManager, this->_m_highscoreTable, this);
 	return nb;
 }
 
