@@ -117,10 +117,12 @@
   <ItemGroup>
     <ClInclude Include="CloseRoomResponse.h" />
     <ClInclude Include="Communicator.h" />
+    <ClInclude Include="CreateRoomRequest.h" />
     <ClInclude Include="CreateRoomResponse.h" />
     <ClInclude Include="ErrorResponse.h" />
     <ClInclude Include="GameData.h" />
     <ClInclude Include="GetGameResultsResponse.h" />
+    <ClInclude Include="GetPlayersInRoomRequest.h" />
     <ClInclude Include="GetPlayersInRoomResponse.h" />
     <ClInclude Include="GetQuestionResponse.h" />
     <ClInclude Include="GetRoomsResponse.h" />
@@ -129,6 +131,7 @@
     <ClInclude Include="HighscoreTable.h" />
     <ClInclude Include="IDatabase.h" />
     <ClInclude Include="IRequestHandler.h" />
+    <ClInclude Include="JoinRoomRequest.h" />
     <ClInclude Include="JoinRoomResponse.h" />
     <ClInclude Include="JsonRequestPacketDeserializer.h" />
     <ClInclude Include="JsonResponsePacketSerializer.h" />
@@ -140,12 +143,15 @@
     <ClInclude Include="LoginResponse.h" />
     <ClInclude Include="LogoutRequest.h" />
     <ClInclude Include="LogoutResponse.h" />
+    <ClInclude Include="MenuRequestHandler.h" />
     <ClInclude Include="PlayerResults.h" />
     <ClInclude Include="Question.h" />
     <ClInclude Include="Request.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
     <ClInclude Include="RequestResult.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="RoomData.h" />
+    <ClInclude Include="RoomManager.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="SignupRequest.h" />
     <ClInclude Include="SignupResponse.h" />
@@ -158,10 +164,12 @@
   <ItemGroup>
     <ClCompile Include="CloseRoomResponse.cpp" />
     <ClCompile Include="Communicator.cpp" />
+    <ClCompile Include="CreateRoomRequest.cpp" />
     <ClCompile Include="CreateRoomResponse.cpp" />
     <ClCompile Include="ErrorResponse.cpp" />
     <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GetGameResultsResponse.cpp" />
+    <ClCompile Include="GetPlayersInRoomRequest.cpp" />
     <ClCompile Include="GetPlayersInRoomResponse.cpp" />
     <ClCompile Include="GetQuestionResponse.cpp" />
     <ClCompile Include="GetRoomsResponse.cpp" />
@@ -170,6 +178,7 @@
     <ClCompile Include="HighscoreTable.cpp" />
     <ClCompile Include="IDataBase.cpp" />
     <ClCompile Include="IRequestHandler.cpp" />
+    <ClCompile Include="JoinRoomRequest.cpp" />
     <ClCompile Include="JoinRoomResponse.cpp" />
     <ClCompile Include="JsonRequestPacketDeserializer.cpp" />
     <ClCompile Include="JsonResponsePacketSerializer.cpp" />
@@ -181,12 +190,15 @@
     <ClCompile Include="LoginResponse.cpp" />
     <ClCompile Include="LogoutRequest.cpp" />
     <ClCompile Include="LogoutResponse.cpp" />
+    <ClCompile Include="MenuRequestHandler.cpp" />
     <ClCompile Include="PlayerResults.cpp" />
     <ClCompile Include="Question.cpp" />
     <ClCompile Include="Request.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="RequestResult.cpp" />
+    <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomData.cpp" />
+    <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="SignupRequest.cpp" />
     <ClCompile Include="SignupResponse.cpp" />

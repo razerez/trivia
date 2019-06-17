@@ -51,7 +51,9 @@ RequestResult LoginRequestHandler::login(Request req)
 	int stat = this->_m_loginManager->login(user._username, user._password);
 	std::string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LoginResponse(stat));
-	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
+	IRequestHandler* nextHandler=this;
+	if (stat)//nitay check this out 
+		nextHandler = _m_handlerFactory->createMenuRequestHandler(LoggedUser(user._username));
 	return RequestResult(buff, nextHandler);
 }
 
@@ -61,8 +63,10 @@ RequestResult LoginRequestHandler::signup(Request req)
 	int stat = this->_m_loginManager->signup(user._username, user._password, user._email);
 	std::string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(SignupResponse(stat));
-	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
-	return RequestResult(buff, nextHandler);;
+	IRequestHandler* nextHandler = this;
+	if (stat)
+		nextHandler = _m_handlerFactory->createMenuRequestHandler(LoggedUser(user._username));
+	return RequestResult(buff, nextHandler);
 }
 
 
@@ -72,8 +76,8 @@ RequestResult LoginRequestHandler::logout(Request req)
 	int stat = this->_m_loginManager->logout(user._username);
 	std::string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(SignupResponse(stat));
-	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
-	return RequestResult(buff, nextHandler);;
+	IRequestHandler* nextHandler = _m_handlerFactory->createLoginRequestHandler();
+	return RequestResult(buff, nextHandler);
 }
 
 

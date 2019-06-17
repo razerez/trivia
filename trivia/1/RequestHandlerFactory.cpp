@@ -7,10 +7,21 @@ LoginRequestHandler * RequestHandlerFactory::createLoginRequestHandler()
 	return nb;
 }
 
+MenuRequestHandler * RequestHandlerFactory::createMenuRequestHandler(LoggedUser l)
+{
+	MenuRequestHandler * nb = new MenuRequestHandler(&l, this->_m_roomManager, this->_m_highscoreTable, this);
+	return nb;
+}
+
+
+
+
 RequestHandlerFactory::RequestHandlerFactory(IDataBase * l)
 {
 	loggedUsers = new std::vector<LoggedUser>;
 	_m_loginManager = new LoginManager(l, *loggedUsers);
+	_m_roomManager = new RoomManager();
+	_m_highscoreTable = new HighscoreTable(l);
 }
 
 RequestHandlerFactory::~RequestHandlerFactory()

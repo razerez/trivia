@@ -3,17 +3,27 @@
 #include "LoginManager.h"
 #include "LoginRequest.h"
 #include "LoginRequestHandler.h"
+#include "RoomManager.h"
+#include"HighscoreTable.h"
+#include "MenuRequestHandler.h"
 #include <vector>
 
 class LoginRequestHandler;
+class MenuRequestHandler;
 
 class RequestHandlerFactory
 {
 private:
 	LoginManager * _m_loginManager;
 	std::vector<LoggedUser> * loggedUsers;
+	RoomManager * _m_roomManager;
+	HighscoreTable * _m_highscoreTable;
+
 public:
 	LoginRequestHandler * createLoginRequestHandler();
+	MenuRequestHandler * createMenuRequestHandler(LoggedUser l);
+
+	
 	RequestHandlerFactory(IDataBase* l);
 	~RequestHandlerFactory();
 

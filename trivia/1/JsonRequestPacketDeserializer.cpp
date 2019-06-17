@@ -35,6 +35,21 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(std::vecto
 	return mySignup;
 }
 
+GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequest(std::vector<char> buffer)
+{
+	return GetPlayersInRoomRequest(0);
+}
+
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::vector<char> buffer)
+{
+	return JoinRoomRequest(0);
+}
+
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(std::vector<char> buffer)
+{
+	return CreateRoomRequest("", 0,0,0);
+}
+
 
 
 std::string JsonRequestPacketDeserializer::analyzeJson(std::vector<char> buffer, std::string subject, int dataLocation, int sizeLocation, int sizeLength)
