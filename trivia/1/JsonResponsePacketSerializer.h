@@ -1,4 +1,7 @@
 #pragma once
+#include <bitset>
+#include <string>
+#include "Vector and string.h"
 #include "ErrorResponse.h"
 #include "Communicator.h"
 #include "LoginResponse.h"
@@ -9,6 +12,7 @@
 #include "JoinRoomResponse.h"
 #include "CreateRoomResponse.h"
 #include "HighscoreResponse.h"
+
 
 #include <vector>
 

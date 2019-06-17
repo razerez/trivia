@@ -16,9 +16,9 @@ public:
 	RoomManager();
 	~RoomManager();
 
-	void createRoom(LoggedUser loggedUsers);
-	void deleteRoom();
+	void createRoom(LoggedUser loggedUsers, RoomData roomData);
+	void deleteRoom(int ID);
 	int getRoomState(int ID);
-	std::vector<RoomData>getRooms();
+	std::vector<Room>getRooms();
 
 };

@@ -2,6 +2,8 @@
 #include <vector>
 #include "SqliteDatabase.h"
 #include "Server.h"
+#include "JsonResponsePacketSerializer.h"
+
 
 int main()
 {

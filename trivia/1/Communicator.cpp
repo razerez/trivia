@@ -127,19 +127,6 @@ void Communicator::clientHandler(SOCKET socket)
 }
 
 
-string Communicator::vectorCharToString(vector<char> v)
-{
-	std::string str(v.begin(), v.end());
-	return str;
-}
-
-
-vector<char> Communicator::stringToVectorChar(string str)
-{
-	std::vector<char> v(str.begin(), str.end());
-	v.push_back('\0');
-	return v;
-}
 
 
 void Communicator::sendMsg(string message, SOCKET sc)
