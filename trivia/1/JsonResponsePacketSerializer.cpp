@@ -49,39 +49,33 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse roomRes)
 {
-	
-	std::vector<char> vec;
-	/*
-	vec.push_back('g');
-	vec.push_back(0b1);
-	vec.push_back(char(roomRes._status));
-	vec.push_back(roomRes._rooms.size());
-	vec.push_back('-');
-	std::vector<RoomData>::iterator it;
-	for (it = roomRes._rooms.begin(); it != roomRes._rooms.end(); ++it)
-	{
-		vec.push_back((*it)._id);
-		vec.push_back(';');
-		vec.push_back((*it)._isActive);
-		vec.push_back(';');
-		
-		for (int i = 0; i < (*it)._maxPlayers.size(); i++)
-		{
-			vec.push_back((*it)._maxPlayers[i]);
-		}
-		vec.push_back(';');
-		
-		for (int i = 0; i < (*it)._name.size(); i++)
-		{
-			vec.push_back((*it)._name[i]);
-		}
-		vec.push_back(';');
+	std::string data = "{\nlength:" + std::to_string(roomRes._rooms.size()) + "\nHighscores:[";
 
-		vec.push_back((*it)._timePerQuestion);
+
+
+	for (std::vector<RoomData>::iterator it = roomRes._rooms.begin(); it != roomRes._rooms.end(); ++it)
+	{
+		data += "\n\"" + (*it)._name + "\":" + std::to_string((*it)._id);
 	}
-	*/
-	return vec;
-	
+	data += "\n]\n}";
+
+	std::vector<char> optionAndLenghVec;
+	optionAndLenghVec.push_back('h');
+
+
+	int size = data.size();
+
+	optionAndLenghVec.push_back(0b0);
+
+	char leftByte = size >> 8;
+	char rightByte = size & 0b0000000011111111;
+
+	optionAndLenghVec.push_back(leftByte);
+	optionAndLenghVec.push_back(rightByte);
+
+	std::vector<char> dataVector = stringToVectorChar(data);
+	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
+	return optionAndLenghVec;	
 }
 
 
@@ -92,8 +86,6 @@ std::vector<char> JsonResponsePacketSerializer::serializerResponse(GetPlayersInR
 {
 	
 	std::string data = "{\nlength:" + std::to_string(playerInRoomRes._players.size()) + "\nNames:[";
-
-
 
 	for (std::vector<std::string>::iterator it = playerInRoomRes._players.begin(); it != playerInRoomRes._players.end(); ++it)
 	{
@@ -148,5 +140,45 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResp
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(HighscoreResponse highscoreRes)
 {
+	/*
+	std::string data = "{\nlength:" + std::to_string(playerInRoomRes._players.size()) + "\nNames:[";
+
+	for (std::vector<std::string>::iterator it = playerInRoomRes._players.begin(); it != playerInRoomRes._players.end(); ++it)
+	{
+		data += "\n\"" + (*it) + "\"";
+	}
+	data += "\n]\n}";
+	*/
+
+	std::string data = "{\nlength:" + std::to_string(highscoreRes._highscores.size()) + "\nHighscore:[";
+
+	/*
+	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
+	*/
+
+	for (std::vector<HighscoreTable>::iterator it = highscoreRes._highscores.begin(); it != highscoreRes._highscores.end(); ++it)
+	{
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	return std::vector<char>();
 }

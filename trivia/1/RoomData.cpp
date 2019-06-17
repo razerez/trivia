@@ -1,6 +1,6 @@
 #include "RoomData.h"
 
-RoomData::RoomData(int id, std::string name, std::string maxPlayer, int timePerQuestion, int isActive)
+RoomData::RoomData(int id, std::string name, int maxPlayer, int timePerQuestion, int isActive)
 {
 	this->_id = id;
 	this->_isActive = isActive;
