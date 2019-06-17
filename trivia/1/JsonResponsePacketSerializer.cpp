@@ -49,7 +49,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse roomRes)
 {
-	std::string data = "{\nlength:" + std::to_string(roomRes._rooms.size()) + "\nHighscores:[";
+	std::string data = "{\nlength:" + std::to_string(roomRes._rooms.size()) + "\nRooms:[";
 
 
 
