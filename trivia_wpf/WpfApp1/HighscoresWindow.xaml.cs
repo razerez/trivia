@@ -24,10 +24,33 @@ namespace WpfApp1
         {
             InitializeComponent();
             this._p = p;
-            ChangeRank("raz", 14, first);
-            ChangeRank("dan", 10, second);
-            ChangeRank("dave", 3, third);
             
+        }
+
+        public void changeScores()
+        {
+            Queue<KeyValuePair<string, int>> que = new Queue<KeyValuePair<string, int>>();
+            
+            string[] highScoresArr = this._p.getHighScores();
+            for (int i = 0; i < highScoresArr.Length; i++)
+            {
+                bool flag = true;
+                int j = 0;
+                for (j = 0; j < highScoresArr[i].Length && flag; j++)
+                {
+                    if (highScoresArr[i][j] == ':')
+                    {
+                        flag = false;
+                    }
+                }
+
+                string name = highScoresArr[i].Substring(0, j - 1);
+                string score = highScoresArr[i].Substring(j, highScoresArr[i].Length - j);
+                que.Enqueue(new KeyValuePair<string, int>(name, Int32.Parse(score)));
+            }
+            ChangeRank(que.Dequeue().Key, que.Dequeue().Value, first);
+            ChangeRank(que.Dequeue().Key, que.Dequeue().Value, second);
+            ChangeRank(que.Dequeue().Key, que.Dequeue().Value, third);
         }
 
 

@@ -95,10 +95,8 @@ namespace WpfApp1
             return roomsArr;
         }
 
-        public void joinRoom()
+        public void joinRoom(int roomID)
         {
-            Console.WriteLine("Enter Room ID");
-            string roomID = Console.ReadLine();
             string msg = "J" + "\0" + "\0" + (char)1+roomID;
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
@@ -108,44 +106,18 @@ namespace WpfApp1
         
         }
 
-        public void getPlayersInRoom()
+        public string[] getPlayersInRoom(int roomID)
         {
-            Console.WriteLine("Enter Room ID");
-            string roomID = Console.ReadLine();
             string msg = "P" + "\0" + "\0" + (char)1 + roomID;
             string[] playersArr = sendAndDecodeArrMessage(msg);
-            if (playersArr.Length == 0)
-                Console.WriteLine("No Rooms Available");
-            else
-            {
-                for (int p = 0; p < playersArr.Length; p++)
-                {
-                    string name = playersArr[p];
-                    Console.WriteLine("Name: " + name.Substring(0, playersArr[p].Length));
-                }
-            }
+            return playersArr;
         }
 
-        public void getHighScores()//
+        public string[] getHighScores()//
         {
             string msg = "H" + "\0" + "\0" + "\0";
             string[] highScoresArr = sendAndDecodeArrMessage(msg);
-            for (int i = 0; i < highScoresArr.Length; i++)
-            {
-                bool flag = true;
-                int j = 0;
-                for (j = 0; j < highScoresArr[i].Length && flag; j++)
-                {
-                    if (highScoresArr[i][j] == ':')
-                    {
-                        flag = false;
-                    }
-                }
-
-                string name = highScoresArr[i].Substring(0, j - 1);
-                string score = highScoresArr[i].Substring(j, highScoresArr[i].Length - j);
-                Console.WriteLine(name + ": " + score);
-            }
+            return highScoresArr;
         }
 
         public void createRoom()

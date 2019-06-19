@@ -24,6 +24,11 @@ namespace WpfApp1
         {
             InitializeComponent();
             this._p = p;
+            if(rooms.Items.Count == 0)
+            {
+                error.Visibility = Visibility.Visible;
+            }
+            fillRoomList();
         }
 
         public void fillRoomList()
@@ -36,9 +41,31 @@ namespace WpfApp1
                 error.Visibility = Visibility.Hidden;
                 for (int p = 0; p < roomsArr.Length; p++)
                 {
+                    string roomID = System.Convert.ToInt32(roomsArr[p].Substring(roomsArr[p].Length - 1, 1)[0]).ToString();
                     string roomName = roomsArr[p].Substring(0, roomsArr[p].Length - 2);
-                    Add_Room(roomName);
+                    Add_Room(roomID +". " + roomName);
                 }
+            }
+        }
+
+        public void fillPlayerList()
+        {
+            int len = 0;
+            for (int i = 0; i < rooms.Text.Length; i++)
+            {
+                if(rooms.Text[i] == '.')
+                {
+                    len = i;
+                    i = rooms.Text.Length;
+                }
+            }
+            string roomId = rooms.Text.Substring(0, len);
+            string[] playersArr = _p.getPlayersInRoom(Int32.Parse(roomId));
+
+            for (int p = 0; p < playersArr.Length; p++)
+            {
+                string name = playersArr[p];
+                Add_Player(name);
             }
         }
 
@@ -60,6 +87,7 @@ namespace WpfApp1
         }
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
+            players.Items.Clear();
             rooms.SelectedItem = null;
             roomGrid.Visibility = Visibility.Hidden;
             JoinButton.IsEnabled = false;
@@ -79,6 +107,8 @@ namespace WpfApp1
         {
             JoinButton.IsEnabled = true;
             roomGrid.Visibility = Visibility.Visible;
+            players.Items.Clear();
+            fillPlayerList();
         }
     }
 }
