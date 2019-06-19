@@ -24,7 +24,7 @@ struct JsonResponsePacketSerializer
 	static std::vector<char> serializeResponse(SignupResponse signup);
 	static std::vector<char> serializeResponse(LogoutResponse logoutRes);
 	static std::vector<char> serializeResponse(GetRoomsResponse roomRes);
-	static std::vector<char> serializerResponse(GetPlayersInRoomResponse playerInRoomRes);
+	static std::vector<char> serializeResponse(GetPlayersInRoomResponse playerInRoomRes);
 	static std::vector<char> serializeResponse(JoinRoomResponse roomRes);
 	static std::vector<char> serializeResponse(CreateRoomResponse createRoomRes);
 	static std::vector<char> serializeResponse(HighscoreResponse highscoreRes);

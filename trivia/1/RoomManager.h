@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <string>
 
 #include "LoggedUser.h"
 #include "Room.h"
@@ -16,9 +17,10 @@ public:
 	RoomManager();
 	~RoomManager();
 
-	void createRoom(LoggedUser loggedUsers, RoomData roomData);
-	void deleteRoom(int ID);
+	int joinRoom(LoggedUser loggedUsers, int room);
+	int createRoom(LoggedUser loggedUsers, RoomData roomData);
+	int deleteRoom(int ID);
 	int getRoomState(int ID);
-	std::vector<Room>getRooms();
+	std::vector<std::string>getPlayersInRooms(int Id);
 
 };
