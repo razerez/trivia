@@ -26,13 +26,13 @@ Communicator::~Communicator()
 
 
 void Communicator::bindAndListen()
-{	
+{
 	struct sockaddr_in sa = { 0 };
 
 	sa.sin_port = htons(PORT); // port that server will listen for
 	sa.sin_family = AF_INET;   // must be AF_INET
 	sa.sin_addr.s_addr = INADDR_ANY;    // when there are few ip's for the machine. We will use always "INADDR_ANY"
-	// Connects between the socket and the configuration (port and etc..)
+										// Connects between the socket and the configuration (port and etc..)
 	if (bind(serverSocket, (struct sockaddr*)&sa, sizeof(sa)) == SOCKET_ERROR)
 		throw std::exception(__FUNCTION__ " - bind");
 
@@ -52,9 +52,9 @@ Request Communicator::getMessageFromClient(SOCKET sc)
 	int bytes = FIRST_LENGTH;
 	char* data;
 	int res;
-	for (int i = 0; i < 2&& bytes; i++)
+	for (int i = 0; i < 2 && bytes; i++)
 	{
-		data= new char[bytes + 1];
+		data = new char[bytes + 1];
 		res = recv(sc, data, bytes, 0);
 		if (res == INVALID_SOCKET)
 		{
@@ -67,7 +67,7 @@ Request Communicator::getMessageFromClient(SOCKET sc)
 		if (!i)
 			bytes = int((unsigned char)(data[1]) << 16 |//get length of data
 			(unsigned char)(data[2]) << 8 |
-			(unsigned char)(data[3]));
+				(unsigned char)(data[3]));
 		delete(data);
 		data = nullptr;
 	}
@@ -78,52 +78,77 @@ Request Communicator::getMessageFromClient(SOCKET sc)
 
 void Communicator::clientHandler(SOCKET socket)
 {
+	string username = "";
+	RequestResult * response;
 	try
 	{
 		while (true)
 		{
-			RequestResult * response;
 			Request req(getMessageFromClient(socket));// get request from client
 			std::unique_lock<std::mutex> l(lock);
 			IRequestHandler* handler = _m_clients[socket];
 			l.unlock();
-			if (handler == nullptr || req._buffer[0] == 'X')//if we need to quit
+			if ((req._buffer[0] == 'X' || req._buffer[0] == 'O') && username != "")//if we need to quit
 			{
-				std::vector<char> buffer;
-				buffer.push_back('x');
-				response = new RequestResult(buffer, handler);//response is exit response
+				for (int i = 0; i < username.size(); i++)
+					req._buffer.push_back(username[i]);
+				req._buffer[3] = username.size();
 			}
-			else if (handler->isRequestRelevant(req))
+			if (handler->isRequestRelevant(req))
 			{
 				response = new RequestResult(handler->handleRequest(req));//take care of request
-				//l.lock();
-				//_m_clients[socket] = response->getNewHandler();
-				//l.unlock();
-				response->_newHandler = handler;//for now
+				l.lock();
+				_m_clients[socket] = response->getNewHandler();
+				l.unlock();
+				if ((req._buffer[0] == 'I' || req._buffer[0] == 'U') && response->getResponse()[4] == 1)
+				{
+					void* menuHandler = response->getNewHandler();
+					username = static_cast<MenuRequestHandler*>(menuHandler)->getUser();
+				}
+				if (req._buffer[0] == 'O')
+					username = "";
 			}
 			else
+			{
 				response = new RequestResult(stringToVectorChar("e"), handler);//if request is irrelevant
-
-			sendMsg(vectorCharToString(response->getResponse()), socket);
-			if (response->getNewHandler() == nullptr||response->getResponse()[0]=='x')//EXIT
+				for (int i = 0; i < 3; i++)
+					response->_response.push_back('0');
+			}
+			if (req._buffer[0] != 'X')
+				sendMsg(vectorCharToString(response->getResponse()), socket);
+			else//EXIT
 			{
 				if (response != nullptr)
-				{
 					delete(response);
-					logout(socket);
-				}
+				exit(socket);
 				return;
 			}
 			response->_newHandler = nullptr;//in order to not delete the new handler
 			if (response != nullptr)delete(response);
 		}
 	}
-	catch (...) 
+	catch (...)
 	{
-		logout(socket);
+		if (username != "")
+		{
+			vector<char> v;
+			v.push_back('X');
+			v.push_back(0);
+			v.push_back(0);
+			v.push_back(username.size());
+			for (int i = 0; i < username.size(); i++)
+				v.push_back(username[i]);
+			LoginRequestHandler *r = _m_handlerFactory->createLoginRequestHandler();
+			r->handleRequest(Request('X', time(0), v));
+			delete(r);
+			r = nullptr;
+		}
+		if (response != nullptr)
+			delete(response);
+		exit(socket);
 		return;
 	}
-	
+
 }
 
 
@@ -142,23 +167,29 @@ void Communicator::startThreadForNewClient()
 	SOCKET client_socket = ::accept(serverSocket, NULL, NULL);
 	if (client_socket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__);
-	IRequestHandler * handler=(_m_handlerFactory->createLoginRequestHandler());// assign first handler
-	
+	IRequestHandler * handler = (_m_handlerFactory->createLoginRequestHandler());// assign first handler
+
 	std::unique_lock<std::mutex> l(lock);
-	_m_clients.insert(std::pair<SOCKET, IRequestHandler*>(client_socket,handler));
+	_m_clients.insert(std::pair<SOCKET, IRequestHandler*>(client_socket, handler));
 	l.unlock();
 
-	std::cout << "New Client. Socket: "<< client_socket << std::endl;
+	std::cout << "New Client. Socket: " << client_socket << std::endl;
 	std::thread  t1(&Communicator::clientHandler, this, client_socket);//new thread for the client
 	t1.detach();//thread can work separately
 }
 
 
-void Communicator::logout(SOCKET s)
+void Communicator::exit(SOCKET s)
 {
-	cout << "Client With Socket " << s << " Logged Out" << endl;
+	cout << "Client With Socket " << s << " Exited" << endl;
 	std::unique_lock<std::mutex> l(lock);
 	_m_clients.erase(s);
 	l.unlock();
 }
+
+
+
+
+
+
 

@@ -22,6 +22,7 @@ public:
 private:
 	LoginManager* _m_loginManager;
 	RequestHandlerFactory* _m_handlerFactory;
+	RequestResult exit(Request req);
 	RequestResult login(Request req);
 	RequestResult signup(Request req);
 	RequestResult logout(Request req);

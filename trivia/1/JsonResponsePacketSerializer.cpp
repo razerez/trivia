@@ -43,7 +43,8 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse
 	vec.push_back('x');
 	vec.push_back(0b0);
 	vec.push_back(0b0);
-	vec.push_back(0b0);
+	vec.push_back(0b1);
+	vec.push_back(char(logoutRes._status));
 	return vec;
 }
 

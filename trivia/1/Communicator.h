@@ -1,3 +1,5 @@
+
+
 #pragma once
 
 
@@ -31,7 +33,7 @@ private:
 	std::map<SOCKET, IRequestHandler*> _m_clients;
 	RequestHandlerFactory* _m_handlerFactory;
 	SOCKET serverSocket;
-	void logout(SOCKET s);
+	void exit(SOCKET s);
 public:
 	Communicator(IDataBase * db);
 	~Communicator();
