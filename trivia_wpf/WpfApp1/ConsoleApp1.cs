@@ -11,6 +11,7 @@ namespace WpfApp1
     public class Program
     {
         NetworkStream clientStream;
+        TcpClient client;
         public string _username = "";
         public const string IP = "127.0.0.1";
         public const int PORT = 8821;
@@ -70,44 +71,28 @@ namespace WpfApp1
                 return false;
         }
 
-        public void signup()
+        public bool signup(string password, string email)
         {
-            Console.WriteLine("Enter Username");
-            _username= Console.ReadLine();
-            Console.WriteLine("Enter Password");
-            string password = Console.ReadLine();
-            Console.WriteLine("Enter Email");
-            string email = Console.ReadLine();
             string msg = "U" + "\0" + "\0" + (char)(40 + _username.Length + password.Length + email.Length) + (char)(_username.Length) + (char)(password.Length) + (char)(email.Length) + " {\nusername:\"" + _username + "\"\npassword:\"" + password + "\"\nemail:\"" + email + "\"\n}";
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
-                Console.WriteLine("Signup Succesfull");
+                return true;
             else
-                Console.WriteLine("Failed To Sign Up");
+                return false;
         }
 
-        public void logout(NetworkStream clientStream)
+        public void logout()
         {
             string msg = "O" + "\0" + "\0" +"\0";
             byte[] res = sendAndReciveMessage(msg);
             Console.WriteLine("Logged Out Succesfully");
         }
 
-        public void getRooms()
+        public string[] getRooms()
         {
             string msg = "G" + "\0" + "\0" + "\0";
             string[] roomsArr=sendAndDecodeArrMessage(msg);
-            if (roomsArr.Length == 0)
-                Console.WriteLine("No Rooms Available");
-            else
-            {
-                for (int p = 0; p < roomsArr.Length; p++)
-                {
-                    string name = roomsArr[p].Substring(0, roomsArr[p].Length - 2);
-                    int id = System.Convert.ToInt32(roomsArr[p].Substring(roomsArr[p].Length - 1, 1)[0]);
-                    Console.WriteLine("Name: " + name + " ID: " + id);
-                }
-            }
+            return roomsArr;
         }
 
         public void joinRoom()
@@ -194,13 +179,12 @@ namespace WpfApp1
             byte[] buffer = new ASCIIEncoding().GetBytes(s);
             clientStream.Write(buffer, 0, buffer.Length);
             clientStream.Flush();
-            int len = 4;
+            int len = client.ReceiveBufferSize;
             buffer = new byte[len];
             int bytesRead = clientStream.Read(buffer, 0, len);
 
-            len = buffer[1] << 16 | buffer[2] << 8 | buffer[3];
-            buffer = new byte[len];
-            bytesRead = clientStream.Read(buffer, 0, len);
+
+            
             return buffer;
         }
 
@@ -208,7 +192,7 @@ namespace WpfApp1
         {
             try
             {
-                TcpClient client = new TcpClient();
+                client = new TcpClient();
                 IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(IP), PORT);
                 client.Connect(serverEndPoint);
                 clientStream = client.GetStream();
@@ -219,11 +203,8 @@ namespace WpfApp1
                 er.Show();
                 return;
             }
-            while (true)
-            {
-                Menu m = new Menu(this);
-                m.Show();
-            }
+            Menu m = new Menu(this);
+            m.Show();
         }
     }
 }

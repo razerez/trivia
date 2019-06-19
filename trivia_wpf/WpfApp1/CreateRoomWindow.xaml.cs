@@ -19,21 +19,23 @@ namespace WpfApp1
     /// </summary>
     public partial class CreateRoomWindow : Window
     {
-        public CreateRoomWindow()
+        private Program _p;
+        public CreateRoomWindow(Program p)
         {
             InitializeComponent();
+            this._p = p;
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
+            Menu menu = new Menu(this._p);
             menu.Show();
             this.Close();
         }
 
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            WaitingRoomWindow waiting = new WaitingRoomWindow(true);
+            WaitingRoomWindow waiting = new WaitingRoomWindow(this._p ,true);
             waiting.Show();
             this.Close();
         }

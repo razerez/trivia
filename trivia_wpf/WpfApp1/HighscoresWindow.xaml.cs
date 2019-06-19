@@ -19,18 +19,21 @@ namespace WpfApp1
     /// </summary>
     public partial class HighscoresWindow : Window
     {
-        public HighscoresWindow()
+        private Program _p;
+        public HighscoresWindow(Program p)
         {
             InitializeComponent();
+            this._p = p;
             ChangeRank("raz", 14, first);
             ChangeRank("dan", 10, second);
             ChangeRank("dave", 3, third);
+            
         }
 
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
+            Menu menu = new Menu(this._p);
             menu.Show();
             this.Close();
         }

@@ -19,9 +19,11 @@ namespace WpfApp1
     /// </summary>
     public partial class WaitingRoomWindow : Window
     {
-        public WaitingRoomWindow(bool isManager)
+        private Program _p;
+        public WaitingRoomWindow(Program p, bool isManager)
         {
             InitializeComponent();
+            this._p = p;
             if(isManager)
             {
                 start_button.Visibility = Visibility.Visible;
@@ -59,7 +61,7 @@ namespace WpfApp1
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
+            Menu menu = new Menu(this._p);
             menu.Show();
             this.Close();
         }
@@ -71,7 +73,7 @@ namespace WpfApp1
 
         private void Leave_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
+            Menu menu = new Menu(this._p);
             menu.Show();
             this.Close();
         }

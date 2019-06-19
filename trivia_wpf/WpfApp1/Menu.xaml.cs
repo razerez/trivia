@@ -24,12 +24,14 @@ namespace WpfApp1
         {
             InitializeComponent();
             this._p = p;
+            JoinRoomButton.IsEnabled = true;//\\
         }
 
         private void Sign_In_Click(object sender, RoutedEventArgs e)
         {
             if (Check_info(usernameTextBox.Text, passwordTextBox.Text))
             {
+                error.Visibility = Visibility.Hidden;
                 SignIn.Visibility = Visibility.Hidden;
                 username.Visibility = Visibility.Visible;
                 usernameTop.Visibility = Visibility.Visible;
@@ -39,6 +41,10 @@ namespace WpfApp1
                 createRoomButton.IsEnabled = true;
                 myStatusButton.IsEnabled = true;
                 bestScoresButton.IsEnabled = true;
+            }
+            else
+            {
+                error.Visibility = Visibility.Visible;
             }
 
 
@@ -63,35 +69,35 @@ namespace WpfApp1
 
         private void SignUpButton_Click(object sender, RoutedEventArgs e)
         {
-            SignUpWindow signup = new SignUpWindow();
+            SignUpWindow signup = new SignUpWindow(this._p);
             signup.Show();
             this.Close();
         }
 
         private void JoinRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            JoinRoomWindow joinRoom= new JoinRoomWindow();
+            JoinRoomWindow joinRoom= new JoinRoomWindow(this._p);
             joinRoom.Show();
             this.Close();
         }
 
         private void MyStatusButton_Click(object sender, RoutedEventArgs e)
         {
-            StatusWindow status = new StatusWindow();
+            StatusWindow status = new StatusWindow(this._p);
             status.Show();
             this.Close();
         }
 
         private void BestScoresButton_Click(object sender, RoutedEventArgs e)
         {
-            HighscoresWindow highScores = new HighscoresWindow();
+            HighscoresWindow highScores = new HighscoresWindow(this._p);
             highScores.Show();
             this.Close();
         }
 
         private void CreateRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateRoomWindow createRoom = new CreateRoomWindow();
+            CreateRoomWindow createRoom = new CreateRoomWindow(this._p);
             createRoom.Show();
             this.Close();
         }

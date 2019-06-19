@@ -19,15 +19,32 @@ namespace WpfApp1
     /// </summary>
     public partial class JoinRoomWindow : Window
     {
-        public JoinRoomWindow()
+        private Program _p;
+        public JoinRoomWindow(Program p)
         {
             InitializeComponent();
-            
+            this._p = p;
+        }
+
+        public void fillRoomList()
+        {
+            string[] roomsArr = _p.getRooms();
+            if (roomsArr.Length == 0)
+                error.Visibility = Visibility.Visible;
+            else
+            {
+                error.Visibility = Visibility.Hidden;
+                for (int p = 0; p < roomsArr.Length; p++)
+                {
+                    string roomName = roomsArr[p].Substring(0, roomsArr[p].Length - 2);
+                    Add_Room(roomName);
+                }
+            }
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
+            Menu menu = new Menu(this._p);
             menu.Show();
             this.Close();
         }
@@ -52,7 +69,7 @@ namespace WpfApp1
         {
             if(!string.IsNullOrEmpty(rooms.Text))//check if room is selected
             {
-                WaitingRoomWindow waiting = new WaitingRoomWindow(false);
+                WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, false);
                 waiting.Show();
                 this.Close();
             }
