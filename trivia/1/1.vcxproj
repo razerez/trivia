@@ -159,6 +159,7 @@
     <ClInclude Include="SqliteDatabase.h" />
     <ClInclude Include="StartGameResponse.h" />
     <ClInclude Include="SubmitAnswerResponse.h" />
+    <ClInclude Include="Vector and string.h" />
     <ClInclude Include="WSAInitializer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +208,7 @@
     <ClCompile Include="SqliteDatabase.cpp" />
     <ClCompile Include="StartGameResponse.cpp" />
     <ClCompile Include="SubmitAnswerResponse.cpp" />
+    <ClCompile Include="Vector and string.cpp" />
     <ClCompile Include="WSAInitializer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

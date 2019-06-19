@@ -1,4 +1,7 @@
 #pragma once
+#include <bitset>
+#include <string>
+#include "Vector and string.h"
 #include "ErrorResponse.h"
 #include "Communicator.h"
 #include "LoginResponse.h"
@@ -10,6 +13,7 @@
 #include "CreateRoomResponse.h"
 #include "HighscoreResponse.h"
 
+
 #include <vector>
 
 
@@ -20,8 +24,8 @@ struct JsonResponsePacketSerializer
 	static std::vector<char> serializeResponse(SignupResponse signup);
 	static std::vector<char> serializeResponse(LogoutResponse logoutRes);
 	static std::vector<char> serializeResponse(GetRoomsResponse roomRes);
-	static std::vector<char> serializerResponse(GetPlayersInRoomResponse playerInRoomRes);
-	static std::vector<char>serializeResponse(JoinRoomResponse roomRes);
-	static std::vector<char>serializeResponse(CreateRoomResponse createRoomRes);
-	static std::vector<char>serializeResponse(HighscoreResponse highscoreRes);
+	static std::vector<char> serializeResponse(GetPlayersInRoomResponse playerInRoomRes);
+	static std::vector<char> serializeResponse(JoinRoomResponse roomRes);
+	static std::vector<char> serializeResponse(CreateRoomResponse createRoomRes);
+	static std::vector<char> serializeResponse(HighscoreResponse highscoreRes);
 };
