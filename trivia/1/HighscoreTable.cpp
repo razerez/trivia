@@ -9,7 +9,7 @@ HighscoreTable::~HighscoreTable()
 {
 }
 
-std::map<LoggedUser, int> HighscoreTable::getHighscores()
+std::map<LoggedUser*, int> HighscoreTable::getHighscores()
 {
 	return this->_m_database->getHighscores();
 }

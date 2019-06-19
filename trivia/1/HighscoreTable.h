@@ -12,7 +12,7 @@ private:
 public:
 	HighscoreTable(IDataBase * database);
 	~HighscoreTable();
-	 std::map<LoggedUser, int> getHighscores();
+	 std::map<LoggedUser*, int> getHighscores();
 
 
 };

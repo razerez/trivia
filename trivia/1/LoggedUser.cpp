@@ -1,4 +1,5 @@
 #include "LoggedUser.h"
+#include <string>
 
 LoggedUser::LoggedUser(std::string _m_username)
 {
