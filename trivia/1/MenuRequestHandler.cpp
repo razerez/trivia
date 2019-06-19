@@ -2,7 +2,7 @@
 
 
 
-
+//finish
 RequestResult MenuRequestHandler::signOut(Request req)
 {
 	RequestResult result = this->_m_handlerFactory->createLoginRequestHandler()->handleRequest(req);
@@ -10,14 +10,17 @@ RequestResult MenuRequestHandler::signOut(Request req)
 	return result;
 }
 
+//finish
 RequestResult MenuRequestHandler::getRooms(Request req)
 {
-	//no desirelize
-	std::vector<char> buff;
-	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
+
+	GetRoomsResponse myRoom(this->_m_roomManager->getRooms(), 1);
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(myRoom);
+	IRequestHandler* nextHandler = this;
 	return RequestResult(buff, nextHandler);
 }
 
+//finish
 RequestResult MenuRequestHandler::getPlayersInRoom(Request req)
 {
 	GetPlayersInRoomRequest user = JsonRequestPacketDeserializer().deserializeGetPlayersRequest(req._buffer);
@@ -27,14 +30,17 @@ RequestResult MenuRequestHandler::getPlayersInRoom(Request req)
 
 }
 
+//not finish need to check
 RequestResult MenuRequestHandler::getHighscores(Request req)
 {
-	//no desirelize
+	//JsonResponsePacketSerializer::serializeResponse(HighscoreResponse(0, this->_m_highscoreTable->getHighscores()));
+
 	std::vector<char> buff;
 	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
 	return RequestResult(buff, nextHandler);
 }
 
+//finish
 RequestResult MenuRequestHandler::joinRoom(Request req)
 {
 	JoinRoomRequest user = JsonRequestPacketDeserializer().deserializeJoinRoomRequest(req._buffer);
@@ -44,6 +50,7 @@ RequestResult MenuRequestHandler::joinRoom(Request req)
 	return RequestResult(buff, nextHandler);
 }
 
+//finish
 RequestResult MenuRequestHandler::createRoom(Request req)
 {
 	CreateRoomRequest user = JsonRequestPacketDeserializer().deserializeCreateRoomRequest(req._buffer);
@@ -55,6 +62,7 @@ RequestResult MenuRequestHandler::createRoom(Request req)
 	
 }
 
+//finish
 MenuRequestHandler::MenuRequestHandler(LoggedUser * m_user, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory)
 {
 	this->_m_user = m_user;
@@ -63,6 +71,7 @@ MenuRequestHandler::MenuRequestHandler(LoggedUser * m_user, RoomManager * m_room
 	this->_m_highscoreTable = m_highScoreTable;
 }
 
+//finish
 MenuRequestHandler::~MenuRequestHandler()
 {
 	delete(this->_m_handlerFactory);
@@ -71,6 +80,7 @@ MenuRequestHandler::~MenuRequestHandler()
 	delete(this->_m_user);
 }
 
+//finish
 bool MenuRequestHandler::isRequestRelevant(Request req)
 {
 	
@@ -82,6 +92,7 @@ bool MenuRequestHandler::isRequestRelevant(Request req)
 	return false;
 }
 
+//finish
 RequestResult MenuRequestHandler::handleRequest(Request req)
 {
 	char reqId = req._buffer[0];

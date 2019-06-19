@@ -58,6 +58,15 @@ int RoomManager::getRoomState(int ID)
 	return this->_m_rooms.find(ID)->second.getRoomData()._id;
 }
 
+std::vector<RoomData> RoomManager::getRooms()
+{
+	std::vector<RoomData> vec;
+	for (std::map<int, Room>::iterator it = this->_m_rooms.begin(); it != this->_m_rooms.end(); ++it)
+		vec.push_back(it->second.getRoomData());
+
+	return vec;
+}
+
 std::vector<std::string> RoomManager::getPlayersInRooms(int Id)
 {
 	std::vector<LoggedUser> myUsers = this->_m_rooms.find(Id)->second.getAllUsers();
