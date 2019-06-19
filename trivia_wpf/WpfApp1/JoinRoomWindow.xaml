@@ -1,0 +1,29 @@
+﻿<Window x:Class="WpfApp1.JoinRoomWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="JoinRoom" Width="885.347" Height="724.813"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">MAGSHITRIVIA</TextBlock>
+        <TextBlock FontWeight="Bold" FontSize="30" TextAlignment="Center" Margin="264,60,264.2,511.2">Rooms List:</TextBlock>
+        <ComboBox Name="rooms" Margin="125,105,125,531.2" SelectionChanged="Rooms_SelectionChanged" >
+            <ComboBoxItem>temp1</ComboBoxItem>
+            <ComboBoxItem>temp2</ComboBoxItem>
+        </ComboBox>
+        <Grid Name="roomGrid" Visibility="Hidden">
+            <TextBlock FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center" Margin="175.2,202,175.2,245.2" Width="496">Selected room players:</TextBlock>
+            <ComboBox Name="players" Margin="125,267,125,369.2" >
+                <ComboBoxItem>temp1</ComboBoxItem>
+                <ComboBoxItem>temp2</ComboBoxItem>
+            </ComboBox>
+        </Grid>
+        <Button Margin="370,462,370,183.2" Click="Refresh_Click">Refresh</Button>
+        <Button Margin="748,10,10.2,631.2" Click="Back_Click">back</Button>
+        <Button Name="JoinButton" Margin="331,543,331,82.2" FontSize="30" IsEnabled="False" Click="Join_Click" Content="Join"/>
+    </Grid>
+</Window>
+

@@ -1,0 +1,23 @@
+﻿<Window x:Class="WpfApp1.NoServerRuning"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Error Detected" Height="117.186" Width="266.959"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBlock Name="subject" FontSize="15" HorizontalAlignment="Center" Margin="0,0,-0.4,-0.2">You do not have a server running</TextBlock>
+
+        <Button Name="try_again"
+        BorderBrush="Black" BorderThickness="1" 
+        ClickMode="Release" Margin="30,45,144.8,10.2" Click="Try_again_Click">
+            Try Again
+        </Button>
+        <Button x:Name="abort"
+            BorderBrush="Black" BorderThickness="1" 
+            Margin="139,45,34.8,10.2" Content="Abort" ClickMode="Release" Click="Abort_Click"/>
+    </Grid>
+</Window>
+
