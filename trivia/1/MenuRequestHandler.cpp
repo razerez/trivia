@@ -122,3 +122,8 @@ RequestResult MenuRequestHandler::handleRequest(Request req)
 	}
 }
 
+std::string MenuRequestHandler::getUser()
+{
+	return this->_m_user->getUsername();
+}
+

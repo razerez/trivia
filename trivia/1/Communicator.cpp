@@ -79,7 +79,7 @@ Request Communicator::getMessageFromClient(SOCKET sc)
 void Communicator::clientHandler(SOCKET socket)
 {
 	string username = "";
-	RequestResult * response;
+	RequestResult * response = nullptr;
 	try
 	{
 		while (true)

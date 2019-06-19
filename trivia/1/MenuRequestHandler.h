@@ -38,7 +38,7 @@ public:
 
 	virtual bool isRequestRelevant(Request req);
 	virtual RequestResult handleRequest(Request req);
-
+	std::string getUser();
 
 
 };
