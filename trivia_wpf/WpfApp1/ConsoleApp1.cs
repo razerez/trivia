@@ -88,7 +88,7 @@ namespace WpfApp1
 
         public void logout(NetworkStream clientStream)
         {
-            string msg = "O" + "\0" + "\0" +"\0";
+            string msg = "O" + "\0" + "\0" +14+"\0" + " {\nusername:\"";
             byte[] res = sendAndReciveMessage(msg);
             Console.WriteLine("Logged Out Succesfully");
         }
@@ -141,7 +141,7 @@ namespace WpfApp1
             }
         }
 
-        public void getHighScores()//
+        public void getHighScores()
         {
             string msg = "H" + "\0" + "\0" + "\0";
             string[] highScoresArr = sendAndDecodeArrMessage(msg);
@@ -173,7 +173,7 @@ namespace WpfApp1
             string questionsCount = Console.ReadLine();
             Console.WriteLine("Enter Answer Time");
             string answerTime = Console.ReadLine();
-            string msg = "P" + "\0" + "\0" + (char)(58+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length) + "{RoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
+            string msg = "P" + "\0" + "\0" + (char)(59+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length) + " {RoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
                 Console.WriteLine("Room Created Succesfully");
@@ -183,7 +183,7 @@ namespace WpfApp1
 
         public void exit()
         {
-            string msg = "X" + "\0" + "\0"+ "\0";
+            string msg = "X" + "\0" + "\0" + 14 + "\0" + " {\nusername:\"";
             byte[] res = sendAndReciveMessage(msg);
             Console.WriteLine("Goodbye");
         }

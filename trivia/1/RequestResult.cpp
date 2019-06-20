@@ -8,7 +8,7 @@ RequestResult::RequestResult(std::vector<char> response, IRequestHandler * newHa
 
 RequestResult::~RequestResult()
 {
-	delete(this->_newHandler);
+	if(_newHandler!=nullptr)delete(this->_newHandler);
 	this->_newHandler = nullptr;
 }
 

@@ -45,6 +45,21 @@ void Communicator::bindAndListen()
 		startThreadForNewClient();
 }
 
+std::vector<char> bufferOfLoggedUser(LoggedUser myUser, std::vector<char> buffer)
+{
+	int size = myUser.getUsername().size();
+	buffer[4] = char(size);
+	buffer[3] = char(14 + size);
+	std::vector<char> newVec = stringToVectorChar(myUser.getUsername());
+	newVec.pop_back();
+	newVec.push_back('"'); //""\n}
+	newVec.push_back('\n');
+	newVec.push_back('}');
+
+	buffer.insert(buffer.end(), newVec.begin(), newVec.end());
+
+	return buffer;
+}
 
 Request Communicator::getMessageFromClient(SOCKET sc)
 {
@@ -90,23 +105,26 @@ void Communicator::clientHandler(SOCKET socket)
 			l.unlock();
 			if ((req._buffer[0] == 'X' || req._buffer[0] == 'O') && username != "")//if we need to quit
 			{
-				for (int i = 0; i < username.size(); i++)
-					req._buffer.push_back(username[i]);
-				req._buffer[3] = username.size();
+				req._buffer = bufferOfLoggedUser(LoggedUser(username),req._buffer);
 			}
+
 			if (handler->isRequestRelevant(req))
 			{
 				response = new RequestResult(handler->handleRequest(req));//take care of request
 				l.lock();
 				_m_clients[socket] = response->getNewHandler();
 				l.unlock();
-				//if ((req._buffer[0] == 'I' || req._buffer[0] == 'U') && response->getResponse()[4] == 1)
-				//{
-				//	void* menuHandler = response->getNewHandler();
-				//	username = static_cast<MenuRequestHandler*>(menuHandler)->getUser();
-				//}
-				//if (req._buffer[0] == 'O')
-				//	username = "";
+
+				if ((req._buffer[0] == 'I' || req._buffer[0] == 'U') && response->getResponse()[4] == 1)
+					username=response->getNewHandler()->getUsername().getUsername();
+				if (req._buffer[0] == 'O')
+				{
+					username = "";
+					l.lock();
+					_m_clients[socket] = _m_handlerFactory->createLoginRequestHandler(LoggedUser(""));
+					l.unlock();
+
+				}
 			}
 			else
 			{
@@ -123,8 +141,8 @@ void Communicator::clientHandler(SOCKET socket)
 				exit(socket);
 				return;
 			}
-			response->_newHandler = nullptr;//in order to not delete the new handler
-			if (response != nullptr)delete(response);
+			//response->_newHandler = nullptr;//in order to not delete the new handler
+			//if (response != nullptr)delete(response);
 		}
 	}
 	catch (...)
@@ -132,15 +150,17 @@ void Communicator::clientHandler(SOCKET socket)
 		if (username != "")
 		{
 			vector<char> v;
+			vector<char> v1= stringToVectorChar("{\nusername:\"");
 			v.push_back('X');
 			v.push_back(0);
 			v.push_back(0);
+			v.push_back(username.size()+12);
 			v.push_back(username.size());
-			for (int i = 0; i < username.size(); i++)
-				v.push_back(username[i]);
+			v.insert(v.end(),v1.begin(),v1.end());
+			v = bufferOfLoggedUser(LoggedUser(username), v); 
 			LoginRequestHandler *r = _m_handlerFactory->createLoginRequestHandler();
 			r->handleRequest(Request('X', time(0), v));
-			delete(r);
+			if(r!=nullptr)delete(r);
 			r = nullptr;
 		}
 		if (response != nullptr)

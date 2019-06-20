@@ -9,7 +9,7 @@
 
 LogoutRequest JsonRequestPacketDeserializer::deserializeLogoutRequest(std::vector<char> buffer)
 {
-	//  std::string username = analyzeJson(buffer, "username:" 5, 4, 1)
+
 	std::string username = analyzeJson(buffer, "username:", LENGTH_SEGMENT + LOGIN_DATA_SIZE_SEGMENT, CODE_SEGMENT + LENGTH_SEGMENT, USERNAME_SIZE_SEGMENT);
 	LogoutRequest myLogout(username);
 	return myLogout;
