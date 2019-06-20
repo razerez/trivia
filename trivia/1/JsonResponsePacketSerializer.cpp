@@ -141,28 +141,32 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResp
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(HighscoreResponse highscoreRes)
 {
-	/*
-	std::string data = "{\nlength:" + std::to_string(playerInRoomRes._players.size()) + "\nNames:[";
-
-	for (std::vector<std::string>::iterator it = playerInRoomRes._players.begin(); it != playerInRoomRes._players.end(); ++it)
+	
+	std::string data = "{\nlength:" + std::to_string(highscoreRes._highscores.getHighscores().size()) + "\nHighscores:[";
+	
+	map<LoggedUser*, int> mymap = highscoreRes._highscores.getHighscores();
+	
+	for (std::map<LoggedUser*, int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
 	{
-		data += "\n\"" + (*it) + "\"";
+		data += "\n\"" + it->first->getUsername() + "\":" + std::to_string(it->second);
 	}
 	data += "\n]\n}";
-	*/
 
-	std::string data = "{\nlength:" + std::to_string(highscoreRes._highscores.size()) + "\nHighscore:[";
-
-	/*
-	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
-	*/
-
-	for (std::vector<HighscoreTable>::iterator it = highscoreRes._highscores.begin(); it != highscoreRes._highscores.end(); ++it)
-	{
+	std::vector<char> optionAndLenghVec;
+	optionAndLenghVec.push_back('h');
 
 
-	}
+	int size = data.size();
 
-	return std::vector<char>();
+	optionAndLenghVec.push_back(0b0);
+
+	char leftByte = size >> 8;
+	char rightByte = size & 0b0000000011111111;
+
+	optionAndLenghVec.push_back(leftByte);
+	optionAndLenghVec.push_back(rightByte);
+
+	std::vector<char> dataVector = stringToVectorChar(data);
+	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
+	return optionAndLenghVec;
 }

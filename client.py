@@ -4,7 +4,7 @@ import os
 from termcolor import colored
 
 
-IP = "192.168.43.213"
+IP = "127.0.0.1"
 PORT = 8821
 BUFFER_SIZE = 1024
 
@@ -20,7 +20,13 @@ def main():
     message = """Enter what you want to do:
 1. Login
 2. Signup
-3. Exit
+3. GetRooms
+4. GetPlayersInRoom
+5. GetHighscore
+6. JoinRoom
+7. CreateRoom
+8. logout(not build yet)
+9. Exit(not build yet)
 """
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -42,18 +48,40 @@ def main():
                 password = input("Enter Password: ")
                 email = input("Enter Email: ")
                 msg = 'U' + chr(0) + chr(0) + chr(40+len(username)+len(password)+len(email))+chr(len(username))+chr(len(password)) + chr(len(email)) + " {\nusername:\""+username+"\"\npassword:\""+password+"\"\nemail:\""+email+"\"\n}"
-
+            elif choice == 3:
+                msg = 'G' + chr(0) + chr(0) + chr(0)
+            elif choice == 4:
+                roomid = input("Enter Room ID: ")
+                msg = 'P' + chr(0) + chr(0) + chr(1) +chr(int(roomid))
+            elif choice == 5:
+                msg = 'H' + chr(0) + chr(0) + chr(0)
+            elif choice == 6:
+                roomid = input("Enter Room ID: ")
+                msg = 'J' + chr(0) + chr(0) + chr(1) +chr(int(roomid))
+            elif choice == 7:
+                roomName = input("Enter room name: ")
+                maxUsers = input("Enter max users: ")
+                questionCount = input("Enter question count: ")
+                answerTime = input("EnterAnswerTime: ")
+                msg = 'C' + chr(0) + chr(0) + chr(55 + len(roomName)) + chr(len(roomName)) + chr(1) + chr(1) + chr(1) + "{\nroomName:\"" + roomName + "\"\nmaxUsers:" + chr(int(maxUsers)) + "\nquestionCount:" + chr(int(questionCount)) + "\nanswerTime:" + chr(int(answerTime)) + "\n}"
+            elif choice == 8:
+                msg = 'O' + chr(0) + chr(0) + chr(0)
             else:
                 msg = 'X'+chr(0) + chr(0)+chr(0)
-            print("Client Says: " + make_numbers_visible(msg))
+            print("Client Says: " + (msg))
+
+            input("finished")
+
+
             data_msg = msg.encode()
             sock.sendall(data_msg)
             data = (sock.recv(BUFFER_SIZE)).decode()
+            print("Server Says: " + data)
             if data == "x":
                 print("Server Says: Goodbye")
                 return
             data = make_numbers_visible(data)
-            print("Server Says: " + data)
+
             # if data[0] == 'i' or data[0] == 'u':
             #    return
             input()

@@ -1,8 +1,8 @@
 #include "HighscoreResponse.h"
 
-HighscoreResponse::HighscoreResponse(int status, std::vector<HighscoreTable> highscores)
+
+HighscoreResponse::HighscoreResponse(int status, HighscoreTable highscore): _highscores(highscore)
 {
-	this->_highscores = highscores;
 	this->_status = status;
 }
 
