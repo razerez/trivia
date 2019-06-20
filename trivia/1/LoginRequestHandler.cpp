@@ -1,6 +1,12 @@
 #include "LoginRequestHandler.h"
 
-LoginRequestHandler::LoginRequestHandler(LoginManager* m_loginManager, RequestHandlerFactory* m_handlerFactory)
+LoginRequestHandler::LoginRequestHandler(LoginManager* m_loginManager, RequestHandlerFactory* m_handlerFactory) :_m_username("")
+{
+	this->_m_loginManager = m_loginManager;
+	this->_m_handlerFactory = m_handlerFactory;
+}
+
+LoginRequestHandler::LoginRequestHandler(LoginManager * m_loginManager, RequestHandlerFactory * m_handlerFactory, LoggedUser username) :_m_username(username)
 {
 	this->_m_loginManager = m_loginManager;
 	this->_m_handlerFactory = m_handlerFactory;
@@ -17,7 +23,7 @@ LoginRequestHandler::~LoginRequestHandler()
 bool LoginRequestHandler::isRequestRelevant(Request req)
 {
 	char reqId = req._buffer[0];
-	if (reqId == 'I' || reqId == 'U')
+	if (reqId == 'I' || reqId == 'U'|| reqId == 'O')
 	{
 		return true;
 	}
@@ -45,6 +51,16 @@ RequestResult LoginRequestHandler::handleRequest(Request req)
 	{
 		return exit(req);
 	}
+}
+
+LoggedUser LoginRequestHandler::getUsername()
+{
+	return _m_username;
+}
+
+void LoginRequestHandler::setUsername(LoggedUser username)
+{
+	_m_username = username;
 }
 
 
@@ -89,7 +105,7 @@ RequestResult LoginRequestHandler::logout(Request req)
 	int stat = this->_m_loginManager->logout(user._username);
 	std::string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LogoutResponse(stat));
-	IRequestHandler* nextHandler = _m_handlerFactory->createLoginRequestHandler();
+	IRequestHandler* nextHandler = _m_handlerFactory->createLoginRequestHandler(LoggedUser(""));
 	return RequestResult(buff, nextHandler);
 }
 

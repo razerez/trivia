@@ -20,6 +20,7 @@ private:
 	HighscoreTable * _m_highscoreTable;
 
 public:
+	LoginRequestHandler * createLoginRequestHandler(LoggedUser l);
 	LoginRequestHandler * createLoginRequestHandler();
 	MenuRequestHandler * createMenuRequestHandler(LoggedUser l);
 

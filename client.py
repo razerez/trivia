@@ -25,7 +25,7 @@ def main():
 5. GetHighscore
 6. JoinRoom
 7. CreateRoom
-8. logout(not build yet)
+8. Logout
 9. Exit(not build yet)
 """
 
@@ -57,30 +57,25 @@ def main():
                 msg = 'H' + chr(0) + chr(0) + chr(0)
             elif choice == 6:
                 roomid = input("Enter Room ID: ")
-                msg = 'J' + chr(0) + chr(0) + chr(1) +chr(int(roomid))
+                msg = 'J' + chr(0) + chr(0) + chr(1) + chr(int(roomid))
             elif choice == 7:
                 roomName = input("Enter room name: ")
                 maxUsers = input("Enter max users: ")
                 questionCount = input("Enter question count: ")
                 answerTime = input("EnterAnswerTime: ")
-                msg = 'C' + chr(0) + chr(0) + chr(55 + len(roomName)) + chr(len(roomName)) + chr(1) + chr(1) + chr(1) + "{\nroomName:\"" + roomName + "\"\nmaxUsers:" + chr(int(maxUsers)) + "\nquestionCount:" + chr(int(questionCount)) + "\nanswerTime:" + chr(int(answerTime)) + "\n}"
+                msg = 'C' + chr(0) + chr(0) + chr(57 + len(roomName)) + chr(len(roomName)) + chr(1) + chr(1) + chr(1) + " {\nroomName:\"" + roomName + "\"\nmaxUsers:" + chr(int(maxUsers)) + "\nquestionCount:" + chr(int(questionCount)) + "\nanswerTime:" + chr(int(answerTime)) + "\n}"
             elif choice == 8:
-                msg = 'O' + chr(0) + chr(0) + chr(0)
+                msg = 'O' + chr(0) + chr(0) + chr(14) + chr(0) + " {\nusername:\""
             else:
-                msg = 'X'+chr(0) + chr(0)+chr(0)
-            print("Client Says: " + (msg))
-
-            input("finished")
-
-
+                msg = 'X' + chr(0) + chr(0) + chr(14) + chr(0) + " {\nusername:\""
+            print("Client Says: " + msg)
             data_msg = msg.encode()
             sock.sendall(data_msg)
             data = (sock.recv(BUFFER_SIZE)).decode()
-            print("Server Says: " + data)
+            print("Server Says: " + make_numbers_visible(data))
             if data == "x":
                 print("Server Says: Goodbye")
                 return
-            data = make_numbers_visible(data)
 
             # if data[0] == 'i' or data[0] == 'u':
             #    return

@@ -83,7 +83,7 @@ namespace WpfApp1
 
         public void logout()
         {
-            string msg = "O" + "\0" + "\0" +"\0";
+            string msg = "O" + "\0" + "\0" +14+"\0" + " {\nusername:\"";
             byte[] res = sendAndReciveMessage(msg);
         }
 
@@ -112,7 +112,11 @@ namespace WpfApp1
             return playersArr;
         }
 
+<<<<<<< trivia_wpf/WpfApp1/ConsoleApp1.cs
+        public void getHighScores()
+=======
         public string[] getHighScores()//
+>>>>>>> trivia_wpf/WpfApp1/ConsoleApp1.cs
         {
             string msg = "H" + "\0" + "\0" + "\0";
             string[] highScoresArr = sendAndDecodeArrMessage(msg);
@@ -121,7 +125,19 @@ namespace WpfApp1
 
         public bool createRoom(string roomName, string maxUsers, string questionsCount, string answerTime)
         {
+<<<<<<< trivia_wpf/WpfApp1/ConsoleApp1.cs
+            Console.WriteLine("Enter Room Name");
+            string roomName = Console.ReadLine();
+            Console.WriteLine("Enter Max Users");
+            string maxUsers = Console.ReadLine();
+            Console.WriteLine("Enter Questions Count");
+            string questionsCount = Console.ReadLine();
+            Console.WriteLine("Enter Answer Time");
+            string answerTime = Console.ReadLine();
+            string msg = "P" + "\0" + "\0" + (char)(59+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length) + " {RoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
+=======
             string msg = "P" + "\0" + "\0" + (char)(58+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length) + "{RoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
+>>>>>>> trivia_wpf/WpfApp1/ConsoleApp1.cs
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
                 return true;
@@ -131,7 +147,7 @@ namespace WpfApp1
 
         public void exit()
         {
-            string msg = "X" + "\0" + "\0"+ "\0";
+            string msg = "X" + "\0" + "\0" + 14 + "\0" + " {\nusername:\"";
             byte[] res = sendAndReciveMessage(msg);
         }
 

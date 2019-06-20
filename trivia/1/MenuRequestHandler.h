@@ -17,11 +17,10 @@ class RequestHandlerFactory;
 
 class MenuRequestHandler : public IRequestHandler
 {
-	LoggedUser * _m_user;
+	LoggedUser _m_username;
 	RoomManager * _m_roomManager;
 	HighscoreTable * _m_highscoreTable;
 	RequestHandlerFactory * _m_handlerFactory;
-
 	//private functions
 	RequestResult signOut(Request req);
 	RequestResult getRooms(Request req);
@@ -33,12 +32,12 @@ class MenuRequestHandler : public IRequestHandler
 
 
 public:
-	MenuRequestHandler(LoggedUser * m_user, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory);
+	MenuRequestHandler(LoggedUser* username, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory);
 	~MenuRequestHandler();
-
+	LoggedUser getUsername();
+	void setUsername(LoggedUser username);
 	virtual bool isRequestRelevant(Request req);
 	virtual RequestResult handleRequest(Request req);
-	std::string getUser();
 
 
 };
