@@ -6,6 +6,7 @@
 struct RequestResult;
 struct IRequestHandler
 {
+	std::string username;
 public:
 	IRequestHandler();
 	~IRequestHandler();
