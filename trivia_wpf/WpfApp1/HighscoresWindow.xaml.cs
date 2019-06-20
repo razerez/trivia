@@ -56,7 +56,7 @@ namespace WpfApp1
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu(this._p);
+            Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();
         }

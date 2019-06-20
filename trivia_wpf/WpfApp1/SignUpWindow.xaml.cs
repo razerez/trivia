@@ -32,7 +32,7 @@ namespace WpfApp1
             if (this._p.signup(passwordTextBox.Text, emailTextBox.Text))
             {
                 error.Visibility = Visibility.Hidden;
-                Menu menu = new Menu(this._p);
+                Menu menu = new Menu(this._p, true);
                 menu.Show();
                 this.Close();
             }

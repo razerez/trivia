@@ -31,6 +31,11 @@ namespace WpfApp1
             fillRoomList();
         }
 
+        public bool JoinRoom()
+        {
+            return this._p.joinRoom(Int32.Parse(getRoomID()));
+        }
+
         public void fillRoomList()
         {
             string[] roomsArr = _p.getRooms();
@@ -48,18 +53,25 @@ namespace WpfApp1
             }
         }
 
-        public void fillPlayerList()
+
+        public string getRoomID()
         {
             int len = 0;
             for (int i = 0; i < rooms.Text.Length; i++)
             {
-                if(rooms.Text[i] == '.')
+                if (rooms.Text[i] == '.')
                 {
                     len = i;
                     i = rooms.Text.Length;
                 }
             }
             string roomId = rooms.Text.Substring(0, len);
+            return roomId;
+        }
+
+        public void fillPlayerList()
+        {
+            string roomId = getRoomID();
             string[] playersArr = _p.getPlayersInRoom(Int32.Parse(roomId));
 
             for (int p = 0; p < playersArr.Length; p++)
@@ -71,7 +83,7 @@ namespace WpfApp1
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu(this._p);
+            Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();
         }
@@ -97,7 +109,8 @@ namespace WpfApp1
         {
             if(!string.IsNullOrEmpty(rooms.Text))//check if room is selected
             {
-                WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, false);
+                JoinRoom();
+                WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, false,"","","","");
                 waiting.Show();
                 this.Close();
             }

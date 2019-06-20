@@ -85,7 +85,6 @@ namespace WpfApp1
         {
             string msg = "O" + "\0" + "\0" +"\0";
             byte[] res = sendAndReciveMessage(msg);
-            Console.WriteLine("Logged Out Succesfully");
         }
 
         public string[] getRooms()
@@ -95,14 +94,14 @@ namespace WpfApp1
             return roomsArr;
         }
 
-        public void joinRoom(int roomID)
+        public bool joinRoom(int roomID)
         {
             string msg = "J" + "\0" + "\0" + (char)1+roomID;
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
-                Console.WriteLine("Joined Succesfully");
+                return true;
             else
-                Console.WriteLine("Failed To Join");
+                return false;
         
         }
 
@@ -120,29 +119,20 @@ namespace WpfApp1
             return highScoresArr;
         }
 
-        public void createRoom()
+        public bool createRoom(string roomName, string maxUsers, string questionsCount, string answerTime)
         {
-            Console.WriteLine("Enter Room Name");
-            string roomName = Console.ReadLine();
-            Console.WriteLine("Enter Max Users");
-            string maxUsers = Console.ReadLine();
-            Console.WriteLine("Enter Questions Count");
-            string questionsCount = Console.ReadLine();
-            Console.WriteLine("Enter Answer Time");
-            string answerTime = Console.ReadLine();
             string msg = "P" + "\0" + "\0" + (char)(58+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length) + "{RoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
-                Console.WriteLine("Room Created Succesfully");
+                return true;
             else
-                Console.WriteLine("Failed To Create Room");
+                return false;
         }
 
         public void exit()
         {
             string msg = "X" + "\0" + "\0"+ "\0";
             byte[] res = sendAndReciveMessage(msg);
-            Console.WriteLine("Goodbye");
         }
 
         public byte[] sendAndReciveMessage(string s)
@@ -175,7 +165,7 @@ namespace WpfApp1
                 er.Show();
                 return;
             }
-            Menu m = new Menu(this);
+            Menu m = new Menu(this, false);
             m.Show();
         }
     }

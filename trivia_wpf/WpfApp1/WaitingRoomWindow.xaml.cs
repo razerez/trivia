@@ -20,7 +20,7 @@ namespace WpfApp1
     public partial class WaitingRoomWindow : Window
     {
         private Program _p;
-        public WaitingRoomWindow(Program p, bool isManager)
+        public WaitingRoomWindow(Program p, bool isManager, string roomName, string maxUsers, string questionNum, string questionTime)
         {
             InitializeComponent();
             this._p = p;
@@ -36,6 +36,11 @@ namespace WpfApp1
                 closeButton.Visibility = Visibility.Hidden;
                 leave_button.Visibility = Visibility.Visible;
             }
+
+            Change_Room_Name(roomName);
+            Change_max_players(maxUsers);
+            Change_question_num(questionNum);
+            Change_question_time(questionTime);
         }
 
         private void Change_Room_Name(string name)
@@ -44,24 +49,24 @@ namespace WpfApp1
             roomName2.Text = "Room name: " + name;
         }
 
-        private void Change_max_players(int max)
+        private void Change_max_players(string max)
         {
-            maxPlayers.Text = "max number of players: " + max.ToString();
+            maxPlayers.Text = "max number of players: " + max;
         }
 
-        private void Change_question_num(int num)
+        private void Change_question_num(string num)
         {
-            questionNum.Text = "number of questions: " + num.ToString();
+            questionNum.Text = "number of questions: " + num;
         }
 
-        private void Change_question_time(int time)
+        private void Change_question_time(string time)
         {
-            questionTime.Text = "time per question: " + time.ToString();
+            questionTime.Text = "time per question: " + time;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu(this._p);
+            Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();
         }
@@ -73,7 +78,7 @@ namespace WpfApp1
 
         private void Leave_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu(this._p);
+            Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();
         }
