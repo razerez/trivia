@@ -12,13 +12,13 @@
         <Button Margin="748,10,10.2,631.2" Click="Back_Click">back</Button>
 
         <TextBlock FontSize="25" FontWeight="Bold" Margin="146,103,-146.8,-103.8">room name:</TextBlock>
-        <TextBox Margin="444,103,173.2,546.2"/>
+        <TextBox Name="roomNameTextBox" Margin="444,103,173.2,546.2"/>
         <TextBlock FontSize="25" FontWeight="Bold" Margin="146,203,-146.8,-103.8">max number of players:</TextBlock>
-        <TextBox Margin="444,203,173.2,446.2"/>
+        <TextBox Name="maxPlayersTextBox" Margin="444,203,173.2,446.2"/>
         <TextBlock FontSize="25" FontWeight="Bold" Margin="146,303,-146.8,-103.8">number of questions:</TextBlock>
-        <TextBox Margin="444,303,173.2,346.2"/>
+        <TextBox Name="questionsNumTextBox" Margin="444,303,173.2,346.2"/>
         <TextBlock FontSize="25" FontWeight="Bold" Margin="146,403,-146.8,-103.8">time per question:</TextBlock>
-        <TextBox Margin="444,403,173.2,246.2"/>
+        <TextBox Name="questionTimeTextBox" Margin="444,403,173.2,246.2"/>
         <Button Margin="380,491,380,150.2" Click="Send_Click">Send</Button>
     </Grid>
 </Window>
