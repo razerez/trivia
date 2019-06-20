@@ -37,12 +37,13 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(std::vecto
 
 GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequest(std::vector<char> buffer)
 {
-	return GetPlayersInRoomRequest(0);
+	return GetPlayersInRoomRequest(int(buffer[4]));;
 }
 
 JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::vector<char> buffer)
 {
-	return JoinRoomRequest(0);
+	
+	return JoinRoomRequest(int(buffer[4]));;
 }
 
 CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(std::vector<char> buffer)

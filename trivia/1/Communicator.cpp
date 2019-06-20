@@ -100,13 +100,13 @@ void Communicator::clientHandler(SOCKET socket)
 				l.lock();
 				_m_clients[socket] = response->getNewHandler();
 				l.unlock();
-				if ((req._buffer[0] == 'I' || req._buffer[0] == 'U') && response->getResponse()[4] == 1)
-				{
-					void* menuHandler = response->getNewHandler();
-					username = static_cast<MenuRequestHandler*>(menuHandler)->getUser();
-				}
-				if (req._buffer[0] == 'O')
-					username = "";
+				//if ((req._buffer[0] == 'I' || req._buffer[0] == 'U') && response->getResponse()[4] == 1)
+				//{
+				//	void* menuHandler = response->getNewHandler();
+				//	username = static_cast<MenuRequestHandler*>(menuHandler)->getUser();
+				//}
+				//if (req._buffer[0] == 'O')
+				//	username = "";
 			}
 			else
 			{

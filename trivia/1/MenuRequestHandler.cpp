@@ -33,10 +33,9 @@ RequestResult MenuRequestHandler::getPlayersInRoom(Request req)
 //not finish need to check
 RequestResult MenuRequestHandler::getHighscores(Request req)
 {
-	//JsonResponsePacketSerializer::serializeResponse(HighscoreResponse(0, this->_m_highscoreTable->getHighscores()));
-
-	std::vector<char> buff;
-	IRequestHandler* nextHandler = nullptr; //currently there is no next handler
+	HighscoreResponse newHigh(1, *this->_m_highscoreTable);
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(HighscoreResponse(1, *this->_m_highscoreTable));
+	IRequestHandler * nextHandler = this;
 	return RequestResult(buff, nextHandler);
 }
 

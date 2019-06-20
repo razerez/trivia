@@ -8,8 +8,8 @@
 struct HighscoreResponse
 {
 	int _status;
-	std::vector<HighscoreTable> _highscores;
+	HighscoreTable _highscores;
 //-----------------------------------------
-	HighscoreResponse(int status, std::vector<HighscoreTable> highscore);
+	HighscoreResponse(int status,HighscoreTable highscore);
 	~HighscoreResponse();
 };
