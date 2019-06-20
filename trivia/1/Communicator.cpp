@@ -141,8 +141,8 @@ void Communicator::clientHandler(SOCKET socket)
 				exit(socket);
 				return;
 			}
-			//response->_newHandler = nullptr;//in order to not delete the new handler
-			//if (response != nullptr)delete(response);
+			response->_newHandler = nullptr;//in order to not delete the new handler
+			if (response != nullptr)delete(response);
 		}
 	}
 	catch (...)
