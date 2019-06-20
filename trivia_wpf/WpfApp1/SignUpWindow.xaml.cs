@@ -19,16 +19,27 @@ namespace WpfApp1
     /// </summary>
     public partial class SignUpWindow : Window
     {
-        public SignUpWindow()
+        private Program _p;
+        public SignUpWindow(Program p)
         {
             InitializeComponent();
+            this._p = p;
         }
 
         private void Sign_Up_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
-            menu.Show();
-            this.Close();
+            _p._username = usernameTextBox.Text;
+            if (this._p.signup(passwordTextBox.Text, emailTextBox.Text))
+            {
+                error.Visibility = Visibility.Hidden;
+                Menu menu = new Menu(this._p, true);
+                menu.Show();
+                this.Close();
+            }
+            else
+            {
+                error.Visibility = Visibility.Visible;
+            }
         }
 
         private void UsernameTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -38,7 +49,7 @@ namespace WpfApp1
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
+            Menu menu = new Menu(this._p);
             menu.Show();
             this.Close();
         }

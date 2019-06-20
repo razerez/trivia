@@ -17,8 +17,9 @@
             <TextBlock FontWeight="Bold" FontSize="20" Margin="99,108,352.2,378.2">password:</TextBlock>
             <TextBox Name="passwordTextBox" Margin="227,108,262.2,552.2"/>
             <Button Margin="642,76,116.2,565.2" Click="Sign_In_Click">sign in</Button>
+            <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontSize="15" Margin="267,51,-266.8,435.2">wrong details</TextBlock>
         </Grid>
-        <Button x:Name="LogOutButton" Margin="215,176,215.2,466.2" Content="sign out" Visibility="Hidden" FontSize="25"/>
+        <Button x:Name="LogOutButton" Margin="215,176,215.2,466.2" Content="log out" Visibility="Hidden" Click="logOutClick" FontSize="25"/>
         <Button Name="signUpButton" Margin="215,171,215.2,474.2" Height="40" Content="sign up" Visibility="Visible" FontSize="25" Click="SignUpButton_Click"/>
         <Button Name="JoinRoomButton" Margin="215,276,215.2,369.2" Height="40" Content="join room"   IsEnabled="False" FontSize="25" Click="JoinRoomButton_Click"/>
         <Button Name="createRoomButton" Margin="215,375,215.2,270.2" Height="40" Content="create room" IsEnabled="False" FontSize="25" Click="CreateRoomButton_Click"/>

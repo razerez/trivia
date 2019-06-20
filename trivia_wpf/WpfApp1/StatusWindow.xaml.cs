@@ -19,14 +19,16 @@ namespace WpfApp1
     /// </summary>
     public partial class StatusWindow : Window
     {
-        public StatusWindow()
+        private Program _p;
+        public StatusWindow(Program p)
         {
             InitializeComponent();
+            this._p = p;
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
+            Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();
         }

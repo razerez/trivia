@@ -19,15 +19,71 @@ namespace WpfApp1
     /// </summary>
     public partial class JoinRoomWindow : Window
     {
-        public JoinRoomWindow()
+        private Program _p;
+        public JoinRoomWindow(Program p)
         {
             InitializeComponent();
-            
+            this._p = p;
+            if(rooms.Items.Count == 0)
+            {
+                error.Visibility = Visibility.Visible;
+            }
+            fillRoomList();
+        }
+
+        public bool JoinRoom()
+        {
+            return this._p.joinRoom(Int32.Parse(getRoomID()));
+        }
+
+        public void fillRoomList()
+        {
+            string[] roomsArr = _p.getRooms();
+            if (roomsArr.Length == 0)
+                error.Visibility = Visibility.Visible;
+            else
+            {
+                error.Visibility = Visibility.Hidden;
+                for (int p = 0; p < roomsArr.Length; p++)
+                {
+                    string roomID = System.Convert.ToInt32(roomsArr[p].Substring(roomsArr[p].Length - 1, 1)[0]).ToString();
+                    string roomName = roomsArr[p].Substring(0, roomsArr[p].Length - 2);
+                    Add_Room(roomID +". " + roomName);
+                }
+            }
+        }
+
+
+        public string getRoomID()
+        {
+            int len = 0;
+            for (int i = 0; i < rooms.Text.Length; i++)
+            {
+                if (rooms.Text[i] == '.')
+                {
+                    len = i;
+                    i = rooms.Text.Length;
+                }
+            }
+            string roomId = rooms.Text.Substring(0, len);
+            return roomId;
+        }
+
+        public void fillPlayerList()
+        {
+            string roomId = getRoomID();
+            string[] playersArr = _p.getPlayersInRoom(Int32.Parse(roomId));
+
+            for (int p = 0; p < playersArr.Length; p++)
+            {
+                string name = playersArr[p];
+                Add_Player(name);
+            }
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
+            Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();
         }
@@ -43,6 +99,7 @@ namespace WpfApp1
         }
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
+            players.Items.Clear();
             rooms.SelectedItem = null;
             roomGrid.Visibility = Visibility.Hidden;
             JoinButton.IsEnabled = false;
@@ -52,7 +109,8 @@ namespace WpfApp1
         {
             if(!string.IsNullOrEmpty(rooms.Text))//check if room is selected
             {
-                WaitingRoomWindow waiting = new WaitingRoomWindow(false);
+                JoinRoom();
+                WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, false,"","","","");
                 waiting.Show();
                 this.Close();
             }
@@ -62,6 +120,8 @@ namespace WpfApp1
         {
             JoinButton.IsEnabled = true;
             roomGrid.Visibility = Visibility.Visible;
+            players.Items.Clear();
+            fillPlayerList();
         }
     }
 }

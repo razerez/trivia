@@ -19,21 +19,31 @@ namespace WpfApp1
     /// </summary>
     public partial class CreateRoomWindow : Window
     {
-        public CreateRoomWindow()
+        private Program _p;
+        public CreateRoomWindow(Program p)
         {
             InitializeComponent();
+            this._p = p;
+            createRoom();
+        }
+
+
+        public bool createRoom()
+        {
+            return this._p.createRoom(roomNameTextBox.Text, maxPlayersTextBox.Text, questionsNumTextBox.Text, questionTimeTextBox.Text);
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
+            Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();
         }
 
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            WaitingRoomWindow waiting = new WaitingRoomWindow(true);
+            WaitingRoomWindow waiting = new WaitingRoomWindow(this._p ,true,
+                                                           roomNameTextBox.Text, maxPlayersTextBox.Text, questionsNumTextBox.Text, questionTimeTextBox.Text);
             waiting.Show();
             this.Close();
         }

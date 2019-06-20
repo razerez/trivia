@@ -20,28 +20,61 @@ namespace WpfApp1
     public partial class Menu : Window
     {
         private Program _p;
-        public Menu(Program p)
+        public Menu(Program p, bool loggedIn)
         {
             InitializeComponent();
             this._p = p;
+            JoinRoomButton.IsEnabled = true;//\\
+            if(loggedIn)
+            {
+                secondView();
+                usernameTop.Text = this._p._username;
+            }
+            else
+            {
+                firstView();
+            }
+        }
+
+
+        public void firstView()
+        {
+            error.Visibility = Visibility.Hidden;
+            LogOutButton.Visibility = Visibility.Hidden;
+            signUpButton.Visibility = Visibility.Visible;
+            SignIn.Visibility = Visibility.Visible;
+            username.Visibility = Visibility.Hidden;
+            usernameTop.Visibility = Visibility.Hidden;
+            JoinRoomButton.IsEnabled = false;
+            createRoomButton.IsEnabled = false;
+            myStatusButton.IsEnabled = false;
+            bestScoresButton.IsEnabled = false;
+        }
+
+        public void secondView()
+        {
+            error.Visibility = Visibility.Hidden;
+            SignIn.Visibility = Visibility.Hidden;
+            username.Visibility = Visibility.Visible;
+            usernameTop.Visibility = Visibility.Visible;
+            signUpButton.Visibility = Visibility.Hidden;
+            LogOutButton.Visibility = Visibility.Visible;
+            JoinRoomButton.IsEnabled = true;
+            createRoomButton.IsEnabled = true;
+            myStatusButton.IsEnabled = true;
+            bestScoresButton.IsEnabled = true;
         }
 
         private void Sign_In_Click(object sender, RoutedEventArgs e)
         {
             if (Check_info(usernameTextBox.Text, passwordTextBox.Text))
             {
-                SignIn.Visibility = Visibility.Hidden;
-                username.Visibility = Visibility.Visible;
-                usernameTop.Visibility = Visibility.Visible;
-                signUpButton.Visibility = Visibility.Hidden;
-                LogOutButton.Visibility = Visibility.Visible;
-                JoinRoomButton.IsEnabled = true;
-                createRoomButton.IsEnabled = true;
-                myStatusButton.IsEnabled = true;
-                bestScoresButton.IsEnabled = true;
+                secondView();
             }
-
-
+            else
+            {
+                error.Visibility = Visibility.Visible;
+            }
         }
         private bool Check_info(string username, string password)
         {
@@ -58,42 +91,49 @@ namespace WpfApp1
 
         private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
+            this._p.exit();
             this.Close();
         }
 
         private void SignUpButton_Click(object sender, RoutedEventArgs e)
         {
-            SignUpWindow signup = new SignUpWindow();
+            SignUpWindow signup = new SignUpWindow(this._p);
             signup.Show();
             this.Close();
         }
 
         private void JoinRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            JoinRoomWindow joinRoom= new JoinRoomWindow();
+            JoinRoomWindow joinRoom= new JoinRoomWindow(this._p);
             joinRoom.Show();
             this.Close();
         }
 
         private void MyStatusButton_Click(object sender, RoutedEventArgs e)
         {
-            StatusWindow status = new StatusWindow();
+            StatusWindow status = new StatusWindow(this._p);
             status.Show();
             this.Close();
         }
 
         private void BestScoresButton_Click(object sender, RoutedEventArgs e)
         {
-            HighscoresWindow highScores = new HighscoresWindow();
+            HighscoresWindow highScores = new HighscoresWindow(this._p);
             highScores.Show();
             this.Close();
         }
 
         private void CreateRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateRoomWindow createRoom = new CreateRoomWindow();
+            CreateRoomWindow createRoom = new CreateRoomWindow(this._p);
             createRoom.Show();
             this.Close();
+        }
+
+        private void logOutClick(object sender, RoutedEventArgs e)
+        {
+            this._p.logout();
+            firstView();
         }
     }
 }
