@@ -71,7 +71,7 @@ namespace WpfApp1
         public bool login(string username, string password)
         {
             this._username = username;
-            string msg = "I" + "\0" + "\0" + (char)(30 + username.Length + password.Length) + username.Length + password.Length + " {\nusername:\"" + username + "\"\npassword:\"" + password + "\"\n}";
+            string msg = "I" + "\0" + "\0" + (char)(30 + username.Length + password.Length) + (char)(username.Length) + (char)(password.Length) + " {\nusername:\"" + username + "\"\npassword:\"" + password + "\"\n}";
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
                 return true;
@@ -91,7 +91,7 @@ namespace WpfApp1
 
         public void logout()
         {
-            string msg = "O" + "\0" + "\0" +14+"\0" + " {\nusername:\"";
+            string msg = "O" + "\0" + "\0" +(char)(14)+"\0" + " {\nusername:\"";
             byte[] res = sendAndReciveMessage(msg);
         }
 
@@ -104,7 +104,7 @@ namespace WpfApp1
 
         public bool joinRoom(int roomID)
         {
-            string msg = "J" + "\0" + "\0" + 1+roomID;
+            string msg = "J" + "\0" + "\0" + (char)(1) + roomID;
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
                 return true;
@@ -115,7 +115,7 @@ namespace WpfApp1
 
         public string[] getPlayersInRoom(int roomID)
         {
-            string msg = "P" + "\0" + "\0" + 1 + roomID;
+            string msg = "P" + "\0" + "\0" + (char)(1) + roomID;
             string[] playersArr = sendAndDecodeArrMessage(msg);
             return playersArr;
         }
@@ -129,7 +129,7 @@ namespace WpfApp1
 
         public bool createRoom(string roomName, string maxUsers, string questionsCount, string answerTime)
         {
-            string msg = "C" + "\0" + "\0" + (char)(59+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length)+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length + " {RoomName:\"" + roomName + "\"\nMaxUsers:" + maxUsers+ "\nQuestionsCount:" + questionsCount+ "\nAnswerTime:\"" + answerTime+ "\"\n}";
+            string msg = "C" + "\0" + "\0" + (char)(64+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length)+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length + " {\nRoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
                 return true;
@@ -139,25 +139,33 @@ namespace WpfApp1
 
         public void exit()
         {
-            string msg = "X" + "\0" + "\0" + 14 + "\0" + " {\nusername:\"";
+            string msg = "X" + "\0" + "\0" + (char)(14) + "\0" + " {\nusername:\"";
             byte[] res = sendAndReciveMessage(msg);
         }
 
         public byte[] sendAndReciveMessage(string s)
         {
+            byte[] final;
             Console.WriteLine("Client Says: " + s);
             byte[] buffer = new ASCIIEncoding().GetBytes(s);
             clientStream.Write(buffer, 0, buffer.Length);
             clientStream.Flush();
-            int len = 4;
-            buffer = new byte[len];
-            int bytesRead = clientStream.Read(buffer, 0, len);
-            len = buffer[1] << 16 | buffer[2] << 8 | buffer[3];
-            byte[] buffer1 = new byte[len];
-            bytesRead = clientStream.Read(buffer1, 0, len);
-            byte[] final = new byte[buffer.Length + buffer1.Length];
-            System.Buffer.BlockCopy(buffer, 0, final, 0, buffer.Length);
-            System.Buffer.BlockCopy(buffer1, 0, final, buffer.Length, buffer1.Length);
+            if (s[0] !='X')
+            {
+                int len = 4;
+                buffer = new byte[len];
+                int bytesRead = clientStream.Read(buffer, 0, len);
+                len = buffer[1] << 16 | buffer[2] << 8 | buffer[3];
+                byte[] buffer1 = new byte[len];
+                bytesRead = clientStream.Read(buffer1, 0, len);
+                final = new byte[buffer.Length + buffer1.Length];
+                System.Buffer.BlockCopy(buffer, 0, final, 0, buffer.Length);
+                System.Buffer.BlockCopy(buffer1, 0, final, buffer.Length, buffer1.Length);
+            }
+            else
+            {
+                final = new byte[0];
+            }
             return final;
         }
 

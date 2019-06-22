@@ -35,7 +35,11 @@ RequestHandlerFactory::RequestHandlerFactory(IDataBase * l)
 RequestHandlerFactory::~RequestHandlerFactory()
 {
 	if(_m_loginManager!=nullptr)delete(_m_loginManager);
+	_m_loginManager = nullptr;
 	if (loggedUsers != nullptr)delete(loggedUsers);
+	loggedUsers = nullptr;
 	if (_m_highscoreTable != nullptr)delete(_m_highscoreTable);
+	_m_highscoreTable = nullptr;
 	if (_m_roomManager != nullptr)delete(_m_roomManager);
+	_m_roomManager = nullptr;
 }

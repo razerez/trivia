@@ -63,7 +63,7 @@ def main():
                 maxUsers = input("Enter max users: ")
                 questionsCount = input("Enter question count: ")
                 answerTime = input("EnterAnswerTime: ")
-                msg = 'C' + chr(0) + chr(0) + chr(60 + len(roomName) + len(maxUsers)+ len(questionsCount)+ len(answerTime)) + chr(len(roomName))+chr(len(maxUsers))+chr(len(questionsCount))+chr(len(questionsCount)) + " {\nRoomName:\"" + roomName + "\"\nMaxUsers:" + chr(int(maxUsers)) + "\nQuestionsCount:" + chr(int(questionsCount)) + "\nanswerTime:\"" + answerTime + "\"\n}"
+                msg = 'C' + chr(0) + chr(0) + chr(64 + len(roomName) + len(maxUsers)+ len(questionsCount)+ len(answerTime)) + chr(len(roomName))+chr(len(maxUsers))+chr(len(questionsCount))+chr(len(questionsCount)) + " {\nRoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers + "\"\nQuestionsCount:\"" + questionsCount + "\"\nanswerTime:\"" + answerTime + "\"\n}"
             elif choice == 8:
                 msg = 'O' + chr(0) + chr(0) + chr(14) + chr(0) + " {\nusername:\""
             else:

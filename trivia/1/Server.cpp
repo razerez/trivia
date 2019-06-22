@@ -8,7 +8,7 @@ Server::Server(IDataBase * db)
 
 Server::~Server()
 {
-	delete(_m_communicator);
+	if(_m_communicator!=nullptr)delete(_m_communicator);
 	_m_communicator = nullptr;
 }
 

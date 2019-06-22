@@ -15,7 +15,7 @@ Communicator::~Communicator()
 	std::unique_lock<std::mutex> l(lock);
 	_m_clients.clear();
 	l.unlock();
-	delete(_m_handlerFactory);
+	if(_m_handlerFactory!=nullptr)delete(_m_handlerFactory);
 	_m_handlerFactory = nullptr;
 	try
 	{
@@ -103,11 +103,12 @@ void Communicator::clientHandler(SOCKET socket)
 			std::unique_lock<std::mutex> l(lock);
 			IRequestHandler* handler = _m_clients[socket];
 			l.unlock();
-			if ((req._buffer[0] == 'X' || req._buffer[0] == 'O') && username != "")//if we need to quit
+			if (req._buffer[0] == 'X')
+				throw("EXIT NOW");
+			else if ((req._buffer[0] == 'O') && username != "")//if we need to log out
 			{
 				req._buffer = bufferOfLoggedUser(LoggedUser(username),req._buffer);
 			}
-
 			if (handler->isRequestRelevant(req))
 			{
 				response = new RequestResult(handler->handleRequest(req));//take care of request
@@ -132,17 +133,10 @@ void Communicator::clientHandler(SOCKET socket)
 				for (int i = 0; i < 3; i++)
 					response->_response.push_back('0');
 			}
-			if (req._buffer[0] != 'X')
-				sendMsg(vectorCharToString(response->getResponse()), socket);
-			else//EXIT
-			{
-				if (response != nullptr)
-					delete(response);
-				exit(socket);
-				return;
-			}
+			sendMsg(vectorCharToString(response->getResponse()), socket);
 			response->_newHandler = nullptr;//in order to not delete the new handler
 			if (response != nullptr)delete(response);
+			response = nullptr;
 		}
 	}
 	catch (...)
@@ -150,13 +144,14 @@ void Communicator::clientHandler(SOCKET socket)
 		if (username != "")
 		{
 			vector<char> v;
-			vector<char> v1= stringToVectorChar("{\nusername:\"");
+			vector<char> v1= stringToVectorChar(" {\nusername:\"");
 			v.push_back('X');
 			v.push_back(0);
 			v.push_back(0);
-			v.push_back(username.size()+12);
+			v.push_back(username.size()+14);
 			v.push_back(username.size());
 			v.insert(v.end(),v1.begin(),v1.end());
+			v.pop_back();
 			v = bufferOfLoggedUser(LoggedUser(username), v); 
 			LoginRequestHandler *r = _m_handlerFactory->createLoginRequestHandler();
 			r->handleRequest(Request('X', time(0), v));
@@ -165,6 +160,7 @@ void Communicator::clientHandler(SOCKET socket)
 		}
 		if (response != nullptr)
 			delete(response);
+		response = nullptr;
 		exit(socket);
 		return;
 	}

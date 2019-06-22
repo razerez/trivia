@@ -11,7 +11,8 @@ int main()
 	SqliteDatabase * myDatabase = new SqliteDatabase{};
 	Server server(myDatabase);
 	server.run();
-	delete(myDatabase);
+	if(myDatabase!=nullptr)delete(myDatabase);
+	myDatabase = nullptr;
 	system("pause");
 	return 0;
 }
