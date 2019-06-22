@@ -33,7 +33,7 @@ int RoomManager::createRoom(LoggedUser loggedUsers, RoomData roomData)
 		std::vector<LoggedUser> vec;
 		vec.push_back(loggedUsers);
 		this->_m_rooms.insert(std::pair<int, Room>(this->_m_counter, Room(roomData, vec)));
-		std::cout << loggedUsers.getUsername() << " create the room: " << roomData._name << std::endl;
+		std::cout<<"User " << loggedUsers.getUsername() << " Created The Room: " << roomData._name << std::endl;
 		return 1;
 	}
 	catch (...)
