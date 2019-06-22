@@ -129,7 +129,7 @@ namespace WpfApp1
 
         public bool createRoom(string roomName, string maxUsers, string questionsCount, string answerTime)
         {
-            string msg = "C" + "\0" + "\0" + (char)(64+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length)+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length + " {\nRoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
+            string msg = "C" + "\0" + "\0" + (char)(64+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length)+ (char)(roomName.Length)+ (char)(maxUsers.Length)+ (char)(questionsCount.Length)+(char)(answerTime.Length) + " {\nRoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
                 return true;

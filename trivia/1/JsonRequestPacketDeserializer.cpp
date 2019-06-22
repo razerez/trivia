@@ -52,9 +52,9 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::v
 
 CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(std::vector<char> buffer)
 {
-	std::string roomName = analyzeJson(buffer, "RoomName:", 0, CODE_SEGMENT + LENGTH_SEGMENT, ROOM_NAME_SIZE_SEGMENT);
+	std::string roomName = analyzeJson(buffer, "RoomName:", 1, CODE_SEGMENT + LENGTH_SEGMENT, ROOM_NAME_SIZE_SEGMENT);
 	std::string maxUsers = analyzeJson(buffer, "MaxUsers:", this->_dataLocationSign, CODE_SEGMENT + LENGTH_SEGMENT + ROOM_NAME_SIZE_SEGMENT, MAX_USERS_SIZE_SEGMENT);
-	std::string questionCount = analyzeJson(buffer, "QuestionCount:", this->_dataLocationSign, CODE_SEGMENT + LENGTH_SEGMENT + ROOM_NAME_SIZE_SEGMENT + MAX_USERS_SIZE_SEGMENT, QUESTION_COUNT_SIZE_SEGMENT);
+	std::string questionCount = analyzeJson(buffer, "QuestionsCount:", this->_dataLocationSign, CODE_SEGMENT + LENGTH_SEGMENT + ROOM_NAME_SIZE_SEGMENT + MAX_USERS_SIZE_SEGMENT, QUESTION_COUNT_SIZE_SEGMENT);
 	std::string answerTime = analyzeJson(buffer, "AnswerTime:", this->_dataLocationSign, CODE_SEGMENT + LENGTH_SEGMENT + ROOM_NAME_SIZE_SEGMENT + MAX_USERS_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT, ANSWER_TIME_SIZE_SEGMENT);
 	return CreateRoomRequest(roomName, std::stoi(maxUsers), std::stoi(questionCount), std::stoi(answerTime));
 }
@@ -91,6 +91,7 @@ size_t findStrIndex(std::string str, std::vector<char> buffer, int skipTo)
 	std::transform(str.begin(), str.end(), str.begin(), ::tolower);//make the str lowercase -> not case sensetive
 	std::string bufferStr(buffer.begin(), buffer.end());//crate string from vector
 	bufferStr = bufferStr.substr(skipTo - 1, bufferStr.size());//cut all until startPoint
+	std::transform(bufferStr.begin(), bufferStr.end(), bufferStr.begin(), ::tolower);//make the str lowercase -> not case sensetive
 	size_t index = bufferStr.find(str);
 	if (index == std::string::npos)//string not found
 	{
