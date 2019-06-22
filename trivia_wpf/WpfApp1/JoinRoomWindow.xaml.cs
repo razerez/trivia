@@ -46,7 +46,7 @@ namespace WpfApp1
                 error.Visibility = Visibility.Hidden;
                 for (int p = 0; p < roomsArr.Length; p++)
                 {
-                    string roomID = System.Convert.ToInt32(roomsArr[p].Substring(roomsArr[p].Length - 1, 1)[0]).ToString();
+                    string roomID = roomsArr[p].Substring(roomsArr[p].Length - 1, 1);
                     string roomName = roomsArr[p].Substring(0, roomsArr[p].Length - 2);
                     Add_Room(roomID +". " + roomName);
                 }
