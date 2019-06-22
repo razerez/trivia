@@ -7,7 +7,6 @@ RequestResult MenuRequestHandler::signOut(Request req)
 {
 	RequestResult result = this->_m_handlerFactory->createLoginRequestHandler(_m_username)->handleRequest(req);
 	result._newHandler = this->_m_handlerFactory->createLoginRequestHandler(); // need to change
-	_m_roomManager.
 	return result;
 }
 
