@@ -28,7 +28,15 @@ namespace WpfApp1
             int i = 4;
             int strIndex = 0;
             string currStr = "";
-            //"P000{\nlength:4\nNames[\n\"Elay\":1\n\"Nitay\":2\n\"Raz\":3\n\"Dana\":4\n]\n}"
+            //"C000{\nlength:4\nNames[\n\"Elay\":1\n\"Nitay\":2\n\"Raz\":3\n\"Dana\":4\n]\n}"
+            /*
+             C000{
+             length:1
+             Names[
+             "Elay":2
+             ]
+
+             */
             string[] arr = new string[0];
             while (Convert.ToChar(res[i]).ToString() != "]")
             {
@@ -63,7 +71,7 @@ namespace WpfApp1
         public bool login(string username, string password)
         {
             this._username = username;
-            string msg = "I" + "\0" + "\0" + (char)(30 + username.Length + password.Length) + (char)(username.Length) + (char)(password.Length) + " {\nusername:\"" + username + "\"\npassword:\"" + password + "\"\n}";
+            string msg = "I" + "\0" + "\0" + (char)(30 + username.Length + password.Length) + username.Length + password.Length + " {\nusername:\"" + username + "\"\npassword:\"" + password + "\"\n}";
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
                 return true;
@@ -96,7 +104,7 @@ namespace WpfApp1
 
         public bool joinRoom(int roomID)
         {
-            string msg = "J" + "\0" + "\0" + (char)1+roomID;
+            string msg = "J" + "\0" + "\0" + 1+roomID;
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
                 return true;
@@ -107,16 +115,12 @@ namespace WpfApp1
 
         public string[] getPlayersInRoom(int roomID)
         {
-            string msg = "P" + "\0" + "\0" + (char)1 + roomID;
+            string msg = "P" + "\0" + "\0" + 1 + roomID;
             string[] playersArr = sendAndDecodeArrMessage(msg);
             return playersArr;
         }
 
-<<<<<<< trivia_wpf/WpfApp1/ConsoleApp1.cs
-        public void getHighScores()
-=======
-        public string[] getHighScores()//
->>>>>>> trivia_wpf/WpfApp1/ConsoleApp1.cs
+        public string[] getHighScores()
         {
             string msg = "H" + "\0" + "\0" + "\0";
             string[] highScoresArr = sendAndDecodeArrMessage(msg);
@@ -125,19 +129,7 @@ namespace WpfApp1
 
         public bool createRoom(string roomName, string maxUsers, string questionsCount, string answerTime)
         {
-<<<<<<< trivia_wpf/WpfApp1/ConsoleApp1.cs
-            Console.WriteLine("Enter Room Name");
-            string roomName = Console.ReadLine();
-            Console.WriteLine("Enter Max Users");
-            string maxUsers = Console.ReadLine();
-            Console.WriteLine("Enter Questions Count");
-            string questionsCount = Console.ReadLine();
-            Console.WriteLine("Enter Answer Time");
-            string answerTime = Console.ReadLine();
-            string msg = "P" + "\0" + "\0" + (char)(59+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length) + " {RoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
-=======
-            string msg = "P" + "\0" + "\0" + (char)(58+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length) + "{RoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
->>>>>>> trivia_wpf/WpfApp1/ConsoleApp1.cs
+            string msg = "C" + "\0" + "\0" + (char)(59+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length)+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length + " {RoomName:\"" + roomName + "\"\nMaxUsers:" + maxUsers+ "\nQuestionsCount:" + questionsCount+ "\nAnswerTime:\"" + answerTime+ "\"\n}";
             byte[] res = sendAndReciveMessage(msg);
             if (res[4] == (char)(1))
                 return true;
@@ -157,13 +149,16 @@ namespace WpfApp1
             byte[] buffer = new ASCIIEncoding().GetBytes(s);
             clientStream.Write(buffer, 0, buffer.Length);
             clientStream.Flush();
-            int len = client.ReceiveBufferSize;
+            int len = 4;
             buffer = new byte[len];
             int bytesRead = clientStream.Read(buffer, 0, len);
-
-
-            
-            return buffer;
+            len = buffer[1] << 16 | buffer[2] << 8 | buffer[3];
+            byte[] buffer1 = new byte[len];
+            bytesRead = clientStream.Read(buffer1, 0, len);
+            byte[] final = new byte[buffer.Length + buffer1.Length];
+            System.Buffer.BlockCopy(buffer, 0, final, 0, buffer.Length);
+            System.Buffer.BlockCopy(buffer1, 0, final, buffer.Length, buffer1.Length);
+            return final;
         }
 
         public void ClientMain()

@@ -72,9 +72,6 @@ MenuRequestHandler::MenuRequestHandler(LoggedUser * username, RoomManager * m_ro
 //finish
 MenuRequestHandler::~MenuRequestHandler()
 {
-	delete(this->_m_handlerFactory);
-	delete(this->_m_highscoreTable);
-	delete(this->_m_roomManager);
 }
 
 LoggedUser MenuRequestHandler::getUsername()

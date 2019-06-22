@@ -14,10 +14,6 @@ LoginRequestHandler::LoginRequestHandler(LoginManager * m_loginManager, RequestH
 
 LoginRequestHandler::~LoginRequestHandler()
 {
-	delete(this->_m_handlerFactory);
-	this->_m_handlerFactory = nullptr;
-	delete(this->_m_loginManager);
-	this->_m_loginManager = nullptr;
 }
 
 bool LoginRequestHandler::isRequestRelevant(Request req)
