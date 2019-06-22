@@ -15,6 +15,7 @@ int RoomManager::joinRoom(LoggedUser loggedUsers, int room)
 	try
 	{
 		this->_m_rooms.find(room)->second.addUser(loggedUsers);
+		std::cout << loggedUsers.getUsername() << " join to the room: " << this->_m_rooms.find(room)->second.getRoomData()._name << std::endl;
 		return 1;
 	}
 	catch (...)
@@ -32,6 +33,7 @@ int RoomManager::createRoom(LoggedUser loggedUsers, RoomData roomData)
 		std::vector<LoggedUser> vec;
 		vec.push_back(loggedUsers);
 		this->_m_rooms.insert(std::pair<int, Room>(this->_m_counter, Room(roomData, vec)));
+		std::cout << loggedUsers.getUsername() << " create the room: " << roomData._name << std::endl;
 		return 1;
 	}
 	catch (...)

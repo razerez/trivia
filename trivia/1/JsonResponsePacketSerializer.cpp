@@ -50,6 +50,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse roomRes)
 {
+	std::cout << "Sending rooms: ";
 	std::string data = "{\nlength:" + std::to_string(roomRes._rooms.size()) + "\nRooms[";
 
 
@@ -57,7 +58,11 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsRespon
 	for (std::vector<RoomData>::iterator it = roomRes._rooms.begin(); it != roomRes._rooms.end(); ++it)
 	{
 		data += "\n\"" + (*it)._name + "\":" + std::to_string((*it)._id);
+		std::cout << "-"<<(*it)._name << ":" << std::to_string((*it)._id);
 	}
+
+	std::cout << "-\n";
+
 	data += "\n]\n}";
 
 	std::vector<char> optionAndLenghVec;
@@ -88,10 +93,16 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRo
 	
 	std::string data = "{\nlength:" + std::to_string(playerInRoomRes._players.size()) + "\nNames[";
 
+	std::cout << "Sending names: ";
+
 	for (std::vector<std::string>::iterator it = playerInRoomRes._players.begin(); it != playerInRoomRes._players.end(); ++it)
 	{
 		data += "\n\"" + (*it) + "\"";
+		std::cout << "-" << (*it);
 	}
+
+	std::cout << "-\n";
+
 	data += "\n]\n}";
 
 	std::vector<char> optionAndLenghVec;
@@ -146,10 +157,16 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(HighscoreRespo
 	
 	map<LoggedUser*, int> mymap = highscoreRes._highscores.getHighscores();
 	
+	std::cout << "Sending highscors: ";
+
 	for (std::map<LoggedUser*, int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
 	{
 		data += "\n\"" + it->first->getUsername() + "\":" + std::to_string(it->second);
+		std::cout << "-" << it->first->getUsername() << ":" << std::to_string(it->second);
 	}
+
+	std::cout << "-\n";
+
 	data += "\n]\n}";
 
 	std::vector<char> optionAndLenghVec;
