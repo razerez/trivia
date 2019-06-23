@@ -198,5 +198,12 @@ namespace WpfApp1
             Menu m = new Menu(this, false);
             m.Show();
         }
+        ~Program()
+        {
+            try { exit(); }
+            catch (Exception e){ return;
+            }
+        }
+
     }
 }
