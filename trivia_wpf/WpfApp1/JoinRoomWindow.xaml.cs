@@ -34,7 +34,7 @@ namespace WpfApp1
         public bool JoinRoom()
         {
             int id;
-            bool res=Int32.TryParse(getRoomID(), out id);
+            bool res = Int32.TryParse(getRoomID(), out id);
             if (res == false)
                 return false;
             return this._p.joinRoom(id);
@@ -117,6 +117,7 @@ namespace WpfApp1
         {
             players.Items.Clear();
             rooms.SelectedItem = null;
+            rooms.Items.Clear();
             roomGrid.Visibility = Visibility.Hidden;
             JoinButton.IsEnabled = false;
             fillRoomList();
@@ -138,6 +139,7 @@ namespace WpfApp1
             JoinButton.IsEnabled = true;
             roomGrid.Visibility = Visibility.Visible;
             players.Items.Clear();
+
             fillPlayerList();
         }
     }
