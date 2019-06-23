@@ -33,11 +33,16 @@ namespace WpfApp1
 
         public bool JoinRoom()
         {
-            return this._p.joinRoom(Int32.Parse(getRoomID()));
+            int id;
+            bool res=Int32.TryParse(getRoomID(), out id);
+            if (res == false)
+                return false;
+            return this._p.joinRoom(id);
         }
 
         public void fillRoomList()
         {
+            rooms.Items.Clear();
             string[] roomsArr = _p.getRooms();
             if (roomsArr.Length == 0)
                 error.Visibility = Visibility.Visible;
@@ -46,7 +51,7 @@ namespace WpfApp1
                 error.Visibility = Visibility.Hidden;
                 for (int p = 0; p < roomsArr.Length; p++)
                 {
-                    string roomID = System.Convert.ToInt32(roomsArr[p].Substring(roomsArr[p].Length - 1, 1)[0]).ToString();
+                    string roomID = System.Convert.ToInt32((char)(roomsArr[p].Substring(roomsArr[p].Length - 1, 1)[0])).ToString();
                     string roomName = roomsArr[p].Substring(0, roomsArr[p].Length - 2);
                     Add_Room(roomID +". " + roomName);
                 }
@@ -87,7 +92,7 @@ namespace WpfApp1
             menu.Show();
             this.Close();
         }
-
+        
         private void Add_Room(string name)
         {
             rooms.Items.Add(name);
@@ -103,6 +108,7 @@ namespace WpfApp1
             rooms.SelectedItem = null;
             roomGrid.Visibility = Visibility.Hidden;
             JoinButton.IsEnabled = false;
+            fillRoomList();
         }
 
         private void Join_Click(object sender, RoutedEventArgs e)

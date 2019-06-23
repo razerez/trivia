@@ -1,8 +1,6 @@
 import socket
 import sys
 import os
-from termcolor import colored
-
 
 IP = "127.0.0.1"
 PORT = 8821
@@ -54,7 +52,7 @@ def main():
                 roomid = input("Enter Room ID: ")
                 msg = 'P' + chr(0) + chr(0) + chr(1) +chr(int(roomid))
             elif choice == 5:
-                msg = 'H' + chr(0) + chr(0) + chr(0)
+                msg = 'H' + '\0' +'\0'+'\0'
             elif choice == 6:
                 roomid = input("Enter Room ID: ")
                 msg = 'J' + chr(0) + chr(0) + chr(1) + chr(int(roomid))

@@ -41,11 +41,13 @@ namespace WpfApp1
 
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            createRoom();
-            WaitingRoomWindow waiting = new WaitingRoomWindow(this._p ,true,
+            if(roomNameTextBox.Text!=""&& maxPlayersTextBox.Text != "" && questionsNumTextBox.Text != "" && questionTimeTextBox.Text != "" && createRoom())
+            {
+            WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, true,
                                                            roomNameTextBox.Text, maxPlayersTextBox.Text, questionsNumTextBox.Text, questionTimeTextBox.Text);
             waiting.Show();
             this.Close();
+            }
         }
     }
 }

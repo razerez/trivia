@@ -9,6 +9,6 @@ string vectorCharToString(vector<char> v)
 vector<char> stringToVectorChar(string str)
 {
 	std::vector<char> v(str.begin(), str.end());
-	v.push_back('\0');
+
 	return v;
 }

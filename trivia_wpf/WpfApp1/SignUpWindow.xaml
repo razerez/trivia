@@ -8,15 +8,15 @@
         Title="SignUpWindow" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">MAGSHITRIVIA</TextBlock>
+        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
         <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontSize="15" Margin="0,130,0.2,356.2">wrong details</TextBlock>
-        <TextBlock FontWeight="Bold" FontSize="20" Margin="121,161,210.2,252.2">username:</TextBlock>
+        <TextBlock FontWeight="Bold" FontSize="20" Margin="121,161,210.2,252.2">Username:</TextBlock>
         <TextBox Name="usernameTextBox" TextChanged="UsernameTextBox_TextChanged" Margin="249,161,240.2,499.2"></TextBox>
-        <TextBlock FontWeight="Bold" FontSize="20" Margin="121,202,330.2,284.2">password:</TextBlock>
+        <TextBlock FontWeight="Bold" FontSize="20" Margin="121,202,330.2,284.2">Password:</TextBlock>
         <TextBox Name="passwordTextBox" Margin="249,202,240.2,458.2"/>
-        <TextBlock FontWeight="Bold" FontSize="20" Margin="121,245,330.2,241.2">email:</TextBlock>
+        <TextBlock FontWeight="Bold" FontSize="20" Margin="121,245,330.2,241.2">Email:</TextBlock>
         <TextBox Name="emailTextBox" Margin="249,245,240.2,415.2"/>
-        <Button Margin="379,285,379.2,356.2" Click="Sign_Up_Click">sign up</Button>
-        <Button Margin="748,10,10.2,631.2" Click="Back_Click">back</Button>
+        <Button Margin="379,285,379.2,356.2" Click="Sign_Up_Click">Sign Up</Button>
+        <Button Margin="748,10,10.2,631.2" Click="Back_Click">Back</Button>
     </Grid>
 </Window>

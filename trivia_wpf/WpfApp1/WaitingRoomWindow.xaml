@@ -8,7 +8,7 @@
         Title="WatingRoom" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">MAGSHITRIVIA</TextBlock>
+        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
         <TextBlock Name='roomName1' FontWeight="Bold" FontSize="25" Text="roomName" TextAlignment="Center" Margin="0,84,0.2,560.2"/>
         <TextBlock Name='roomName2'    FontSize="15" FontWeight="Bold" Text="room name:" Margin="213,140,-213.8,510.2"/> 
         <TextBlock Name='maxPlayers'   FontSize="15" FontWeight="Bold" Text="max number of players:" Margin="213,165,-213.8,480.2"/>
@@ -17,8 +17,6 @@
 
         <TextBlock FontSize="25" FontWeight="Bold" TextAlignment="Center" Margin="0,270,0.2,348.2">Current participants are:</TextBlock>
         <ComboBox Name="participants" Margin="125,317,125,319.2" >
-            <ComboBoxItem>temp1</ComboBoxItem>
-            <ComboBoxItem>temp2</ComboBoxItem>
         </ComboBox>
         <Button Name="closeButton" Margin="331,443,331,182.2" FontSize="30" Click="Close_Click" Content="Close room"/>
         <Button Name="start_button" Margin="331,543,331,82.2" FontSize="30" Click="Start_Click" Content="Start"/>

@@ -67,6 +67,8 @@ namespace WpfApp1
 
         private void Sign_In_Click(object sender, RoutedEventArgs e)
         {
+            if (usernameTextBox.Text == "" || passwordTextBox.Text == "")
+                return;
             if (Check_info(usernameTextBox.Text, passwordTextBox.Text))
             {
                 secondView();

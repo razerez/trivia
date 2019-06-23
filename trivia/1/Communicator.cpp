@@ -51,7 +51,6 @@ std::vector<char> bufferOfLoggedUser(LoggedUser myUser, std::vector<char> buffer
 	buffer[4] = char(size);
 	buffer[3] = char(14 + size);
 	std::vector<char> newVec = stringToVectorChar(myUser.getUsername());
-	newVec.pop_back();
 	newVec.push_back('"'); //""\n}
 	newVec.push_back('\n');
 	newVec.push_back('}');
@@ -151,7 +150,6 @@ void Communicator::clientHandler(SOCKET socket)
 			v.push_back(username.size()+14);
 			v.push_back(username.size());
 			v.insert(v.end(),v1.begin(),v1.end());
-			v.pop_back();
 			v = bufferOfLoggedUser(LoggedUser(username), v); 
 			LoginRequestHandler *r = _m_handlerFactory->createLoginRequestHandler();
 			r->handleRequest(Request('X', time(0), v));

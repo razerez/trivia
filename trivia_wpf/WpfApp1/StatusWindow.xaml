@@ -8,12 +8,12 @@
         Title="MyStatus" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">MAGSHITRIVIA</TextBlock>
+        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
         <TextBlock FontWeight="Bold" FontSize="30" TextAlignment="Center" Margin="0,103,0,-103.8">My Preformences:</TextBlock>
-        <TextBlock Name="gameNum" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,170,0,-169.8" Text="number of games: "/>
-        <TextBlock Name="rightAnswersNum" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,220,0,-169.8" Text="number of right answers: "/>
-        <TextBlock Name="wrongAnswersNum" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,270,0,-169.8" Text="number of wrong answers: "/>
-        <TextBlock Name="avarageTimeNum" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,320,0,-169.8" Text="average time for answer: "/>
+        <TextBlock Name="gameNum" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,170,0,-169.8" Text="Number of Games: "/>
+        <TextBlock Name="rightAnswersNum" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,220,0,-169.8" Text="Number of Right Answers: "/>
+        <TextBlock Name="wrongAnswersNum" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,270,0,-169.8" Text="Number of wrong Answers: "/>
+        <TextBlock Name="avarageTimeNum" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,320,0,-169.8" Text="Average Time for Answer: "/>
         <Button Margin="748,10,10.2,631.2" Click="Back_Click">back</Button>
         <Rectangle Fill="Black" HorizontalAlignment="Left" Height="14" Margin="0,84,0,0" Stroke="Black" VerticalAlignment="Top" Width="879"/>
     </Grid>
