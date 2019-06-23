@@ -57,8 +57,8 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsRespon
 
 	for (std::vector<RoomData>::iterator it = roomRes._rooms.begin(); it != roomRes._rooms.end(); ++it)
 	{
-		data += "\n\"" + (*it)._name + "\":" + char((*it)._id);
-		std::cout << "-"<<(*it)._name << ":" << char((*it)._id);
+		data += "\n\"" + (*it)._name + "\":" + std::to_string((*it)._id);
+		std::cout << "-"<<(*it)._name << ":" << std::to_string((*it)._id);
 	}
 
 	std::cout << "-\n";

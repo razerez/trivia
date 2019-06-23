@@ -26,6 +26,7 @@ namespace WpfApp1
             bool flag2 = true;
             bool flag3 = true;
             int i = 4;
+            int length;
             int strIndex = 0;
             string currStr = "";
             //"C000{\nlength:4\nNames[\n\"Elay\":1\n\"Nitay\":2\n\"Raz\":3\n\"Dana\":4\n]\n}"
@@ -44,7 +45,17 @@ namespace WpfApp1
                 if (currDataChar == ":" && flag)
                 {
                     flag = false;
-                    int length = Int32.Parse(Convert.ToChar(res[i + 1]).ToString());
+
+                    string lengthString = "";
+                    bool loopFlag = true;
+                    for (int k = 1; k != res.Length - i - 1&&loopFlag; k++)
+                    {
+                        if (res[i + k] != '\n')
+                            lengthString += ((char)res[i + k]).ToString();
+                        else
+                            loopFlag = false;
+                    }
+                    length = Int32.Parse(lengthString);
                     if (length == 0)
                         return arr;
                     arr= new string[length];

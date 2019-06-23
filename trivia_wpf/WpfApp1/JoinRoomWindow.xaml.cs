@@ -49,10 +49,20 @@ namespace WpfApp1
             else
             {
                 error.Visibility = Visibility.Hidden;
-                for (int p = 0; p < roomsArr.Length; p++)
+                for (int i = 0; i < roomsArr.Length; i++)
                 {
-                    string roomID = System.Convert.ToInt32((char)(roomsArr[p].Substring(roomsArr[p].Length - 1, 1)[0])).ToString();
-                    string roomName = roomsArr[p].Substring(0, roomsArr[p].Length - 2);
+                    bool flag=true;
+                    int colPlace=0;
+                    for (int j = 0; j < roomsArr[i].Length&&flag; j++)
+                    {
+                        if (roomsArr[i][j] == ':')
+                        {
+                            flag = false;
+                            colPlace = j;
+                        }
+                    }
+                    string roomName = roomsArr[i].Substring(0, colPlace);
+                    string roomID = roomsArr[i].Substring(colPlace+1,roomsArr[i].Length-colPlace-1);
                     Add_Room(roomID +". " + roomName);
                 }
             }
@@ -62,15 +72,16 @@ namespace WpfApp1
         public string getRoomID()
         {
             int len = 0;
-            for (int i = 0; i < rooms.Text.Length; i++)
+            string selection = rooms.SelectedValue.ToString();
+            for (int i = 0; i < selection.Length; i++)
             {
-                if (rooms.Text[i] == '.')
+                if (selection[i] == '.')
                 {
                     len = i;
-                    i = rooms.Text.Length;
+                    i = selection.Length;
                 }
             }
-            string roomId = rooms.Text.Substring(0, len);
+            string roomId = selection.Substring(0, len);
             return roomId;
         }
 
