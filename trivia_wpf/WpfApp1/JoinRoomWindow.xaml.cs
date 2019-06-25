@@ -89,13 +89,29 @@ namespace WpfApp1
 
         public void fillPlayerList()
         {
-            string roomId = getRoomID();
-            string[] playersArr = _p.getPlayersInRoom(Int32.Parse(roomId));
-
-            for (int p = 0; p < playersArr.Length; p++)
+            rooms.Items.Clear();
+            string[] roomsArr = _p.getRooms();
+            if (roomsArr.Length == 0)
+                error.Visibility = Visibility.Visible;
+            else
             {
-                string name = playersArr[p];
-                Add_Player(name);
+                error.Visibility = Visibility.Hidden;
+                for (int i = 0; i < roomsArr.Length; i++)
+                {
+                    bool flag = true;
+                    int colPlace = 0;
+                    for (int j = 0; j < roomsArr[i].Length && flag; j++)
+                    {
+                        if (roomsArr[i][j] == ':')
+                        {
+                            flag = false;
+                            colPlace = j;
+                        }
+                    }
+                    string roomName = roomsArr[i].Substring(0, colPlace);
+                    string roomID = roomsArr[i].Substring(colPlace + 1, roomsArr[i].Length - colPlace - 1);
+                    Add_Room(roomID + ". " + roomName);
+                }
             }
         }
 
