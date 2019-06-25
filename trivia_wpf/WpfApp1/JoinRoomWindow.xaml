@@ -20,6 +20,7 @@
         </Grid>
         <Button Margin="370,462,370,183.2" Click="Refresh_Click" RenderTransformOrigin="0.5,0.504">Refresh</Button>
         <Button Margin="748,10,10.2,631.2" Click="Back_Click">Back</Button>
+        <TextBlock Visibility= "Hidden" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,-10.8,-5.8"/>
         <Button Name="JoinButton" Margin="331,543,331,82.2" FontSize="30" IsEnabled="False" Click="Join_Click" Content="Join"/>
     </Grid>
 </Window>

@@ -24,7 +24,8 @@ namespace WpfApp1
         {
             InitializeComponent();
             this._p = p;
-            if(rooms.Items.Count == 0)
+            usernameTop.Text = this._p._username;
+            if (rooms.Items.Count == 0)
             {
                 error.Visibility = Visibility.Visible;
             }
