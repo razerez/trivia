@@ -25,6 +25,7 @@ namespace WpfApp1
             InitializeComponent();
             this._p = p;
             usernameTop.Text = this._p._username;
+            usernameTop.Visibility = Visibility.Visible;
             if (isManager)
             {
                 start_button.Visibility = Visibility.Visible;
