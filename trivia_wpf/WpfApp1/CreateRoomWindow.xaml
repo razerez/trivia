@@ -10,7 +10,6 @@
     <Grid>
         <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
         <Button Margin="748,10,10.2,631.2" Click="Back_Click">Back</Button>
-        <TextBlock Visibility= "Hidden" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,331.2,640.2"/>
 
         <TextBlock FontSize="25" FontWeight="Bold" Margin="146,103,-146.8,-103.8">Room Name:</TextBlock>
         <TextBox Name="roomNameTextBox" Margin="444,103,173.2,546.2"/>

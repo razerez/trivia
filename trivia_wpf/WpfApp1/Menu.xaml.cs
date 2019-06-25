@@ -29,7 +29,6 @@ namespace WpfApp1
             {
                 secondView();
                 usernameTop.Text = this._p._username;
-                username.Text = "Hello " + this._p._username;
             }
             else
             {

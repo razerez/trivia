@@ -9,7 +9,6 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
-        <TextBlock Visibility= "Hidden" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,331.2,640.2"/>
         <TextBlock Name='roomName1' FontWeight="Bold" FontSize="25" Text="roomName" TextAlignment="Center" Margin="0,84,0.2,560.2"/>
         <TextBlock Name='roomName2'    FontSize="15" FontWeight="Bold" Text="room name:" Margin="213,140,-213.8,510.2"/> 
         <TextBlock Name='maxPlayers'   FontSize="15" FontWeight="Bold" Text="max number of players:" Margin="213,165,-213.8,480.2"/>

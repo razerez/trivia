@@ -10,7 +10,7 @@
     <Grid>
         <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
         <TextBlock Visibility="Hidden" Name="username"  Text="" TextAlignment="Center" FontWeight="Bold" FontSize="25" Margin="10,97,10.2,291.2"/>
-        <TextBlock Visibility= "Hidden" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,331.2,640.2"/>
+        <TextBlock Visibility= "Hidden" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,-10.8,-5.8"/>
         <Grid Name="SignIn" Visibility="Visible">
             <TextBlock FontWeight="Bold" FontSize="20" Margin="99,67,232.2,346.2">username:</TextBlock>
             <TextBox Name="usernameTextBox" TextChanged="UsernameTextBox_TextChanged" Margin="227,67,262.2,593.2"></TextBox>
