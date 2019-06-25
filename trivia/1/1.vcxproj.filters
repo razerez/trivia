@@ -153,9 +153,6 @@
     <ClInclude Include="Vector and string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RoomAdminRequestHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SignupRequest.cpp">
@@ -297,9 +294,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vector and string.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RoomAdminRequestHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

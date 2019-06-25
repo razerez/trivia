@@ -150,7 +150,6 @@
     <ClInclude Include="RequestHandlerFactory.h" />
     <ClInclude Include="RequestResult.h" />
     <ClInclude Include="Room.h" />
-    <ClInclude Include="RoomAdminRequestHandler.h" />
     <ClInclude Include="RoomData.h" />
     <ClInclude Include="RoomManager.h" />
     <ClInclude Include="Server.h" />
@@ -199,7 +198,6 @@
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="RequestResult.cpp" />
     <ClCompile Include="Room.cpp" />
-    <ClCompile Include="RoomAdminRequestHandler.cpp" />
     <ClCompile Include="RoomData.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />
