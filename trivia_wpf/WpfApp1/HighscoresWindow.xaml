@@ -9,6 +9,8 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
+        <TextBlock Visibility= "Hidden" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,-10.8,-5.8"/>
+        
         <TextBlock FontWeight="Bold" FontSize="30" TextAlignment="Center" Margin="0,103,0,-103.8">Best Scores:</TextBlock>
         <TextBlock Name="first" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,170,0,-169.8" Text=""/>
         <TextBlock Name="second" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,220,0,-169.8" Text=" "/>
