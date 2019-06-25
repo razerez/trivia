@@ -12,20 +12,28 @@
 #include "JoinRoomResponse.h"
 #include "CreateRoomResponse.h"
 #include "HighscoreResponse.h"
-
+#include "CloseRoomResponse.h"
+#include "StartGameResponse.h"
+#include "GetRoomStateResponse.h"
+#include "LeaveRoomResponse.h"
 
 #include <vector>
 
 
 struct JsonResponsePacketSerializer
 {
-	static std::vector<char> serializeResponse(ErrorResponse err);
-	static std::vector<char> serializeResponse(LoginResponse login);
-	static std::vector<char> serializeResponse(SignupResponse signup);
+	static std::vector<char> serializeResponse(ErrorResponse errorRes);
+	static std::vector<char> serializeResponse(LoginResponse loginRes);
+	static std::vector<char> serializeResponse(SignupResponse signupRes);
 	static std::vector<char> serializeResponse(LogoutResponse logoutRes);
 	static std::vector<char> serializeResponse(GetRoomsResponse roomRes);
 	static std::vector<char> serializeResponse(GetPlayersInRoomResponse playerInRoomRes);
 	static std::vector<char> serializeResponse(JoinRoomResponse roomRes);
 	static std::vector<char> serializeResponse(CreateRoomResponse createRoomRes);
 	static std::vector<char> serializeResponse(HighscoreResponse highscoreRes);
+	static std::vector<char> serializeResponse(CloseRoomResponse closeRoomRes);
+	static std::vector<char> serializeResponse(StartGameResponse startGameRes);
+	static std::vector<char> serializeResponse(GetRoomStateResponse getRoomStatRes);
+	static std::vector<char> serializeResponse(LeaveRoomResponse leaveRoomRes);
+
 };

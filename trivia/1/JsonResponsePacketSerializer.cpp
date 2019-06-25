@@ -2,7 +2,7 @@
 
 
 
-std::vector<char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse err)
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse errorRes)
 {
 	
 	std::vector<char> vec;
@@ -15,25 +15,25 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse 
 	
 }
 
-std::vector<char> JsonResponsePacketSerializer::serializeResponse(LoginResponse login)
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(LoginResponse loginRes)
 {
 	std::vector<char> vec;
 	vec.push_back('i');
 	vec.push_back(0b0);
 	vec.push_back(0b0);
 	vec.push_back(0b1);
-	vec.push_back(char(login._status));
+	vec.push_back(char(loginRes._status));
 	return vec;
 }
 
-std::vector<char> JsonResponsePacketSerializer::serializeResponse(SignupResponse signup)
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(SignupResponse signupRes)
 {
 	std::vector<char> vec;
 	vec.push_back('u');
 	vec.push_back(0b0);
 	vec.push_back(0b0);
 	vec.push_back(0b1);
-	vec.push_back(char(signup._status));
+	vec.push_back(char(signupRes._status));
 	return vec;
 }
 
@@ -186,4 +186,42 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(HighscoreRespo
 	std::vector<char> dataVector = stringToVectorChar(data);
 	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
 	return optionAndLenghVec;
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse closeRoomRes)
+{
+	std::vector<char> vec;
+	vec.push_back('d');
+	vec.push_back(0b0);
+	vec.push_back(0b0);
+	vec.push_back(0b1);
+	vec.push_back(char(closeRoomRes._status));
+	return vec;
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(StartGameResponse startGameRes)
+{
+	std::vector<char> vec;
+	vec.push_back('s');
+	vec.push_back(0b0);
+	vec.push_back(0b0);
+	vec.push_back(0b1);
+	vec.push_back(char(startGameRes._status));
+	return vec;
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse getRoomStatRes)
+{
+	return std::vector<char>();
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leaveRoomRes)
+{
+	std::vector<char> vec;
+	vec.push_back('s');
+	vec.push_back(0b0);
+	vec.push_back(0b0);
+	vec.push_back(0b1);
+	vec.push_back(char(leaveRoomRes._status));
+	return vec;
 }
