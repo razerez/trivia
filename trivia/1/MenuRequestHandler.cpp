@@ -65,14 +65,16 @@ RequestResult MenuRequestHandler::createRoom(Request req)
 
 RequestResult MenuRequestHandler::myStatus(Request req)
 {
-	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(this->_m_myStatus.getReport(this->_m_username));
+	MyStatusResponse ms = (*this->_m_myStatus).getReport(this->_m_username);
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(ms);
 	IRequestHandler* nextHandler = this;
 	return RequestResult(buff, nextHandler);
 }
 
 //finish
-MenuRequestHandler::MenuRequestHandler(LoggedUser * username, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory, MyStatusReport* myStatus):_m_username(*username), _m_myStatus(myStatus)
+MenuRequestHandler::MenuRequestHandler(LoggedUser * username, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory, MyStatusReport* myStatus):_m_username(*username)
 {
+	this->_m_myStatus = myStatus;
 	this->_m_handlerFactory = m_handlerFactory;
 	this->_m_roomManager = m_roomManager;
 	this->_m_highscoreTable = m_highScoreTable;

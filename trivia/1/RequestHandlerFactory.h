@@ -8,6 +8,8 @@
 #include "MenuRequestHandler.h"
 #include "RoomAdminRequestHandler.h"
 #include "RoomMemberRequestHandler.h"
+#include "MyStatusReport.h"
+#include "MyStatusResponse.h"
 #include <vector>
 
 class LoginRequestHandler;

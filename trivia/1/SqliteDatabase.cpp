@@ -10,7 +10,10 @@ int returnIntegerCallback(void *data, int argc, char **argv, char** azColName)
 }
 int returnFloatCallback(void* data, int argc, char** argv, char** azColName)
 {
-	floatRet = atof(argv[0]);
+	if (argv[0] != NULL)
+		floatRet = atof(argv[0]);
+	else
+		floatRet = 0;
 	return 0;
 }
 

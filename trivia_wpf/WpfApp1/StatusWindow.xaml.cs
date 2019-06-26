@@ -24,6 +24,8 @@ namespace WpfApp1
         {
             InitializeComponent();
             this._p = p;
+            _p.myStatus();
+        
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

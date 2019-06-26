@@ -151,7 +151,7 @@ namespace WpfApp1
             string[] playersArr = SendAndDecodeArrMessage(msg);
             return playersArr;
         }
-        public string[] myStatus(int roomID)/////////////////////////////////////needs to update response
+        public string[] myStatus()/////////////////////////////////////needs to update response
         {
             string msg = "M" + "\0" + "\0" + "\0";
             byte[] s = SendAndReciveMessage(msg);
