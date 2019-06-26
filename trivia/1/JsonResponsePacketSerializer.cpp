@@ -212,7 +212,44 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(StartGameRespo
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse getRoomStatRes)
 {
-	return std::vector<char>();
+
+	bool mybool = getRoomStatRes._hasGameBegun;
+	int boolInt = mybool ? 1 : 0;
+
+	std::string str = " {\nStatus:\"" + std::to_string(getRoomStatRes._status) 
+		+ "\"\nHasStarted:\"" + std::to_string(boolInt)
+		+ "\"\nQuestionCount:\"" + std::to_string(getRoomStatRes._questionCount) 
+		+ "\"\nAnswerTimeout:\"" + std::to_string(getRoomStatRes._answerTimeount) 
+		+ "\"\nlength:" + std::to_string(getRoomStatRes._players.size()) 
+		+ "\nNames[";
+	
+
+	for (std::vector<std::string>::iterator it = getRoomStatRes._players.begin(); it != getRoomStatRes._players.end(); ++it)
+	{
+		str += "\n\"" + (*it) + "\"";
+	}
+
+	str += "\n]\n}";
+
+	std::vector<char> optionAndLenghVec;
+	optionAndLenghVec.push_back('r');
+
+	int size = str.size();
+	
+	optionAndLenghVec.push_back(0b0);
+
+	char leftByte = size >> 8;
+	char rightByte = size & 0b0000000011111111;
+
+	optionAndLenghVec.push_back(leftByte);
+	optionAndLenghVec.push_back(rightByte);
+	
+
+	std::vector<char> dataVector = stringToVectorChar(str);
+
+	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
+	
+	return optionAndLenghVec;
 }
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leaveRoomRes)
