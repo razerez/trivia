@@ -24,7 +24,7 @@ int RoomManager::joinRoom(LoggedUser loggedUsers, int room)
 	}
 }
 
-int RoomManager::createRoom(LoggedUser loggedUsers, RoomData roomData)
+int RoomManager::createRoom(LoggedUser loggedUsers, RoomData& roomData)
 {
 	try
 	{

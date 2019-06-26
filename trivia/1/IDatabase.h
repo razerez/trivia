@@ -23,7 +23,9 @@ public:
 	virtual bool doesUserExiste(string name) = 0;
 	virtual void addUserToDB(string name, string password, string email) = 0;
 	virtual list<Question> getQuestions(int numberOfQuestions) = 0;
-
+	virtual int numberOfRightOrWrongAnswers(string user, bool right) = 0;
+	virtual int numberOfGamesOfUser(string user) = 0;
+	virtual int avgTimeForAnsOfUser(string user) = 0;
 private:
 	list<Question> _questions;
 };

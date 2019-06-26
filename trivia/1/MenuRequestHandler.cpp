@@ -53,12 +53,15 @@ RequestResult MenuRequestHandler::joinRoom(Request req)
 RequestResult MenuRequestHandler::createRoom(Request req)
 {
 	CreateRoomRequest user = JsonRequestPacketDeserializer().deserializeCreateRoomRequest(req._buffer);
-	RoomData roomData(0, user.roomName, user.maxUsers, user.answerTimeout, 1);
+	RoomData roomData(0, user.roomName, user.maxUsers, user.answerTimeout, 1, user.questionCount);
 	int stat = this->_m_roomManager->createRoom(this->_m_username, roomData);
-	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse(stat));
-	IRequestHandler* nextHandler = this;
-	return RequestResult(buff, nextHandler);
 	
+	std::vector<LoggedUser> loggedUsers;
+	loggedUsers.push_back(this->_m_username);
+
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse(stat));
+	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomAdminRequesHandler(this->_m_username, &Room(roomData, loggedUsers));
+	return RequestResult(buff, nextHandler);
 }
 
 //finish

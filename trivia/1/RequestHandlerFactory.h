@@ -4,12 +4,14 @@
 #include "LoginRequest.h"
 #include "LoginRequestHandler.h"
 #include "RoomManager.h"
-#include"HighscoreTable.h"
+#include "HighscoreTable.h"
 #include "MenuRequestHandler.h"
+#include "RoomAdminRequestHandler.h"
 #include <vector>
 
 class LoginRequestHandler;
 class MenuRequestHandler;
+class RoomAdminRequestHandler;
 
 class RequestHandlerFactory
 {
@@ -23,6 +25,7 @@ public:
 	LoginRequestHandler * createLoginRequestHandler(LoggedUser l);
 	LoginRequestHandler * createLoginRequestHandler();
 	MenuRequestHandler * createMenuRequestHandler(LoggedUser l);
+	RoomAdminRequestHandler * createRoomAdminRequesHandler(LoggedUser l, Room * r);
 
 	
 	RequestHandlerFactory(IDataBase* l);

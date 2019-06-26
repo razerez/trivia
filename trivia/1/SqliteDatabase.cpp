@@ -12,7 +12,7 @@ int returnIntegerCallback(void *data, int argc, char **argv, char** azColName)
 
 int returnQuestionsCallback(void *data, int argc, char **argv, char** azColName)
 {
-	list<Question>h=*(list<Question>*) data;
+	list<Question>h = *(list<Question>*) data;
 	string question = argv[1];
 	vector<string> ans;
 	ans.push_back(argv[2]);
@@ -36,7 +36,7 @@ bool SqliteDatabase::sendMessage(string req)
 {
 	int res;
 	char * errMessage = nullptr;
-	res=sqlite3_exec(_db, req.c_str(), returnIntegerCallback, nullptr, &errMessage);
+	res = sqlite3_exec(_db, req.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	if (res != SQLITE_OK)
 		return false;
 	return true;
@@ -63,9 +63,9 @@ SqliteDatabase::SqliteDatabase() : IDataBase()
 		vector<string> reqs;
 		reqs.push_back("CREATE TABLE User (username TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL); ");
 		reqs.push_back("CREATE TABLE Question(question_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT NOT NULL, correct_ans TEXT NOT NULL, ans2 TEXT NOT NULL, ans3 TEXT NOT NULL, ans4 TEXT NOT NULL);");
-		reqs.push_back("CREATE TABLE Game(game_id INTEGER PRIMARY KEY NOT NULL, status TEXT NOT NULL, start_time TEXT NOT NULL, end_time TEXT NOT NULL); ");
+		reqs.push_back("CREATE TABLE Game(game_id INTEGER PRIMARY KEY NOT NULL, status TEXT NOT NULL, start_time DATETIME NOT NULL, end_time DATETIME NOT NULL); ");
 		reqs.push_back("CREATE TABLE PlayersAnswers(game_id INTEGER NOT NULL, username TEXT NOT NULL, question_id integer not null, player_answer text not null, is_correct integer not null, answer_time integer not null, primary key(game_id, username, question_id), foreign key(game_id) REFERENCES Game(game_id), foreign key(username) REFERENCES User(username), foreign key(question_id) REFERENCES Question(question_id));");
-	for (int i = 0; i < reqs.size();i++)
+		for (int i = 0; i < reqs.size(); i++)
 			sendMessage(reqs[i]);
 	}
 }
@@ -98,15 +98,15 @@ bool SqliteDatabase::doesUserExiste(string name)
 
 bool SqliteDatabase::doesPasswordExist(string name, string password)
 {
-	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE username = '" + name + "' and password = '"+password+"';";
+	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE username = '" + name + "' and password = '" + password + "';";
 	char * errMessage = nullptr;
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
 }
 
-void SqliteDatabase::addUserToDB(string name, string password,string email)
+void SqliteDatabase::addUserToDB(string name, string password, string email)
 {
-	string strSqlStatement = "INSERT INTO User(username, password, email) VALUES('"+ name +"', '" +password + "', '" + email+ "'); ";
+	string strSqlStatement = "INSERT INTO User(username, password, email) VALUES('" + name + "', '" + password + "', '" + email + "'); ";
 	sendMessage(strSqlStatement);
 }
 
@@ -118,4 +118,25 @@ list<Question> SqliteDatabase::getQuestions(int numberOfQuestions)
 	string strSqlStatement = "SELECT * FROM Question ORDER BY random() LIMIT " + std::to_string(numberOfQuestions) + ";";
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnQuestionsCallback, &s, &errMessage);
 	return s;
+}
+int SqliteDatabase::numberOfRightOrWrongAnswers(string user, bool right)
+{
+	string strSqlStatement = "SELECT count(*) FROM PlayersAnswers where is_correct = " + std::to_string(right) + " and username='" + user + "' group by username;";
+	char* errMessage = nullptr;
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
+	return ret;
+}
+int SqliteDatabase::numberOfGamesOfUser(string user)
+{
+	string strSqlStatement = "SELECT count(DISTINCT game_id) FROM PlayersAnswers where username = '" + user + "' group by username";
+	char* errMessage = nullptr;
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
+	return ret;
+}
+int SqliteDatabase::avgTimeForAnsOfUser(string user)
+{
+	string strSqlStatement = "SELECT avg(answer_time) FROM PlayersAnswers where username='" + user + "';";
+	char* errMessage = nullptr;
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
+	return ret;
 }
