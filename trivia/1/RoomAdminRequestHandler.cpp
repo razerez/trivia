@@ -9,10 +9,11 @@ RequestResult RoomAdminRequestHandler::closeRoom(Request request)
 	return RequestResult(buff, nextHandler);
 }
 
+
 RequestResult RoomAdminRequestHandler::StartGame(Request request)
 {
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(StartGameResponse(this->_m_room->getRoomData()._isActive));
-	IRequestHandler* nextHandler = this;//need to change
+	IRequestHandler* nextHandler = this;//need to change all function
 	return RequestResult(buff, nextHandler);
 }
 

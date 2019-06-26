@@ -9,9 +9,9 @@ struct GetRoomStateResponse
 	bool _hasGameBegun;
 	std::vector<std::string> _players;
 	int _questionCount;
-	int _answerTimeCount;
+	int _answerTimeount;
 //----------------------------
-	GetRoomStateResponse(int status, bool haGameBegun, std::vector<std::string> players,
-		int questionCount, int answerTimeCount);
+	GetRoomStateResponse(int status, bool hasGameBegun, std::vector<std::string> players,
+		int questionCount, int answerTimeount);
 	~GetRoomStateResponse();
 };
