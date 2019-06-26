@@ -51,7 +51,6 @@ RoomAdminRequestHandler::~RoomAdminRequestHandler()
 LoggedUser RoomAdminRequestHandler::getUsername()
 {
 	return this->_m_loggedUser;
-	
 }
 
 void RoomAdminRequestHandler::setUsername(LoggedUser username)

@@ -60,6 +60,11 @@ int RoomManager::getRoomState(int ID)
 	return this->_m_rooms.find(ID)->second.getRoomData()._id;
 }
 
+Room RoomManager::getRoom(int ID)
+{
+	return this->_m_rooms.find(ID)->second;
+}
+
 std::vector<RoomData> RoomManager::getRooms()
 {
 	std::vector<RoomData> vec;

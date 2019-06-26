@@ -21,6 +21,7 @@ public:
 	int createRoom(LoggedUser loggedUsers, RoomData& roomData);
 	int deleteRoom(int ID);
 	int getRoomState(int ID);
+	Room getRoom(int ID);
 	std::vector<RoomData>getRooms();
 	std::vector<std::string>getPlayersInRooms(int Id);
 
