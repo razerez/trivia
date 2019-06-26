@@ -9,7 +9,8 @@ int returnIntegerCallback(void *data, int argc, char **argv, char** azColName)
 	return 0;
 }
 
-void returnQuestionsCallback(void *data, int argc, char **argv, char** azColName)
+
+int returnQuestionsCallback(void *data, int argc, char **argv, char** azColName)
 {
 	list<Question>h=*(list<Question>*) data;
 	string question = argv[1];
@@ -19,6 +20,16 @@ void returnQuestionsCallback(void *data, int argc, char **argv, char** azColName
 	ans.push_back(argv[4]);
 	ans.push_back(argv[5]);
 	h.push_back(Question(question, ans));
+	return 0;
+}
+
+int returnHighScoreCallback(void *data, int argc, char **argv, char** azColName)
+{
+	LoggedUser user(argv[0]);
+	int score = std::stoi(argv[1]);
+	std::pair<LoggedUser*, int> p(&user, score);
+	(*(std::map<LoggedUser*, int>*) data).insert(p);
+	return 0;
 }
 
 bool SqliteDatabase::sendMessage(string req)
@@ -50,13 +61,11 @@ SqliteDatabase::SqliteDatabase() : IDataBase()
 	else //create a new one
 	{
 		vector<string> reqs;
-		reqs.push_back("CREATE TABLE User (User TEXT PRIMARY KEY NOT NULL, Password TEXT NOT NULL, Email TEXT NOT NULL); ");
-
-		reqs.push_back("CREATE TABLE Question(question_id INTEGER PRIMARY KEY NOT NULL, question TEXT NOT NULL, correct_ans TEXT NOT NULL, ans2 TEXT NOT NULL, ans3 TEXT NOT NULL, ans4 TEXT NOT NULL);");
-		
+		reqs.push_back("CREATE TABLE User (username TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL); ");
+		reqs.push_back("CREATE TABLE Question(question_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT NOT NULL, correct_ans TEXT NOT NULL, ans2 TEXT NOT NULL, ans3 TEXT NOT NULL, ans4 TEXT NOT NULL);");
 		reqs.push_back("CREATE TABLE Game(game_id INTEGER PRIMARY KEY NOT NULL, status TEXT NOT NULL, start_time TEXT NOT NULL, end_time TEXT NOT NULL); ");
-
-		for (int i = 0; i < 3;i++)
+		reqs.push_back("CREATE TABLE PlayersAnswers(game_id INTEGER NOT NULL, username TEXT NOT NULL, question_id integer not null, player_answer text not null, is_correct integer not null, answer_time integer not null, primary key(game_id, username, question_id), foreign key(game_id) REFERENCES Game(game_id), foreign key(username) REFERENCES User(username), foreign key(question_id) REFERENCES Question(question_id));");
+	for (int i = 0; i < reqs.size();i++)
 			sendMessage(reqs[i]);
 	}
 }
@@ -69,15 +78,18 @@ SqliteDatabase::~SqliteDatabase()
 	_db = nullptr;
 }
 
-map<LoggedUser, int> SqliteDatabase::getHighscores()
+map<LoggedUser*, int> SqliteDatabase::getHighscores()
 {
-	map<LoggedUser, int> mp;
-	return mp;
+	map<LoggedUser*, int> s;
+	string strSqlStatement = "SELECT username, count(*) FROM PlayersAnswers where is_correct = 1 group by username order by count(*) desc limit 3;";
+	char * errMessage = nullptr;
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnHighScoreCallback, &s, &errMessage);
+	return s;
 }
 
 bool SqliteDatabase::doesUserExiste(string name)
 {
-	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE user = '" + name + "';";
+	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE username = '" + name + "';";
 	char * errMessage = nullptr;
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
@@ -86,7 +98,7 @@ bool SqliteDatabase::doesUserExiste(string name)
 
 bool SqliteDatabase::doesPasswordExist(string name, string password)
 {
-	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE user = '" + name + "' and password = '"+password+"';";
+	string strSqlStatement = "SELECT COUNT(*) FROM User WHERE username = '" + name + "' and password = '"+password+"';";
 	char * errMessage = nullptr;
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
@@ -94,7 +106,7 @@ bool SqliteDatabase::doesPasswordExist(string name, string password)
 
 void SqliteDatabase::addUserToDB(string name, string password,string email)
 {
-	string strSqlStatement = "INSERT INTO User(user, password, email) VALUES('"+ name +"', '" +password + "', '" + email+ "'); ";
+	string strSqlStatement = "INSERT INTO User(username, password, email) VALUES('"+ name +"', '" +password + "', '" + email+ "'); ";
 	sendMessage(strSqlStatement);
 }
 
@@ -104,6 +116,6 @@ list<Question> SqliteDatabase::getQuestions(int numberOfQuestions)
 	list<Question> s;
 	char * errMessage = nullptr;
 	string strSqlStatement = "SELECT * FROM Question ORDER BY random() LIMIT " + std::to_string(numberOfQuestions) + ";";
-	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, &s, &errMessage);
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnQuestionsCallback, &s, &errMessage);
 	return s;
 }

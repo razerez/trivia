@@ -1,3 +1,5 @@
+
+
 #pragma once
 
 
@@ -5,6 +7,7 @@
 
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
+#include "Vector and string.h"
 #include <fstream>
 #include <iomanip>
 #include <sstream>
@@ -26,13 +29,11 @@ class Communicator
 private:
 	Request getMessageFromClient(SOCKET sc);
 	void clientHandler(SOCKET socket);
-	string vectorCharToString(vector<char> v);
-	vector<char> stringToVectorChar(string str);
 	void sendMsg(string message, SOCKET sc);
 	std::map<SOCKET, IRequestHandler*> _m_clients;
 	RequestHandlerFactory* _m_handlerFactory;
 	SOCKET serverSocket;
-	void logout(SOCKET s);
+	void exit(SOCKET s);
 public:
 	Communicator(IDataBase * db);
 	~Communicator();

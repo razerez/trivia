@@ -20,7 +20,7 @@ public:
 	SqliteDatabase();
 	~SqliteDatabase();
 
-	virtual map<LoggedUser, int> getHighscores();
+	virtual map<LoggedUser*, int> getHighscores();
 	virtual bool doesUserExiste(string name);
 	virtual bool doesPasswordExist(string name, string password);
 	virtual void addUserToDB(string name, string password, string email);

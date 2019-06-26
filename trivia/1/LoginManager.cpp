@@ -78,7 +78,7 @@ int LoginManager::logout(std::string username)
 			counter++;
 		}
 		std::unique_lock<std::mutex> myLock(mutexLock);
-		_m_loggedUsers.erase(_m_loggedUsers.begin() + counter);
+		if(!flag)_m_loggedUsers.erase(_m_loggedUsers.begin() + counter);
 		myLock.unlock();
 		std::cout << username << " Logged Out" << std::endl;
 		return 1;

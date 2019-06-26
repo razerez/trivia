@@ -1,15 +1,19 @@
 #include "JsonRequestPacketDeserializer.h"
 
 #define CODE_SEGMENT 1
+#define LENGTH_SEGMENT 3
 #define LOGIN_DATA_SIZE_SEGMENT 2
 #define USERNAME_SIZE_SEGMENT 1
 #define PASSWORD_SIZE_SEGMENT 1
-#define LENGTH_SEGMENT 3
 #define EMAIL_SIZE_SEGMENT 1
+
+#define	ROOM_NAME_SIZE_SEGMENT 1
+#define MAX_USERS_SIZE_SEGMENT 1
+#define QUESTION_COUNT_SIZE_SEGMENT 1
+#define ANSWER_TIME_SIZE_SEGMENT 1
 
 LogoutRequest JsonRequestPacketDeserializer::deserializeLogoutRequest(std::vector<char> buffer)
 {
-	//  std::string username = analyzeJson(buffer, "username:" 5, 4, 1)
 	std::string username = analyzeJson(buffer, "username:", LENGTH_SEGMENT + LOGIN_DATA_SIZE_SEGMENT, CODE_SEGMENT + LENGTH_SEGMENT, USERNAME_SIZE_SEGMENT);
 	LogoutRequest myLogout(username);
 	return myLogout;
@@ -19,7 +23,7 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<
 {
 	LogoutRequest myLogout = deserializeLogoutRequest(buffer);
 	std::string username = myLogout._username;
-	std::string password = analyzeJson(buffer, "password:", this->_dataLocation , CODE_SEGMENT + LENGTH_SEGMENT + USERNAME_SIZE_SEGMENT, PASSWORD_SIZE_SEGMENT);
+	std::string password = analyzeJson(buffer, "password:", this->_dataLocationSign , CODE_SEGMENT + LENGTH_SEGMENT + USERNAME_SIZE_SEGMENT, PASSWORD_SIZE_SEGMENT);
 	LoginRequest myLogin(username, password);
 	return myLogin;
 }
@@ -29,10 +33,30 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(std::vecto
 	LoginRequest myLogin = deserializeLoginRequest(buffer);
 	std::string username = myLogin._username;
 	std::string password = myLogin._password;
-	std::string email = analyzeJson(buffer, "email:", this->_dataLocation, CODE_SEGMENT + LENGTH_SEGMENT + USERNAME_SIZE_SEGMENT + PASSWORD_SIZE_SEGMENT, EMAIL_SIZE_SEGMENT);
+	std::string email = analyzeJson(buffer, "email:", this->_dataLocationSign, CODE_SEGMENT + LENGTH_SEGMENT + USERNAME_SIZE_SEGMENT + PASSWORD_SIZE_SEGMENT, EMAIL_SIZE_SEGMENT);
 
 	SignupRequest mySignup(username, password, email);
 	return mySignup;
+}
+
+GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequest(std::vector<char> buffer)
+{
+	return GetPlayersInRoomRequest(int(buffer[4]) - 48);
+}
+
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::vector<char> buffer)
+{
+	
+	return JoinRoomRequest(int(buffer[4]) - 48);
+}
+
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(std::vector<char> buffer)
+{
+	std::string roomName = analyzeJson(buffer, "RoomName:", 1, CODE_SEGMENT + LENGTH_SEGMENT, ROOM_NAME_SIZE_SEGMENT);
+	std::string maxUsers = analyzeJson(buffer, "MaxUsers:", this->_dataLocationSign, CODE_SEGMENT + LENGTH_SEGMENT + ROOM_NAME_SIZE_SEGMENT, MAX_USERS_SIZE_SEGMENT);
+	std::string questionCount = analyzeJson(buffer, "QuestionsCount:", this->_dataLocationSign, CODE_SEGMENT + LENGTH_SEGMENT + ROOM_NAME_SIZE_SEGMENT + MAX_USERS_SIZE_SEGMENT, QUESTION_COUNT_SIZE_SEGMENT);
+	std::string answerTime = analyzeJson(buffer, "AnswerTime:", this->_dataLocationSign, CODE_SEGMENT + LENGTH_SEGMENT + ROOM_NAME_SIZE_SEGMENT + MAX_USERS_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT, ANSWER_TIME_SIZE_SEGMENT);
+	return CreateRoomRequest(roomName, std::stoi(maxUsers), std::stoi(questionCount), std::stoi(answerTime));
 }
 
 
@@ -46,7 +70,7 @@ std::string JsonRequestPacketDeserializer::analyzeJson(std::vector<char> buffer,
 	int strIndex = findStrIndex("\"", buffer, keyIndex);
 
 	std::string str = getBytes(strIndex, size, buffer);
-	this->_dataLocation = strIndex + size;
+	this->_dataLocationSign = strIndex + size;
 	return str;
 }
 
@@ -67,6 +91,7 @@ size_t findStrIndex(std::string str, std::vector<char> buffer, int skipTo)
 	std::transform(str.begin(), str.end(), str.begin(), ::tolower);//make the str lowercase -> not case sensetive
 	std::string bufferStr(buffer.begin(), buffer.end());//crate string from vector
 	bufferStr = bufferStr.substr(skipTo - 1, bufferStr.size());//cut all until startPoint
+	std::transform(bufferStr.begin(), bufferStr.end(), bufferStr.begin(), ::tolower);//make the str lowercase -> not case sensetive
 	size_t index = bufferStr.find(str);
 	if (index == std::string::npos)//string not found
 	{
