@@ -37,13 +37,13 @@ namespace WpfApp1
             bool res=Int32.TryParse(getRoomID(), out id);
             if (res == false)
                 return false;
-            return this._p.joinRoom(id);
+            return this._p.JoinRoom(id);
         }
 
         public void fillRoomList()
         {
             rooms.Items.Clear();
-            string[] roomsArr = _p.getRooms();
+            string[] roomsArr = _p.GetRooms();
             if (roomsArr.Length == 0)
                 error.Visibility = Visibility.Visible;
             else
@@ -88,7 +88,7 @@ namespace WpfApp1
         public void fillPlayerList()
         {
             rooms.Items.Clear();
-            string[] roomsArr = _p.getRooms();
+            string[] roomsArr = _p.GetRooms();
             if (roomsArr.Length == 0)
                 error.Visibility = Visibility.Visible;
             else

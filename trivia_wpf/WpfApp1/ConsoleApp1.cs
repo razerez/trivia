@@ -19,9 +19,18 @@ namespace WpfApp1
         {
             ClientMain();
         }
-        public string[] sendAndDecodeArrMessage(string msg)
+        
+        public bool SendAndReciveBoolMessage(string msg)
         {
-            byte[] res = sendAndReciveMessage(msg);
+            byte[] res = SendAndReciveMessage(msg);
+            if (res[4] == (char)(1))
+                return true;
+            else
+                return false;
+        }
+        public string[] SendAndDecodeArrMessage(string msg)
+        {
+            byte[] res = SendAndReciveMessage(msg);
             bool flag = true;
             bool flag2 = true;
             bool flag3 = true;
@@ -79,82 +88,91 @@ namespace WpfApp1
             }
             return arr;
         }
-        public bool login(string username, string password)
+        public bool Login(string username, string password)
         {
             this._username = username;
             string msg = "I" + "\0" + "\0" + (char)(30 + username.Length + password.Length) + (char)(username.Length) + (char)(password.Length) + " {\nusername:\"" + username + "\"\npassword:\"" + password + "\"\n}";
-            byte[] res = sendAndReciveMessage(msg);
-            if (res[4] == (char)(1))
-                return true;
-            else
-                return false;
+            return SendAndReciveBoolMessage(msg);
         }
 
-        public bool signup(string password, string email)
+        public bool Signup(string password, string email)
         {
             string msg = "U" + "\0" + "\0" + (char)(40 + _username.Length + password.Length + email.Length) + (char)(_username.Length) + (char)(password.Length) + (char)(email.Length) + " {\nusername:\"" + _username + "\"\npassword:\"" + password + "\"\nemail:\"" + email + "\"\n}";
-            byte[] res = sendAndReciveMessage(msg);
-            if (res[4] == (char)(1))
-                return true;
-            else
-                return false;
+            return SendAndReciveBoolMessage(msg);
         }
 
-        public void logout()
+        public bool Logout()
         {
             string msg = "O" + "\0" + "\0" +(char)(14)+"\0" + " {\nusername:\"";
-            byte[] res = sendAndReciveMessage(msg);
+            return SendAndReciveBoolMessage(msg);
         }
 
-        public string[] getRooms()
+        public string[] GetRooms()////////////////////////////////////needs to update response
         {
             string msg = "G" + "\0" + "\0" + "\0";
-            string[] roomsArr=sendAndDecodeArrMessage(msg);
+            string[] roomsArr=SendAndDecodeArrMessage(msg);
             return roomsArr;
         }
 
-        public bool joinRoom(int roomID)
+        public bool CloseRoom()
         {
-            string msg = "J" + "\0" + "\0" + (char)(1) + roomID;
-            byte[] res = sendAndReciveMessage(msg);
-            if (res[4] == (char)(1))
-                return true;
-            else
-                return false;
-        
+            string msg = "D" + "\0" + "\0" + "\0";
+            byte[] roomsArr = SendAndReciveMessage(msg);
+            return SendAndReciveBoolMessage(msg);
         }
 
-        public string[] getPlayersInRoom(int roomID)
+        public bool StartGame()
+        {
+            string msg = "S" + "\0" + "\0" + "\0";
+            return SendAndReciveBoolMessage(msg);
+        }
+
+        public string[] GetRoomState()/////////////////////////////////needs to update response
+        {
+            string msg = "R" + "\0" + "\0" + "\0";
+            string[] roomsArr = SendAndDecodeArrMessage(msg);
+            return roomsArr;
+        }
+
+        public bool LeaveRoom()
+        {
+            string msg = "L" + "\0" + "\0" + "\0";
+            return SendAndReciveBoolMessage(msg);
+        }
+
+        public bool JoinRoom(int roomID)
+        {
+            string msg = "J" + "\0" + "\0" + (char)(1) + roomID;
+            return SendAndReciveBoolMessage(msg);
+        }
+
+        public string[] GetPlayersInRoom(int roomID)/////////////////////////////////////needs to update response
         {
             string msg = "P" + "\0" + "\0" + (char)(1) + roomID;
-            string[] playersArr = sendAndDecodeArrMessage(msg);
+            string[] playersArr = SendAndDecodeArrMessage(msg);
             return playersArr;
         }
 
-        public string[] getHighScores()
+        public string[] GetHighScores()////////////////////////////////////needs to update response
         {
             string msg = "H" + "\0" + "\0" + "\0";
-            string[] highScoresArr = sendAndDecodeArrMessage(msg);
+            string[] highScoresArr = SendAndDecodeArrMessage(msg);
             return highScoresArr;
         }
 
-        public bool createRoom(string roomName, string maxUsers, string questionsCount, string answerTime)
+        public bool CreateRoom(string roomName, string maxUsers, string questionsCount, string answerTime)
         {
             string msg = "C" + "\0" + "\0" + (char)(64+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length)+ (char)(roomName.Length)+ (char)(maxUsers.Length)+ (char)(questionsCount.Length)+(char)(answerTime.Length) + " {\nRoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
-            byte[] res = sendAndReciveMessage(msg);
-            if (res[4] == (char)(1))
-                return true;
-            else
-                return false;
+            return SendAndReciveBoolMessage(msg);
         }
 
-        public void exit()
+        public void Exit()
         {
             string msg = "X" + "\0" + "\0" + (char)(14) + "\0" + " {\nusername:\"";
-            byte[] res = sendAndReciveMessage(msg);
+            byte[] res = SendAndReciveMessage(msg);
         }
 
-        public byte[] sendAndReciveMessage(string s)
+        public byte[] SendAndReciveMessage(string s)
         {
             byte[] final;
             Console.WriteLine("Client Says: " + s);
@@ -200,7 +218,7 @@ namespace WpfApp1
         }
         ~Program()
         {
-            try { exit(); }
+            try { Exit(); }
             catch (Exception e){ return;
             }
         }

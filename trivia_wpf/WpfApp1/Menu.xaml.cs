@@ -80,7 +80,7 @@ namespace WpfApp1
         }
         private bool Check_info(string username, string password)
         {
-            return this._p.login(username, password);
+            return this._p.Login(username, password);
 
         }
 
@@ -93,7 +93,7 @@ namespace WpfApp1
 
         private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
-            this._p.exit();
+            this._p.Exit();
             this.Close();
         }
 
@@ -134,7 +134,7 @@ namespace WpfApp1
 
         private void logOutClick(object sender, RoutedEventArgs e)
         {
-            this._p.logout();
+            this._p.Logout();
             firstView();
         }
     }

@@ -29,7 +29,7 @@ namespace WpfApp1
 
         public bool createRoom()
         {
-            return this._p.createRoom(roomNameTextBox.Text, maxPlayersTextBox.Text, questionsNumTextBox.Text, questionTimeTextBox.Text);
+            return this._p.CreateRoom(roomNameTextBox.Text, maxPlayersTextBox.Text, questionsNumTextBox.Text, questionTimeTextBox.Text);
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

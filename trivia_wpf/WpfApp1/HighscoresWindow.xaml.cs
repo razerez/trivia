@@ -31,7 +31,7 @@ namespace WpfApp1
         {
             Queue<KeyValuePair<string, int>> que = new Queue<KeyValuePair<string, int>>();
 
-            string[] highScoresArr = this._p.getHighScores();
+            string[] highScoresArr = this._p.GetHighScores();
             if(highScoresArr.Length!=0)
             {
                 for (int i = 0; i < highScoresArr.Length; i++)
