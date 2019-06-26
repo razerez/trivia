@@ -1,14 +1,18 @@
 #include "SqliteDatabase.h"
 
 int ret;
-
+float floatRet;
 
 int returnIntegerCallback(void *data, int argc, char **argv, char** azColName)
 {
 	ret = atoi(argv[0]);
 	return 0;
 }
-
+int returnFloatCallback(void* data, int argc, char** argv, char** azColName)
+{
+	floatRet = atof(argv[0]);
+	return 0;
+}
 
 int returnQuestionsCallback(void *data, int argc, char **argv, char** azColName)
 {
@@ -25,9 +29,9 @@ int returnQuestionsCallback(void *data, int argc, char **argv, char** azColName)
 
 int returnHighScoreCallback(void *data, int argc, char **argv, char** azColName)
 {
-	LoggedUser user(argv[0]);
+	LoggedUser * user=new LoggedUser(argv[0]);
 	int score = std::stoi(argv[1]);
-	std::pair<LoggedUser*, int> p(&user, score);
+	std::pair<LoggedUser*, int> p(user, score);
 	(*(std::map<LoggedUser*, int>*) data).insert(p);
 	return 0;
 }
@@ -41,10 +45,6 @@ bool SqliteDatabase::sendMessage(string req)
 		return false;
 	return true;
 }
-void SqliteDatabase::clean()
-{
-}
-
 SqliteDatabase::SqliteDatabase() : IDataBase()
 {
 	string dbFileName = "TriviaDB.sqlite";
@@ -80,11 +80,12 @@ SqliteDatabase::~SqliteDatabase()
 
 map<LoggedUser*, int> SqliteDatabase::getHighscores()
 {
-	map<LoggedUser*, int> s;
+	//s.clear();
+	map<LoggedUser*, int>*s=new map<LoggedUser*,int>();
 	string strSqlStatement = "SELECT username, count(*) FROM PlayersAnswers where is_correct = 1 group by username order by count(*) desc limit 3;";
 	char * errMessage = nullptr;
-	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnHighScoreCallback, &s, &errMessage);
-	return s;
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnHighScoreCallback,s, &errMessage);
+	return *s;
 }
 
 bool SqliteDatabase::doesUserExiste(string name)
@@ -133,10 +134,10 @@ int SqliteDatabase::numberOfGamesOfUser(string user)
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
 }
-int SqliteDatabase::avgTimeForAnsOfUser(string user)
+float SqliteDatabase::avgTimeForAnsOfUser(string user)
 {
 	string strSqlStatement = "SELECT avg(answer_time) FROM PlayersAnswers where username='" + user + "';";
 	char* errMessage = nullptr;
-	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
-	return ret;
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnFloatCallback, nullptr, &errMessage);
+	return floatRet;
 }

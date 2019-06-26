@@ -50,9 +50,13 @@ namespace WpfApp1
                     string score = highScoresArr[i].Substring(j, highScoresArr[i].Length - j);
                     que.Enqueue(new KeyValuePair<string, int>(name, Int32.Parse(score)));
                 }
-                ChangeRank(que.Dequeue().Key, que.Dequeue().Value, first);
-                ChangeRank(que.Dequeue().Key, que.Dequeue().Value, second);
-                ChangeRank(que.Dequeue().Key, que.Dequeue().Value, third);
+                KeyValuePair<string, int> current = que.Dequeue();
+                ChangeRank(current.Key, current.Value, first);
+                current = que.Dequeue();
+                ChangeRank(current.Key, current.Value, second);
+                current = que.Dequeue();
+                ChangeRank(current.Key, current.Value, third);
+
             }
         }
 

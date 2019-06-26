@@ -25,7 +25,7 @@ public:
 	virtual list<Question> getQuestions(int numberOfQuestions) = 0;
 	virtual int numberOfRightOrWrongAnswers(string user, bool right) = 0;
 	virtual int numberOfGamesOfUser(string user) = 0;
-	virtual int avgTimeForAnsOfUser(string user) = 0;
+	virtual float avgTimeForAnsOfUser(string user) = 0;
 private:
 	list<Question> _questions;
 };

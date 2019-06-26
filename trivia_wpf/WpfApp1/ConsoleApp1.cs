@@ -34,7 +34,7 @@ namespace WpfApp1
             bool flag = true;
             bool flag2 = true;
             bool flag3 = true;
-            int i = 4;
+            int i = 5;
             int length;
             int strIndex = 0;
             string currStr = "";
@@ -117,7 +117,6 @@ namespace WpfApp1
         public bool CloseRoom()
         {
             string msg = "D" + "\0" + "\0" + "\0";
-            byte[] roomsArr = SendAndReciveMessage(msg);
             return SendAndReciveBoolMessage(msg);
         }
 
@@ -152,7 +151,13 @@ namespace WpfApp1
             string[] playersArr = SendAndDecodeArrMessage(msg);
             return playersArr;
         }
-
+        public string[] myStatus(int roomID)/////////////////////////////////////needs to update response
+        {
+            string msg = "M" + "\0" + "\0" + "\0";
+            byte[] s = SendAndReciveMessage(msg);
+            string[] res=new string[0];//for now
+            return res;
+        }
         public string[] GetHighScores()////////////////////////////////////needs to update response
         {
             string msg = "H" + "\0" + "\0" + "\0";

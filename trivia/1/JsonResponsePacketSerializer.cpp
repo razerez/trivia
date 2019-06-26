@@ -51,7 +51,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse roomRes)
 {
 	std::cout << "Sending rooms: ";
-	std::string data = "{\nlength:" + std::to_string(roomRes._rooms.size()) + "\nRooms[";
+	std::string data = " {\nlength:" + std::to_string(roomRes._rooms.size()) + "\nRooms[";
 
 
 
@@ -91,7 +91,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsRespon
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse playerInRoomRes)
 {
 	
-	std::string data = "{\nlength:" + std::to_string(playerInRoomRes._players.size()) + "\nNames[";
+	std::string data = " {\nlength:" + std::to_string(playerInRoomRes._players.size()) + "\nNames[";
 
 	std::cout << "Sending names: ";
 
@@ -153,7 +153,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResp
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(HighscoreResponse highscoreRes)
 {
 	
-	std::string data = "{\nlength:" + std::to_string(highscoreRes._highscores.getHighscores().size()) + "\nHighscores[";
+	std::string data = " {\nlength:" + std::to_string(highscoreRes._highscores.getHighscores().size()) + "\nHighscores[";
 	
 	map<LoggedUser*, int> mymap = highscoreRes._highscores.getHighscores();
 	
@@ -261,4 +261,9 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomRespo
 	vec.push_back(0b1);
 	vec.push_back(char(leaveRoomRes._status));
 	return vec;
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(MyStatusResponse myStatus)
+{
+	return std::vector<char>();
 }

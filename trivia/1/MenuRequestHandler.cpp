@@ -63,8 +63,15 @@ RequestResult MenuRequestHandler::createRoom(Request req)
 	return RequestResult(buff, nextHandler);
 }
 
+RequestResult MenuRequestHandler::myStatus(Request req)
+{
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(this->_m_myStatus.getReport(this->_m_username));
+	IRequestHandler* nextHandler = this;
+	return RequestResult(buff, nextHandler);
+}
+
 //finish
-MenuRequestHandler::MenuRequestHandler(LoggedUser * username, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory):_m_username(*username)
+MenuRequestHandler::MenuRequestHandler(LoggedUser * username, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory, MyStatusReport* myStatus):_m_username(*username), _m_myStatus(myStatus)
 {
 	this->_m_handlerFactory = m_handlerFactory;
 	this->_m_roomManager = m_roomManager;
@@ -91,7 +98,7 @@ bool MenuRequestHandler::isRequestRelevant(Request req)
 {
 	
 	char reqId = req._buffer[0];
-	if (reqId == 'O'|| reqId == 'G' || reqId == 'P' || reqId == 'H'|| reqId == 'J' || reqId == 'C')
+	if (reqId == 'O'|| reqId == 'G' || reqId == 'P' || reqId == 'H'|| reqId == 'J' || reqId == 'C' || reqId == 'M')
 	{
 		return true;
 	}
@@ -125,6 +132,10 @@ RequestResult MenuRequestHandler::handleRequest(Request req)
 	else if (reqId == 'C')
 	{
 		return createRoom(req);
+	}
+	else if (reqId == 'M')
+	{
+		return myStatus(req);
 	}
 }
 

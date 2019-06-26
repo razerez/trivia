@@ -22,7 +22,7 @@ private:
 	std::vector<LoggedUser> * loggedUsers;
 	RoomManager * _m_roomManager;
 	HighscoreTable * _m_highscoreTable;
-
+	MyStatusReport * _m_myStatus;
 public:
 	LoginRequestHandler * createLoginRequestHandler(LoggedUser l);
 	LoginRequestHandler * createLoginRequestHandler();

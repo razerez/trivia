@@ -200,10 +200,3 @@ void Communicator::exit(SOCKET s)
 	_m_clients.erase(s);
 	l.unlock();
 }
-
-
-
-
-
-
-
