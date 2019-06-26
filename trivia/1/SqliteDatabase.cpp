@@ -120,6 +120,7 @@ list<Question> SqliteDatabase::getQuestions(int numberOfQuestions)
 	list<Question> s;
 	char * errMessage = nullptr;
 	string strSqlStatement = "SELECT * FROM Question ORDER BY random() LIMIT " + std::to_string(numberOfQuestions) + ";";
+	ret = 0;
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnQuestionsCallback, &s, &errMessage);
 	return s;
 }
@@ -127,6 +128,7 @@ int SqliteDatabase::numberOfRightOrWrongAnswers(string user, bool right)
 {
 	string strSqlStatement = "SELECT count(*) FROM PlayersAnswers where is_correct = " + std::to_string(right) + " and username='" + user + "' group by username;";
 	char* errMessage = nullptr;
+	ret = 0;
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
 }
@@ -134,6 +136,7 @@ int SqliteDatabase::numberOfGamesOfUser(string user)
 {
 	string strSqlStatement = "SELECT count(DISTINCT game_id) FROM PlayersAnswers where username = '" + user + "' group by username";
 	char* errMessage = nullptr;
+	ret = 0;
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
 }
@@ -141,6 +144,7 @@ float SqliteDatabase::avgTimeForAnsOfUser(string user)
 {
 	string strSqlStatement = "SELECT avg(answer_time) FROM PlayersAnswers where username='" + user + "';";
 	char* errMessage = nullptr;
+	floatRet = 0.0;
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnFloatCallback, nullptr, &errMessage);
 	return floatRet;
 }

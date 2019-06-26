@@ -265,5 +265,32 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomRespo
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(MyStatusResponse myStatus)
 {
-	return std::vector<char>();
+	float avr = myStatus._m_avgTimePerQuestion;
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(2) << avr;
+	std::string avrString = stream.str();
+
+
+	std::string data = " {\nNumberOfGames:\"" + std::to_string(myStatus._m_numGames)
+		+ "\"\nNumRight:\"" + std::to_string(myStatus._m_numRight)
+		+ "\"\nNumWrong:\"" + std::to_string(myStatus._m_numWrong)
+		+ "\"\nAvgTimePerAns:\"" + avrString + "\"\n}";
+
+	std::vector<char> optionAndLenghVec;
+	optionAndLenghVec.push_back('m');
+
+
+	int size = data.size();
+
+	optionAndLenghVec.push_back(0b0);
+
+	char leftByte = size >> 8;
+	char rightByte = size & 0b0000000011111111;
+
+	optionAndLenghVec.push_back(leftByte);
+	optionAndLenghVec.push_back(rightByte);
+
+	std::vector<char> dataVector = stringToVectorChar(data);
+	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
+	return optionAndLenghVec;
 }

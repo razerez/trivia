@@ -17,6 +17,9 @@
 #include "GetRoomStateResponse.h"
 #include "LeaveRoomResponse.h"
 #include "MyStatusResponse.h"
+
+#include <iomanip>
+#include <sstream>
 #include <vector>
 
 
