@@ -152,6 +152,7 @@ namespace WpfApp1
             if(!string.IsNullOrEmpty(rooms.Text))//check if room is selected
             {
                 JoinRoom();
+                this._p.GetRoomState();
                 WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, false,GetRoomName()
                                                                 , "","","");
                 waiting.Show();

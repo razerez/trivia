@@ -10,21 +10,46 @@ namespace WpfApp1
     class Deserializer
     {
         public const int CODE_SEGMENT = 1;
-        public const int LENGTH_SEGMENT = 1;
+        public const int DATA_LENGTH_SEGMENT = 1;
 
-        public const int ROOM_NAME_SIZE_SEGMENT = 1;
-        public const int MAX_USERS_SIZE_SEGMENT = 1;
+        public const int STATUS_SIZE_SEGMENT = 1;
+        public const int HAS_STARTED_SIZE_SEGMENT = 1;
         public const int QUESTION_COUNT_SIZE_SEGMENT = 1;
         public const int ANSWER_TIME_SIZE_SEGMENT = 1;
+        public const int LENGTH_SIZE_SEGMENT = 1;
 
-        public int _dataLocationSign;
+        public int _dataLocationSign = 0;
 
         public Room DeserializeJoinRoomRequest(byte[] buffer)
         {
-            string questionCount = AnalyzeJson(buffer, "QuestionsCount:", _dataLocationSign, CODE_SEGMENT + LENGTH_SEGMENT + ROOM_NAME_SIZE_SEGMENT + MAX_USERS_SIZE_SEGMENT, QUESTION_COUNT_SIZE_SEGMENT);
-            string answerTime = AnalyzeJson(buffer, "AnswerTime:", _dataLocationSign, CODE_SEGMENT + LENGTH_SEGMENT + ROOM_NAME_SIZE_SEGMENT + MAX_USERS_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT, ANSWER_TIME_SIZE_SEGMENT);
-            return new Room(questionCount.ToString(), answerTime.ToString());
+            string status = AnalyzeJson(buffer, "Status:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT, STATUS_SIZE_SEGMENT);
+            string hasStarted = AnalyzeJson(buffer, "HasStarted:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT, HAS_STARTED_SIZE_SEGMENT);
+            string questionCount = AnalyzeJson(buffer, "QuestionsCount:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT, QUESTION_COUNT_SIZE_SEGMENT);
+            string answerTime = AnalyzeJson(buffer, "AnswerTime:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT, ANSWER_TIME_SIZE_SEGMENT);
+            string length = AnalyzeJson(buffer, "Length:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT + ANSWER_TIME_SIZE_SEGMENT, LENGTH_SIZE_SEGMENT);
+            Room room = new Room(Int32.Parse(status), Int32.Parse(hasStarted), questionCount.ToString(), answerTime.ToString(), Int32.Parse(length));
+            FillNames(room, buffer, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT + ANSWER_TIME_SIZE_SEGMENT + LENGTH_SIZE_SEGMENT);
+            return room;
         }
+
+        public void FillNames(Room room, byte[] buffer, int startFrom)
+        {
+            bool stay = true;
+            int j = 0;
+            for (int i = startFrom; i < buffer.Length && stay; i++)
+            {
+                if(buffer[i] == '"')
+                {
+                    int end = FindStrIndex("\"", buffer, i);
+                    string name = GetBytes(i, end - i, buffer);
+                    room._names[j] = name;
+                    j++;
+                    i = end;
+
+                }
+            }
+        }
+
 
         public string AnalyzeJson(byte[] buffer, string subject, int dataLocation, int sizeLocation, int sizeLength)
         //input: buffer, keyWord to search in json, locationOfTheKeyWord, location of the size of the segment, the length of this size

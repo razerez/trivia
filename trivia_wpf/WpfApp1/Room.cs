@@ -6,14 +6,22 @@ using System.Threading.Tasks;
 
 namespace WpfApp1
 {
-    class Room
+    public class Room
     {
-        public string questionCount;
-        public string answerTime;
-        public Room(string questionCount, string answerTime)
+        public int _status;
+        public int _hasStarted;
+        public string _questionCount;
+        public string _answerTime;
+        public int _length;
+        public string[] _names;
+        public Room(int status, int hasStarted, string questionCount, string answerTime, int length)
         {
-            this.questionCount = questionCount;
-            this.answerTime = answerTime;
+            this._status = status;
+            this._hasStarted = hasStarted;
+            this._questionCount = questionCount;
+            this._answerTime = answerTime;
+            this._length = length;
+            this._names = new string[length];
         }
     }
 }

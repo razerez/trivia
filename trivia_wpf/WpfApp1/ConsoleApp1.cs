@@ -126,11 +126,12 @@ namespace WpfApp1
             return SendAndReciveBoolMessage(msg);
         }
 
-        public string[] GetRoomState()/////////////////////////////////needs to update response
+        public Room GetRoomState()
         {
             string msg = "R" + "\0" + "\0" + "\0";
-            string[] roomsArr = SendAndDecodeArrMessage(msg);
-            return roomsArr;
+            byte[] res = SendAndReciveMessage(msg);
+            Room room = new Deserializer().DeserializeJoinRoomRequest(res);
+            return room;
         }
 
         public bool LeaveRoom()
