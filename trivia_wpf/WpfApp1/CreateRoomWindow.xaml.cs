@@ -24,6 +24,8 @@ namespace WpfApp1
         {
             InitializeComponent();
             this._p = p;
+            usernameTop.Text = this._p._username;
+            usernameTop.Visibility = Visibility.Visible;
         }
 
 
@@ -47,6 +49,11 @@ namespace WpfApp1
                                                            roomNameTextBox.Text, maxPlayersTextBox.Text, questionsNumTextBox.Text, questionTimeTextBox.Text);
             waiting.Show();
             this.Close();
+            }
+            else
+            {
+                error.Visibility = Visibility.Visible;
+                error.Text = "please fill everything";
             }
         }
     }
