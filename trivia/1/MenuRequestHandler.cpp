@@ -45,8 +45,10 @@ RequestResult MenuRequestHandler::joinRoom(Request req)
 	JoinRoomRequest user = JsonRequestPacketDeserializer().deserializeJoinRoomRequest(req._buffer);
 	int stat = this->_m_roomManager->joinRoom(this->_m_username, user.roomId);
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse(stat));
+
+	Room * newRoom = new Room(this->_m_roomManager->getRoom(user.roomId).getRoomData(), this->_m_roomManager->getRoom(user.roomId).getAllUsers());
 	
-	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomMemberRequestHandler(this->_m_username, &this->_m_roomManager->getRoom(user.roomId));
+	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomMemberRequestHandler(this->_m_username, newRoom);
 	return RequestResult(buff, nextHandler);
 }
 
@@ -59,7 +61,13 @@ RequestResult MenuRequestHandler::createRoom(Request req)
 	
 
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse(stat));
-	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomAdminRequesHandler(this->_m_username, &this->_m_roomManager->getRoom(roomData._id));
+
+	std::vector<LoggedUser> d;
+	d.push_back(this->_m_username);
+
+	Room * newRoom = new Room(roomData, d);
+
+	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomAdminRequesHandler(this->_m_username, newRoom);
 	return RequestResult(buff, nextHandler);
 }
 
