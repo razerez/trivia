@@ -58,6 +58,7 @@
     <Compile Include="CreateRoomWindow.xaml.cs">
       <DependentUpon>CreateRoomWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Deserializer.cs" />
     <Compile Include="HighscoresWindow.xaml.cs">
       <DependentUpon>HighscoresWindow.xaml</DependentUpon>
     </Compile>
@@ -68,6 +69,7 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Room.cs" />
     <Compile Include="SignUpWindow.xaml.cs">
       <DependentUpon>SignUpWindow.xaml</DependentUpon>
     </Compile>
