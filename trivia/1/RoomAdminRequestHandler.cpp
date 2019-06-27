@@ -3,7 +3,7 @@
 
 RequestResult RoomAdminRequestHandler::closeRoom(Request request)
 {
-	int stat = this->_m_roomManager->deleteRoom(request._buffer[4]);
+	int stat = this->_m_roomManager->deleteRoom(this->_m_room->getRoomData()._id);
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse(stat));
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createMenuRequestHandler(this->_m_loggedUser);
 	return RequestResult(buff, nextHandler);

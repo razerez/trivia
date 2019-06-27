@@ -31,16 +31,19 @@ namespace WpfApp1
                 start_button.Visibility = Visibility.Visible;
                 closeButton.Visibility = Visibility.Visible;
                 leave_button.Visibility = Visibility.Hidden;
+                Change_max_players(maxUsers);
             }
             else
             {
+                roomName2.Visibility = Visibility.Hidden;
+                maxPlayers.Visibility = Visibility.Hidden;
+
                 start_button.Visibility = Visibility.Hidden;
                 closeButton.Visibility = Visibility.Hidden;
                 leave_button.Visibility = Visibility.Visible;
             }
 
             Change_Room_Name(roomName);
-            Change_max_players(maxUsers);
             Change_question_num(questionNum);
             Change_question_time(questionTime);
         }
@@ -68,6 +71,7 @@ namespace WpfApp1
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
+            this._p.CloseRoom();
             Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();

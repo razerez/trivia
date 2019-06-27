@@ -87,9 +87,16 @@ namespace WpfApp1
             return roomId;
         }
 
+        public string GetRoomName()
+        {
+            string name = rooms.SelectedItem.ToString();
+            name = name.Substring((rooms.SelectedItem.ToString().IndexOf(". ")) + 2, rooms.SelectedItem.ToString().Length - 3);
+            return name;
+        }
+
         public void fillPlayerList()
         {
-            rooms.Items.Clear();
+            players.Items.Clear();
             string[] roomsArr = _p.GetRooms();
             if (roomsArr.Length == 0)
                 error.Visibility = Visibility.Visible;
@@ -145,7 +152,8 @@ namespace WpfApp1
             if(!string.IsNullOrEmpty(rooms.Text))//check if room is selected
             {
                 JoinRoom();
-                WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, false,"","","","");
+                WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, false,GetRoomName()
+                                                                , "","","");
                 waiting.Show();
                 this.Close();
             }
