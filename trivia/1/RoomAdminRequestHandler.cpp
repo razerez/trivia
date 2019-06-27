@@ -5,7 +5,7 @@ RequestResult RoomAdminRequestHandler::closeRoom(Request request)
 {
 	int stat = this->_m_roomManager->deleteRoom(this->_m_room->getRoomData()._id);
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse(stat));
-	IRequestHandler* nextHandler = this->_m_handlerFactory->createMenuRequestHandler(this->_m_loggedUser);
+	IRequestHandler* nextHandler = this->_m_handlerFactory->createMenuRequestHandler(this->_m_username);
 	return RequestResult(buff, nextHandler);
 }
 
@@ -37,7 +37,7 @@ RequestResult RoomAdminRequestHandler::GetRoomState(Request request)
 	return RequestResult(buff, nextHandler);
 }
 
-RoomAdminRequestHandler::RoomAdminRequestHandler(Room * _m_room, LoggedUser * _m_loggedUser, RoomManager * _m_roomManager, RequestHandlerFactory * _m_handlerFactory) :_m_loggedUser(*_m_loggedUser)
+RoomAdminRequestHandler::RoomAdminRequestHandler(Room * _m_room, LoggedUser * _m_loggedUser, RoomManager * _m_roomManager, RequestHandlerFactory * _m_handlerFactory) :_m_username(*_m_loggedUser)
 {
 	this->_m_room = _m_room;
 	this->_m_handlerFactory = _m_handlerFactory;
@@ -50,19 +50,19 @@ RoomAdminRequestHandler::~RoomAdminRequestHandler()
 
 LoggedUser RoomAdminRequestHandler::getUsername()
 {
-	return this->_m_loggedUser;
+	return this->_m_username;
 }
 
 void RoomAdminRequestHandler::setUsername(LoggedUser username)
 {
-	this->_m_loggedUser = username;
+	this->_m_username = username;
 }
 
 
 bool RoomAdminRequestHandler::isRequestRelevant(Request request)
 {
 
-
+	this;
 	char reqId = request._buffer[0];
 	if (reqId == 'D' || reqId == 'S' || reqId == 'R')
 	{

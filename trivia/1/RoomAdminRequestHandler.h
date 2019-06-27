@@ -12,7 +12,7 @@ class RequestHandlerFactory;
 
 class RoomAdminRequestHandler : public IRequestHandler
 {
-	LoggedUser _m_loggedUser;
+	LoggedUser _m_username;
 	Room * _m_room;
 	RoomManager * _m_roomManager;
 	RequestHandlerFactory * _m_handlerFactory;
