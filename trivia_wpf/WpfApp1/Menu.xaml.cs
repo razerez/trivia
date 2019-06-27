@@ -28,6 +28,7 @@ namespace WpfApp1
             if(loggedIn)
             {
                 secondView();
+                username.Text = "Hello " +  this._p._username;
                 usernameTop.Text = this._p._username;
             }
             else

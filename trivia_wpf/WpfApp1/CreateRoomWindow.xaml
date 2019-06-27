@@ -10,7 +10,17 @@
     <Grid>
         <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
         <Button Margin="748,10,10.2,631.2" Click="Back_Click">Back</Button>
+        <TextBlock Visibility= "Visible" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,463.2,643.2"/>
 
+        <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontSize="15" Margin="0 ,566,0 ,72.2" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="-0.129"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.598"/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>invalid details</TextBlock>
         <TextBlock FontSize="25" FontWeight="Bold" Margin="146,103,-146.8,-103.8">Room Name:</TextBlock>
         <TextBox Name="roomNameTextBox" Margin="444,103,173.2,546.2"/>
         <TextBlock FontSize="25" FontWeight="Bold" Margin="146,203,-146.8,-103.8">Max Number of Players:</TextBlock>

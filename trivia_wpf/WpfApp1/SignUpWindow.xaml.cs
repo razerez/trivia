@@ -29,8 +29,11 @@ namespace WpfApp1
         private void Sign_Up_Click(object sender, RoutedEventArgs e)
         {
             _p._username = usernameTextBox.Text;
-            if (passwordTextBox.Text == "" || usernameTextBox.Text == ""||emailTextBox.Text=="")
+            if (passwordTextBox.Text == "" || usernameTextBox.Text == "" || emailTextBox.Text == "")
+            {
+                error.Visibility = Visibility.Visible;
                 return;
+            }
                 if (this._p.Signup(passwordTextBox.Text, emailTextBox.Text))
             {
                 error.Visibility = Visibility.Hidden;
