@@ -234,7 +234,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateRe
 	std::vector<char> optionAndLenghVec;
 	optionAndLenghVec.push_back('r');
 
-	int size = str.size();
+	int size = str.size()+5;
 	
 	optionAndLenghVec.push_back(0b0);
 
@@ -243,6 +243,11 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateRe
 
 	optionAndLenghVec.push_back(leftByte);
 	optionAndLenghVec.push_back(rightByte);
+	optionAndLenghVec.push_back(1);
+	optionAndLenghVec.push_back(1);
+	optionAndLenghVec.push_back(std::to_string(getRoomStatRes._questionCount).length());
+	optionAndLenghVec.push_back(std::to_string(getRoomStatRes._answerTimeount).length());
+	optionAndLenghVec.push_back(std::to_string(getRoomStatRes._players.size()).length());
 	
 
 	std::vector<char> dataVector = stringToVectorChar(str);
