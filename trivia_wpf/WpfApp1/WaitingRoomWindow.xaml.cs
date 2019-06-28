@@ -20,7 +20,7 @@ namespace WpfApp1
     public partial class WaitingRoomWindow : Window
     {
         private Program _p;
-        public WaitingRoomWindow(Program p, bool isManager, string roomName, string maxUsers, string questionNum, string questionTime)
+        public WaitingRoomWindow(Program p, bool isManager, string roomName, string maxUsers, string questionNum, string questionTime, string[] players)
         {
             InitializeComponent();
             this._p = p;
@@ -46,7 +46,17 @@ namespace WpfApp1
             Change_Room_Name(roomName);
             Change_question_num(questionNum);
             Change_question_time(questionTime);
+            UpdatePlayers(players);
         }
+
+        public void UpdatePlayers(string[] players)
+        {
+            for (int i = 0; i < players.Length; i++)
+            {
+                participants.Items.Add(players[i]);
+            }
+        }
+
 
         private void Change_Room_Name(string name)
         {

@@ -35,7 +35,7 @@ namespace WpfApp1
             string answerTime = AnalyzeJson(buffer, "AnswerTimeout:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT, ANSWER_TIME_SIZE_SEGMENT);
             string length = AnalyzeJson(buffer, "length:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT + ANSWER_TIME_SIZE_SEGMENT, LENGTH_SIZE_SEGMENT);
             Room room = new Room(status, hasStarted, questionCount, answerTime, Int32.Parse(length));
-            FillNames(room, buffer, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT + ANSWER_TIME_SIZE_SEGMENT + LENGTH_SIZE_SEGMENT);
+            FillNames(room, buffer, FindStrIndex("[", buffer, 1));
             return room;
         }
 
@@ -58,8 +58,8 @@ namespace WpfApp1
             {
                 if(buffer[i] == '"')
                 {
-                    int end = FindStrIndex("\"", buffer, i);
-                    string name = GetBytes(i, end - i, buffer);
+                    int end = FindStrIndex("\"", buffer, i + 2) - 1;
+                    string name = GetBytes(i + 1, end - i - 1, buffer);
                     room._names[j] = name;
                     j++;
                     i = end;
@@ -87,7 +87,7 @@ namespace WpfApp1
             string ret = "";
             for (int i = skipTo; i < dataSize + skipTo; i++)
             {
-                ret += buffer[i];
+                ret += Convert.ToChar(buffer[i]);
             }
             return ret;
         }
