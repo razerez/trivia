@@ -46,7 +46,7 @@ namespace WpfApp1
             if(roomNameTextBox.Text!=""&& maxPlayersTextBox.Text != "" && questionsNumTextBox.Text != "" && questionTimeTextBox.Text != "" && createRoom())
             {
             WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, true,
-                                                           roomNameTextBox.Text, maxPlayersTextBox.Text, questionsNumTextBox.Text, questionTimeTextBox.Text);
+                                                           roomNameTextBox.Text, maxPlayersTextBox.Text, questionsNumTextBox.Text, questionTimeTextBox.Text, this._p.GetRoomState()._names);
             waiting.Show();
             this.Close();
             }

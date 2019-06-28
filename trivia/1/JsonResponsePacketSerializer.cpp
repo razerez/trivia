@@ -220,7 +220,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateRe
 		+ "\"\nHasStarted:\"" + std::to_string(boolInt)
 		+ "\"\nQuestionCount:\"" + std::to_string(getRoomStatRes._questionCount) 
 		+ "\"\nAnswerTimeout:\"" + std::to_string(getRoomStatRes._answerTimeount) 
-		+ "\"\nlength:" + std::to_string(getRoomStatRes._players.size()) 
+		+ "\"\nlength:\"" + std::to_string(getRoomStatRes._players.size()) + "\""
 		+ "\nNames[";
 	
 
