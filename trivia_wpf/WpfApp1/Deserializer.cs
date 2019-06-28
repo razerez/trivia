@@ -10,7 +10,7 @@ namespace WpfApp1
     class Deserializer
     {
         public const int CODE_SEGMENT = 1;
-        public const int DATA_LENGTH_SEGMENT = 1;
+        public const int DATA_LENGTH_SEGMENT = 3;
 
         public const int STATUS_SIZE_SEGMENT = 1;
         public const int HAS_STARTED_SIZE_SEGMENT = 1;
@@ -18,15 +18,15 @@ namespace WpfApp1
         public const int ANSWER_TIME_SIZE_SEGMENT = 1;
         public const int LENGTH_SIZE_SEGMENT = 1;
 
-        public int _dataLocationSign = 0;
+        public int _dataLocationSign = 1;
 
         public Room DeserializeJoinRoomRequest(byte[] buffer)
         {
             string status = AnalyzeJson(buffer, "Status:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT, STATUS_SIZE_SEGMENT);
             string hasStarted = AnalyzeJson(buffer, "HasStarted:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT, HAS_STARTED_SIZE_SEGMENT);
-            string questionCount = AnalyzeJson(buffer, "QuestionsCount:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT, QUESTION_COUNT_SIZE_SEGMENT);
-            string answerTime = AnalyzeJson(buffer, "AnswerTime:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT, ANSWER_TIME_SIZE_SEGMENT);
-            string length = AnalyzeJson(buffer, "Length:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT + ANSWER_TIME_SIZE_SEGMENT, LENGTH_SIZE_SEGMENT);
+            string questionCount = AnalyzeJson(buffer, "QuestionCount:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT, QUESTION_COUNT_SIZE_SEGMENT);
+            string answerTime = AnalyzeJson(buffer, "AnswerTimeout:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT, ANSWER_TIME_SIZE_SEGMENT);
+            string length = AnalyzeJson(buffer, "length:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT + ANSWER_TIME_SIZE_SEGMENT, LENGTH_SIZE_SEGMENT);
             Room room = new Room(Int32.Parse(status), Int32.Parse(hasStarted), questionCount.ToString(), answerTime.ToString(), Int32.Parse(length));
             FillNames(room, buffer, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT + ANSWER_TIME_SIZE_SEGMENT + LENGTH_SIZE_SEGMENT);
             return room;
@@ -76,10 +76,10 @@ namespace WpfApp1
 
         int FindStrIndex(string str, byte[] buffer, int skipTo)
         {
-            str.ToLower();//make the str lowercase -> not case sensetive
-            string bufferStr = buffer.ToString();//crate string from vector
-            bufferStr = bufferStr.Substring(skipTo - 1, bufferStr.Length);//cut all until startPoint
-            bufferStr.ToLower();//make the str lowercase -> not case sensetive
+            str = str.ToLower();//make the str lowercase -> not case sensetive
+            string bufferStr = System.Text.Encoding.UTF8.GetString(buffer);//crate string from vector
+            bufferStr = bufferStr.Substring(skipTo - 1, bufferStr.Length - (skipTo - 1));//cut all until startPoint
+            bufferStr = bufferStr.ToLower();//make the str lowercase -> not case sensetive
             int index = bufferStr.IndexOf(str);
             if (index == -1)//string not found
             {
