@@ -18,19 +18,37 @@ namespace WpfApp1
         public const int ANSWER_TIME_SIZE_SEGMENT = 1;
         public const int LENGTH_SIZE_SEGMENT = 1;
 
+
+        public const int NUMBER_OF_GAMES_SIZE_SEGMENT = 1;
+        public const int NUM_RIGHT_SIZE_SEGMENT = 1;
+        public const int NUM_WRONG_SIZE_SEGMENT = 1;
+        public const int AVG_TIME_PER_ANSWER_SIZE_SEGMENT = 1;
+
         public int _dataLocationSign = 1;
 
-        public Room DeserializeJoinRoomRequest(byte[] buffer)
+        public Room DeserializeJoinRoomResponse(byte[] buffer)
         {
+            _dataLocationSign = 1;
             string status = AnalyzeJson(buffer, "Status:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT, STATUS_SIZE_SEGMENT);
             string hasStarted = AnalyzeJson(buffer, "HasStarted:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT, HAS_STARTED_SIZE_SEGMENT);
             string questionCount = AnalyzeJson(buffer, "QuestionCount:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT, QUESTION_COUNT_SIZE_SEGMENT);
             string answerTime = AnalyzeJson(buffer, "AnswerTimeout:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT, ANSWER_TIME_SIZE_SEGMENT);
             string length = AnalyzeJson(buffer, "length:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT + ANSWER_TIME_SIZE_SEGMENT, LENGTH_SIZE_SEGMENT);
-            Room room = new Room(Int32.Parse(status), Int32.Parse(hasStarted), questionCount.ToString(), answerTime.ToString(), Int32.Parse(length));
+            Room room = new Room(status, hasStarted, questionCount, answerTime, Int32.Parse(length));
             FillNames(room, buffer, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT + HAS_STARTED_SIZE_SEGMENT + QUESTION_COUNT_SIZE_SEGMENT + ANSWER_TIME_SIZE_SEGMENT + LENGTH_SIZE_SEGMENT);
             return room;
         }
+
+        public Status DeserializeStatusResponse(byte[] buffer)
+        {
+            _dataLocationSign = 1;
+            string numberOfGames = AnalyzeJson(buffer, "NumberOfGames:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT, NUMBER_OF_GAMES_SIZE_SEGMENT);
+            string numRight = AnalyzeJson(buffer, "NumRight:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + NUMBER_OF_GAMES_SIZE_SEGMENT, NUM_RIGHT_SIZE_SEGMENT);
+            string numWrong = AnalyzeJson(buffer, "NumWrong:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + NUMBER_OF_GAMES_SIZE_SEGMENT + NUM_RIGHT_SIZE_SEGMENT, NUM_WRONG_SIZE_SEGMENT);
+            string avgTimePerAns = AnalyzeJson(buffer, "AvgTimePerAns:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + NUMBER_OF_GAMES_SIZE_SEGMENT + NUM_RIGHT_SIZE_SEGMENT + NUM_WRONG_SIZE_SEGMENT, AVG_TIME_PER_ANSWER_SIZE_SEGMENT);
+            return new Status(numberOfGames, numRight, numWrong, avgTimePerAns);
+        }
+
 
         public void FillNames(Room room, byte[] buffer, int startFrom)
         {
