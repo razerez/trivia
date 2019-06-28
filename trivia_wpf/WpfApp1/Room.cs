@@ -8,13 +8,13 @@ namespace WpfApp1
 {
     public class Room
     {
-        public int _status;
-        public int _hasStarted;
+        public string _status;
+        public string _hasStarted;
         public string _questionCount;
         public string _answerTime;
         public int _length;
         public string[] _names;
-        public Room(int status, int hasStarted, string questionCount, string answerTime, int length)
+        public Room(string status, string hasStarted, string questionCount, string answerTime, int length)
         {
             this._status = status;
             this._hasStarted = hasStarted;

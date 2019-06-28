@@ -26,7 +26,11 @@ namespace WpfApp1
             this._p = p;
             usernameTop.Text = this._p._username;
             usernameTop.Visibility = Visibility.Visible;
-            _p.myStatus();
+            Status stat = _p.myStatus();
+            ChangeGameNum(stat._numberOfGames);
+            ChangeRightAnswersNum(stat._numRight);
+            ChangeWrongAnswersNum(stat._numWrong);
+            ChangeAvergeTimeNum(stat._avgTimePerAns);
         
         }
 
@@ -36,21 +40,21 @@ namespace WpfApp1
             menu.Show();
             this.Close();
         }
-        private void ChangeGameNum(int num)
+        private void ChangeGameNum(string num)
         {
-            gameNum.Text = "number of games: " + num.ToString();
+            gameNum.Text = "number of games: " + num;
         }        
-        private void ChangeRightAnswersNum(int num)
+        private void ChangeRightAnswersNum(string num)
         {
-            rightAnswersNum.Text = "number of right answers: " + num.ToString();
+            rightAnswersNum.Text = "number of right answers: " + num;
         }        
-        private void ChangeWrongAnswersNum(int num)
+        private void ChangeWrongAnswersNum(string num)
         {
-            wrongAnswersNum.Text = "number of wrong answers: " + num.ToString();
+            wrongAnswersNum.Text = "number of wrong answers: " + num;
         }
-        private void ChangeAvergeTimeNum(int num)
+        private void ChangeAvergeTimeNum(string num)
         {
-            avarageTimeNum.Text = "average time for answer: " + num.ToString();
+            avarageTimeNum.Text = "average time for answer: " + num;
         }
     }
 }

@@ -130,7 +130,7 @@ namespace WpfApp1
         {
             string msg = "R" + "\0" + "\0" + "\0";
             byte[] res = SendAndReciveMessage(msg);
-            Room room = new Deserializer().DeserializeJoinRoomRequest(res);
+            Room room = new Deserializer().DeserializeJoinRoomResponse(res);
             return room;
         }
 
@@ -152,12 +152,12 @@ namespace WpfApp1
             string[] playersArr = SendAndDecodeArrMessage(msg);
             return playersArr;
         }
-        public string[] myStatus()/////////////////////////////////////needs to update response
+        public Status myStatus()/////////////////////////////////////needs to update response
         {
             string msg = "M" + "\0" + "\0" + "\0";
             byte[] s = SendAndReciveMessage(msg);
-            string[] res=new string[0];//for now
-            return res;
+            Status stat = new Deserializer().DeserializeStatusResponse(s);
+            return stat;
         }
         public string[] GetHighScores()////////////////////////////////////needs to update response
         {
