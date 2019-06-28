@@ -75,8 +75,6 @@ RequestResult MenuRequestHandler::myStatus(Request req)
 {
 	MyStatusResponse ms = (*this->_m_myStatus).getReport(this->_m_username);
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(ms);
-	for (std::vector<char>::iterator i = buff.begin(); i != buff.end(); ++i)
-		std::cout << *i;
 
 	IRequestHandler* nextHandler = this;
 	return RequestResult(buff, nextHandler);

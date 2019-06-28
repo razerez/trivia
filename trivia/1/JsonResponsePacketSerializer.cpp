@@ -270,6 +270,14 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(MyStatusRespon
 	stream << std::fixed << std::setprecision(2) << avr;
 	std::string avrString = stream.str();
 
+	int numOfGames = std::to_string(myStatus._m_numGames).size();
+	int numRight = std::to_string(myStatus._m_numRight).size();
+	int numWrong = std::to_string(myStatus._m_numWrong).size();
+	int avgTimePerAns = avrString.size();
+
+
+
+
 
 	std::string data = " {\nNumberOfGames:\"" + std::to_string(myStatus._m_numGames)
 		+ "\"\nNumRight:\"" + std::to_string(myStatus._m_numRight)
@@ -280,7 +288,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(MyStatusRespon
 	optionAndLenghVec.push_back('m');
 
 
-	int size = data.size();
+	int size = data.size() + 4;
 
 	optionAndLenghVec.push_back(0b0);
 
@@ -289,6 +297,11 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(MyStatusRespon
 
 	optionAndLenghVec.push_back(leftByte);
 	optionAndLenghVec.push_back(rightByte);
+
+	optionAndLenghVec.push_back(char(numOfGames));
+	optionAndLenghVec.push_back(char(numRight));
+	optionAndLenghVec.push_back(char(numWrong));
+	optionAndLenghVec.push_back(char(avgTimePerAns));
 
 	std::vector<char> dataVector = stringToVectorChar(data);
 	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
