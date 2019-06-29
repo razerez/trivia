@@ -28,7 +28,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(Request req)
 	IRequestHandler* nextHandler = this;
 	return RequestResult(buff, nextHandler);
 	vector<SOCKET> v;
-	vector<LoggedUser> users = this->_m_roomManager->getRoom(user.roomId).getAllUsers();
+	vector<LoggedUser> users = (*this->_m_roomManager->getRoom(user.roomId)).getAllUsers();
 	for (vector<LoggedUser>::iterator it = users.begin(); it != users.end(); it++)
 		v.push_back((*it).getSocket());
 	return RequestResult(buff, nextHandler, v);
@@ -48,12 +48,12 @@ RequestResult MenuRequestHandler::joinRoom(Request req)
 	int stat = this->_m_roomManager->joinRoom(this->_m_username, user.roomId);
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse(stat));
 
-	Room * newRoom = new Room(this->_m_roomManager->getRoom(user.roomId).getRoomData(), this->_m_roomManager->getRoom(user.roomId).getAllUsers());
-	
+	Room * newRoom = this->_m_roomManager->getRoom(user.roomId);
+
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomMemberRequestHandler(this->_m_username, newRoom);
 	
 	vector<SOCKET> v;
-	vector<LoggedUser> users = this->_m_roomManager->getRoom(user.roomId).getAllUsers();
+	vector<LoggedUser> users = (*this->_m_roomManager->getRoom(user.roomId)).getAllUsers();
 	for (vector<LoggedUser>::iterator it = users.begin(); it != users.end(); ++it)
 		v.push_back((*it).getSocket());
 
@@ -70,10 +70,8 @@ RequestResult MenuRequestHandler::createRoom(Request req)
 
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse(stat));
 
-	std::vector<LoggedUser> d;
-	d.push_back(this->_m_username);
+	Room * newRoom = this->_m_roomManager->getRoom(roomData._id);
 
-	Room * newRoom = new Room(roomData, d);
 
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomAdminRequesHandler(this->_m_username, newRoom);
 	return RequestResult(buff, nextHandler);
