@@ -6,7 +6,10 @@ RequestResult RoomAdminRequestHandler::closeRoom(Request request)
 	int stat = this->_m_roomManager->deleteRoom(this->_m_room->getRoomData()._id);
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse(stat));
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createMenuRequestHandler(this->_m_username);
-	return RequestResult(buff, nextHandler);
+	vector<SOCKET> v;
+	for (vector<LoggedUser>::iterator it = _m_room->getAllUsers().begin(); it != _m_room->getAllUsers().end(); it++)
+		v.push_back((*it).getSocket());
+	return RequestResult(buff, nextHandler, v);
 }
 
 
@@ -14,7 +17,10 @@ RequestResult RoomAdminRequestHandler::StartGame(Request request)
 {
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(StartGameResponse(this->_m_room->getRoomData()._isActive));
 	IRequestHandler* nextHandler = this;//need to change all function
-	return RequestResult(buff, nextHandler);
+	vector<SOCKET> v;
+	for (vector<LoggedUser>::iterator it = _m_room->getAllUsers().begin(); it != _m_room->getAllUsers().end(); it++)
+		v.push_back((*it).getSocket());
+	return RequestResult(buff, nextHandler, v);
 }
 
 RequestResult RoomAdminRequestHandler::GetRoomState(Request request)

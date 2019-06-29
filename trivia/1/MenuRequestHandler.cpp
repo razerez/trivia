@@ -27,7 +27,11 @@ RequestResult MenuRequestHandler::getPlayersInRoom(Request req)
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse(this->_m_roomManager->getPlayersInRooms(user.roomId)));
 	IRequestHandler* nextHandler = this;
 	return RequestResult(buff, nextHandler);
-
+	vector<SOCKET> v;
+	vector<LoggedUser> users = this->_m_roomManager->getRoom(user.roomId).getAllUsers();
+	for (vector<LoggedUser>::iterator it = users.begin(); it != users.end(); it++)
+		v.push_back((*it).getSocket());
+	return RequestResult(buff, nextHandler, v);
 }
 
 RequestResult MenuRequestHandler::getHighscores(Request req)
@@ -47,11 +51,7 @@ RequestResult MenuRequestHandler::joinRoom(Request req)
 	Room * newRoom = new Room(this->_m_roomManager->getRoom(user.roomId).getRoomData(), this->_m_roomManager->getRoom(user.roomId).getAllUsers());
 	
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomMemberRequestHandler(this->_m_username, newRoom);
-	vector<SOCKET> v;
-	vector<LoggedUser> users= newRoom->getAllUsers();
-	for (vector<LoggedUser>::iterator it = users.begin(); it != users.end(); it++)
-		v.push_back((*it).getSocket());
-	return RequestResult(buff, nextHandler, v);
+	return RequestResult(buff, nextHandler);
 }
 
 //finish
