@@ -32,7 +32,6 @@ void Room::deleteUser(LoggedUser user)
 	}
 	
 	this->_m_users.erase(this->_m_users.begin() + counter);
-	std::cout << username << " Logged Out" << std::endl;
 }
 
 std::vector<LoggedUser> Room::getAllUsers()

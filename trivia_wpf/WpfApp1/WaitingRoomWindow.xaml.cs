@@ -94,6 +94,7 @@ namespace WpfApp1
 
         private void Leave_Click(object sender, RoutedEventArgs e)
         {
+            _p.LeaveRoom();
             Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();

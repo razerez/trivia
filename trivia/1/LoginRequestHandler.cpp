@@ -99,7 +99,7 @@ RequestResult LoginRequestHandler::logout(Request req)
 {
 	LogoutRequest user = JsonRequestPacketDeserializer().deserializeLogoutRequest(req._buffer);
 	int stat = this->_m_loginManager->logout(user._username);
-	std::string str = "";
+	string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LogoutResponse(stat));
 	IRequestHandler* nextHandler = _m_handlerFactory->createLoginRequestHandler(LoggedUser(""));
 	return RequestResult(buff, nextHandler);
