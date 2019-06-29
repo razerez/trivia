@@ -51,14 +51,20 @@ RequestResult MenuRequestHandler::joinRoom(Request req)
 	Room * newRoom = new Room(this->_m_roomManager->getRoom(user.roomId).getRoomData(), this->_m_roomManager->getRoom(user.roomId).getAllUsers());
 	
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomMemberRequestHandler(this->_m_username, newRoom);
-	return RequestResult(buff, nextHandler);
+	
+	vector<SOCKET> v;
+	vector<LoggedUser> users = this->_m_roomManager->getRoom(user.roomId).getAllUsers();
+	for (vector<LoggedUser>::iterator it = users.begin(); it != users.end(); ++it)
+		v.push_back((*it).getSocket());
+
+	return RequestResult(buff, nextHandler, v);
 }
 
 //finish
 RequestResult MenuRequestHandler::createRoom(Request req)
 {
 	CreateRoomRequest user = JsonRequestPacketDeserializer().deserializeCreateRoomRequest(req._buffer);
-	RoomData roomData(0, user.roomName, user.maxUsers, user.answerTimeout, 1, user.questionCount);
+	RoomData roomData(0, user.roomName, user.maxUsers, user.answerTimeout, 0, user.questionCount);
 	int stat = this->_m_roomManager->createRoom(this->_m_username, roomData);
 	
 
