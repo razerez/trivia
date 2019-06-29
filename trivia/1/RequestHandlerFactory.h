@@ -27,7 +27,6 @@ private:
 	MyStatusReport * _m_myStatus;
 public:
 	LoginRequestHandler * createLoginRequestHandler(LoggedUser l);
-	LoginRequestHandler * createLoginRequestHandler();
 	MenuRequestHandler * createMenuRequestHandler(LoggedUser l);
 	RoomAdminRequestHandler * createRoomAdminRequesHandler(LoggedUser l, Room * r);
 	RoomMemberRequestHandler * createRoomMemberRequestHandler(LoggedUser l, Room * r);

@@ -7,7 +7,8 @@
 #include <string>
 #include "IDatabase.h"
 #include "LoggedUser.h"
-
+#include <WinSock2.h>
+#include <Windows.h>
 
 
 class LoginManager
@@ -15,8 +16,8 @@ class LoginManager
 public:
 	LoginManager(IDataBase * dataBase, vector<LoggedUser> loggedUsers);
 	~LoginManager();
-	int signup(std::string username, std::string password, std::string email);
-	int login(std::string username, std::string password);
+	int signup(std::string username, std::string password, std::string email,SOCKET socket);
+	int login(std::string username, std::string password,SOCKET socket);
 	int logout(std::string username);
 
 

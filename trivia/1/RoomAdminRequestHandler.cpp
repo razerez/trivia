@@ -72,7 +72,7 @@ bool RoomAdminRequestHandler::isRequestRelevant(Request request)
 
 }
 
-RequestResult RoomAdminRequestHandler::handleRequest(Request request)
+RequestResult RoomAdminRequestHandler::handleRequest(Request request, SOCKET socket)
 {
 	char reqId = request._buffer[0];
 	if (reqId == 'D')

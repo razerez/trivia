@@ -45,12 +45,12 @@ void Communicator::bindAndListen()
 		startThreadForNewClient();
 }
 
-std::vector<char> bufferOfLoggedUser(LoggedUser myUser, std::vector<char> buffer)
+std::vector<char> bufferOfLoggedUser(string myUser, std::vector<char> buffer)
 {
-	int size = myUser.getUsername().size();
+	int size = myUser.size();
 	buffer[4] = char(size);
 	buffer[3] = char(14 + size);
-	std::vector<char> newVec = stringToVectorChar(myUser.getUsername());
+	std::vector<char> newVec = stringToVectorChar(myUser);
 	newVec.push_back('"'); //""\n}
 	newVec.push_back('\n');
 	newVec.push_back('}');
@@ -106,11 +106,11 @@ void Communicator::clientHandler(SOCKET socket)
 				throw("EXIT NOW");
 			else if ((req._buffer[0] == 'O') && username != "")//if we need to log out
 			{
-				req._buffer = bufferOfLoggedUser(LoggedUser(username),req._buffer);
+				req._buffer = bufferOfLoggedUser(username,req._buffer);
 			}
 			if (handler->isRequestRelevant(req))
 			{
-				response = new RequestResult(handler->handleRequest(req));//take care of request
+				response = new RequestResult(handler->handleRequest(req, socket));//take care of request
 				l.lock();
 				_m_clients[socket] = response->getNewHandler();
 				l.unlock();
@@ -121,7 +121,7 @@ void Communicator::clientHandler(SOCKET socket)
 				{
 					username = "";
 					l.lock();
-					_m_clients[socket] = _m_handlerFactory->createLoginRequestHandler(LoggedUser(""));
+					_m_clients[socket] = _m_handlerFactory->createLoginRequestHandler(LoggedUser("",socket));
 					l.unlock();
 
 				}
@@ -132,7 +132,13 @@ void Communicator::clientHandler(SOCKET socket)
 				for (int i = 0; i < 3; i++)
 					response->_response.push_back('0');
 			}
-			sendMsg(vectorCharToString(response->getResponse()), socket);
+			if(response->_m_whoToSendTo.size()==0)
+				sendMsg(vectorCharToString(response->getResponse()), socket);
+			else
+			{
+				for(vector<SOCKET>::iterator it=response->_m_whoToSendTo.begin();it!= response->_m_whoToSendTo.end();it++)
+					sendMsg(vectorCharToString(response->getResponse()), *it);
+			}
 			response->_newHandler = nullptr;//in order to not delete the new handler
 			if (response != nullptr)delete(response);
 			response = nullptr;
@@ -153,9 +159,9 @@ void Communicator::clientHandler(SOCKET socket)
 			v[0] = 'D';
 			Request closeRoom('D',time(0),v);
 			if (handler->isRequestRelevant(leaveRoom))//makes sure that if the user joined a room we will leave it before he exits
-				handler->handleRequest(leaveRoom);
+				handler->handleRequest(leaveRoom,  socket);
 			else if(handler->isRequestRelevant(closeRoom))//makes sure that if the user created a room it will by closed before he leaves 
-				handler->handleRequest(closeRoom);
+				handler->handleRequest(closeRoom,  socket);
 
 		}
 		if (username != "")//send an exit request to handler that will also log the user out
@@ -165,9 +171,9 @@ void Communicator::clientHandler(SOCKET socket)
 			v.push_back(username.size()+14);
 			v.push_back(username.size());
 			v.insert(v.end(),v1.begin(),v1.end());
-			v = bufferOfLoggedUser(LoggedUser(username), v); 
-			LoginRequestHandler *r = _m_handlerFactory->createLoginRequestHandler();
-			r->handleRequest(Request('X', time(0), v));
+			v = bufferOfLoggedUser(username, v); 
+			LoginRequestHandler *r = _m_handlerFactory->createLoginRequestHandler(LoggedUser("",socket));
+			r->handleRequest(Request('X', time(0), v), socket);
 			if(r!=nullptr)delete(r);
 			r = nullptr;
 		}
@@ -196,7 +202,7 @@ void Communicator::startThreadForNewClient()
 	SOCKET client_socket = ::accept(serverSocket, NULL, NULL);
 	if (client_socket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__);
-	IRequestHandler * handler = (_m_handlerFactory->createLoginRequestHandler());// assign first handler
+	IRequestHandler * handler = (_m_handlerFactory->createLoginRequestHandler(LoggedUser("",client_socket)));// assign first handler
 
 	std::unique_lock<std::mutex> l(lock);
 	_m_clients.insert(std::pair<SOCKET, IRequestHandler*>(client_socket, handler));

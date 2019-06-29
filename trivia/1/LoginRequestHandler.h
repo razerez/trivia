@@ -14,11 +14,10 @@ class RequestHandlerFactory;
 class LoginRequestHandler: public IRequestHandler
 {
 public:
-	LoginRequestHandler(LoginManager* m_loginManager, RequestHandlerFactory* m_handlerFactory);
 	LoginRequestHandler(LoginManager* m_loginManager, RequestHandlerFactory* m_handlerFactory,LoggedUser username);
 	~LoginRequestHandler();
 	bool isRequestRelevant(Request req);
-	RequestResult handleRequest(Request req);
+	RequestResult handleRequest(Request req,SOCKET socket);
 	LoggedUser getUsername();
 	void setUsername(LoggedUser username);
 private:
@@ -26,7 +25,7 @@ private:
 	LoginManager* _m_loginManager;
 	RequestHandlerFactory* _m_handlerFactory;
 	RequestResult exit(Request req);
-	RequestResult login(Request req);
-	RequestResult signup(Request req);
-	RequestResult logout(Request req);
+	RequestResult login(Request req, SOCKET socket);
+	RequestResult signup(Request req, SOCKET socket);
+	RequestResult logout(Request req, SOCKET socket);
 };

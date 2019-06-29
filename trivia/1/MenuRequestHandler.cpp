@@ -3,10 +3,10 @@
 
 
 //finish
-RequestResult MenuRequestHandler::signOut(Request req)
+RequestResult MenuRequestHandler::signOut(Request req, SOCKET socket)
 {
-	RequestResult result = this->_m_handlerFactory->createLoginRequestHandler(_m_username)->handleRequest(req);
-	result._newHandler = this->_m_handlerFactory->createLoginRequestHandler(); // need to change
+	RequestResult result = this->_m_handlerFactory->createLoginRequestHandler(_m_username)->handleRequest(req, socket);
+	result._newHandler = this->_m_handlerFactory->createLoginRequestHandler(LoggedUser("",socket)); // need to change
 	return result;
 }
 
@@ -30,7 +30,6 @@ RequestResult MenuRequestHandler::getPlayersInRoom(Request req)
 
 }
 
-//not finish need to check
 RequestResult MenuRequestHandler::getHighscores(Request req)
 {
 	HighscoreResponse newHigh(1, *this->_m_highscoreTable);
@@ -39,7 +38,6 @@ RequestResult MenuRequestHandler::getHighscores(Request req)
 	return RequestResult(buff, nextHandler);
 }
 
-//finish
 RequestResult MenuRequestHandler::joinRoom(Request req)
 {
 	JoinRoomRequest user = JsonRequestPacketDeserializer().deserializeJoinRoomRequest(req._buffer);
@@ -49,7 +47,10 @@ RequestResult MenuRequestHandler::joinRoom(Request req)
 	Room * newRoom = new Room(this->_m_roomManager->getRoom(user.roomId).getRoomData(), this->_m_roomManager->getRoom(user.roomId).getAllUsers());
 	
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomMemberRequestHandler(this->_m_username, newRoom);
-	return RequestResult(buff, nextHandler);
+	vector<SOCKET> v;
+	for (vector<LoggedUser>::iterator it = newRoom->getAllUsers().begin(); it != newRoom->getAllUsers().end(); it++)
+		v.push_back((*it).getSocket());
+	return RequestResult(buff, nextHandler, v);
 }
 
 //finish
@@ -117,12 +118,12 @@ bool MenuRequestHandler::isRequestRelevant(Request req)
 }
 
 //finish
-RequestResult MenuRequestHandler::handleRequest(Request req)
+RequestResult MenuRequestHandler::handleRequest(Request req, SOCKET socket)
 {
 	char reqId = req._buffer[0];
 	if (reqId == 'O')
 	{
-		return signOut(req);
+		return signOut(req, socket);
 	}
 	else if (reqId == 'G')
 	{

@@ -1,10 +1,5 @@
 #include "LoginRequestHandler.h"
 
-LoginRequestHandler::LoginRequestHandler(LoginManager* m_loginManager, RequestHandlerFactory* m_handlerFactory) :_m_username("")
-{
-	this->_m_loginManager = m_loginManager;
-	this->_m_handlerFactory = m_handlerFactory;
-}
 
 LoginRequestHandler::LoginRequestHandler(LoginManager * m_loginManager, RequestHandlerFactory * m_handlerFactory, LoggedUser username) :_m_username(username)
 {
@@ -28,20 +23,20 @@ bool LoginRequestHandler::isRequestRelevant(Request req)
 
 
 
-RequestResult LoginRequestHandler::handleRequest(Request req)
+RequestResult LoginRequestHandler::handleRequest(Request req, SOCKET socket)
 {
 	char reqId = req._buffer[0];
 	if (reqId == 'I' )
 	{
-		return login(req);
+		return login(req, socket);
 	}
 	else if (reqId == 'U')
 	{
-		return signup(req);
+		return signup(req, socket);
 	}
 	else if (reqId == 'O')
 	{
-		return logout(req);
+		return logout(req, socket);
 	}
 	else if (reqId == 'X')
 	{
@@ -70,38 +65,38 @@ RequestResult LoginRequestHandler::exit(Request req)
 
 }
 
-RequestResult LoginRequestHandler::login(Request req)
+RequestResult LoginRequestHandler::login(Request req,SOCKET socket)
 {
 	LoginRequest user = JsonRequestPacketDeserializer().deserializeLoginRequest(req._buffer);
-	int stat = this->_m_loginManager->login(user._username, user._password);
+	int stat = this->_m_loginManager->login(user._username, user._password,socket);
 	std::string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LoginResponse(stat));
 	IRequestHandler* nextHandler=this;
 	if (stat)//nitay check this out 
-		nextHandler = _m_handlerFactory->createMenuRequestHandler(LoggedUser(user._username));
+		nextHandler = _m_handlerFactory->createMenuRequestHandler(LoggedUser(user._username, socket));
 	return RequestResult(buff, nextHandler);
 }
 
-RequestResult LoginRequestHandler::signup(Request req)
+RequestResult LoginRequestHandler::signup(Request req, SOCKET socket)
 {
 	SignupRequest user = JsonRequestPacketDeserializer().deserializeSignupRequest(req._buffer);
-	int stat = this->_m_loginManager->signup(user._username, user._password, user._email);
+	int stat = this->_m_loginManager->signup(user._username, user._password, user._email, socket);
 	std::string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(SignupResponse(stat));
 	IRequestHandler* nextHandler = this;
 	if (stat)
-		nextHandler = _m_handlerFactory->createMenuRequestHandler(LoggedUser(user._username));
+		nextHandler = _m_handlerFactory->createMenuRequestHandler(LoggedUser(user._username, socket));
 	return RequestResult(buff, nextHandler);
 }
 
 
-RequestResult LoginRequestHandler::logout(Request req)
+RequestResult LoginRequestHandler::logout(Request req, SOCKET socket)
 {
 	LogoutRequest user = JsonRequestPacketDeserializer().deserializeLogoutRequest(req._buffer);
 	int stat = this->_m_loginManager->logout(user._username);
 	string str = "";
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LogoutResponse(stat));
-	IRequestHandler* nextHandler = _m_handlerFactory->createLoginRequestHandler(LoggedUser(""));
+	IRequestHandler* nextHandler = _m_handlerFactory->createLoginRequestHandler(LoggedUser("", socket));
 	return RequestResult(buff, nextHandler);
 }
 

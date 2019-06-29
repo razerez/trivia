@@ -5,7 +5,11 @@ RequestResult RoomMemberRequestHandler::leaveRoom(Request request)
 	this->_m_room->deleteUser(this->_m_loggedUser);
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse(1));
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createMenuRequestHandler(this->_m_loggedUser);
-	return RequestResult(buff, nextHandler);
+	vector<SOCKET> v;
+	for (vector<LoggedUser>::iterator it = _m_room->getAllUsers().begin(); it != _m_room->getAllUsers().end(); it++)
+		v.push_back((*it).getSocket());
+	return RequestResult(buff, nextHandler,v);
+	
 }
 
 RequestResult RoomMemberRequestHandler::GetRoomState(Request request)
@@ -59,7 +63,7 @@ bool RoomMemberRequestHandler::isRequestRelevant(Request request)
 	return false;
 }
 
-RequestResult RoomMemberRequestHandler::handleRequest(Request request)
+RequestResult RoomMemberRequestHandler::handleRequest(Request request, SOCKET socket)
 {
 	char reqId = request._buffer[0];
 	if (reqId == 'L')

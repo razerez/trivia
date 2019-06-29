@@ -23,7 +23,7 @@ class MenuRequestHandler : public IRequestHandler
 	HighscoreTable * _m_highscoreTable;
 	RequestHandlerFactory * _m_handlerFactory;
 	//private functions
-	RequestResult signOut(Request req);
+	RequestResult signOut(Request req, SOCKET socket);
 	RequestResult getRooms(Request req);
 	RequestResult getPlayersInRoom(Request req);
 	RequestResult getHighscores(Request req);
@@ -38,7 +38,7 @@ public:
 	LoggedUser getUsername();
 	void setUsername(LoggedUser username);
 	virtual bool isRequestRelevant(Request req);
-	virtual RequestResult handleRequest(Request req);
+	virtual RequestResult handleRequest(Request req, SOCKET socket);
 
 
 };
