@@ -48,7 +48,8 @@ RequestResult MenuRequestHandler::joinRoom(Request req)
 	
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createRoomMemberRequestHandler(this->_m_username, newRoom);
 	vector<SOCKET> v;
-	for (vector<LoggedUser>::iterator it = newRoom->getAllUsers().begin(); it != newRoom->getAllUsers().end(); it++)
+	vector<LoggedUser> users= newRoom->getAllUsers();
+	for (vector<LoggedUser>::iterator it = users.begin(); it != users.end(); it++)
 		v.push_back((*it).getSocket());
 	return RequestResult(buff, nextHandler, v);
 }

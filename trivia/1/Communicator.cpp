@@ -105,9 +105,7 @@ void Communicator::clientHandler(SOCKET socket)
 			if (req._buffer[0] == 'X')
 				throw("EXIT NOW");
 			else if ((req._buffer[0] == 'O') && username != "")//if we need to log out
-			{
 				req._buffer = bufferOfLoggedUser(username,req._buffer);
-			}
 			if (handler->isRequestRelevant(req))
 			{
 				response = new RequestResult(handler->handleRequest(req, socket));//take care of request
