@@ -144,10 +144,13 @@ namespace WpfApp1
 
         private void Rooms_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            JoinButton.IsEnabled = true;
-            roomGrid.Visibility = Visibility.Visible;
-            players.Items.Clear();
-            fillPlayerList();
+            if (rooms.SelectedItem != null)
+            {
+                JoinButton.IsEnabled = true;
+                roomGrid.Visibility = Visibility.Visible;
+                players.Items.Clear();
+                fillPlayerList();
+            }
         }
     }
 }
