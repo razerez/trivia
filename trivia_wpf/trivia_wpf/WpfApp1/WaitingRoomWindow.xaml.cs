@@ -23,6 +23,7 @@ namespace WpfApp1
         private Program _p;
         private ThreadStart _thS;
         private Thread _th;
+        private bool _isClosed = false;
         private bool _killThread = false;
         bool _isManager;
         public WaitingRoomWindow(Program p, bool isManager, string roomName, string maxUsers, string questionNum, string questionTime, string[] players)
@@ -87,6 +88,7 @@ namespace WpfApp1
                         {
                             error.Visibility = Visibility.Visible;
                         }));
+                        this._isClosed = true;
                     }
                 }
                 else if(rec[0] == 's')
@@ -148,7 +150,10 @@ namespace WpfApp1
 
         private void Leave_Click(object sender, RoutedEventArgs e)
         {
-            _p.LeaveRoom();
+            if (!_isClosed)
+            {
+                _p.LeaveRoom();
+            }
             Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();
