@@ -134,6 +134,9 @@ void Communicator::clientHandler(SOCKET socket)
 				sendMsg(vectorCharToString(response->getResponse()), socket);
 			else
 			{
+				if (req._buffer[0] == 'L')
+					sendMsg(vectorCharToString(JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse(1))), socket);
+
 				for(vector<SOCKET>::iterator it=response->_m_whoToSendTo.begin();it!= response->_m_whoToSendTo.end();it++)
 					sendMsg(vectorCharToString(response->getResponse()), *it);
 			}
