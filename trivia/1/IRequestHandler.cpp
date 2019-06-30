@@ -1,6 +1,6 @@
 #include "IRequestHandler.h"
 
-IRequestHandler::IRequestHandler() :_m_username("")
+IRequestHandler::IRequestHandler() :_m_username("",0)
 {
 }
 

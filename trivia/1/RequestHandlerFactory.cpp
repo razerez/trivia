@@ -1,16 +1,10 @@
 #pragma once
 #include "RequestHandlerFactory.h"
 
+
 LoginRequestHandler * RequestHandlerFactory::createLoginRequestHandler(LoggedUser l)
 {
 	LoginRequestHandler * nb = new LoginRequestHandler(this->_m_loginManager, this, l);
-	return nb;
-}
-
-
-LoginRequestHandler * RequestHandlerFactory::createLoginRequestHandler()
-{
-	LoginRequestHandler * nb = new LoginRequestHandler(this->_m_loginManager, this);
 	return nb;
 }
 

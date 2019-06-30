@@ -3,18 +3,30 @@
 
 RequestResult RoomAdminRequestHandler::closeRoom(Request request)
 {
+
+	this->_m_room->deleteUser(this->_m_username);
+
+	std::vector<LoggedUser> myUsers = this->_m_room->getAllUsers();
+
 	int stat = this->_m_roomManager->deleteRoom(this->_m_room->getRoomData()._id);
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse(stat));
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createMenuRequestHandler(this->_m_username);
-	return RequestResult(buff, nextHandler);
+	vector<SOCKET> v;
+	for (vector<LoggedUser>::iterator it = myUsers.begin(); it != myUsers.end(); it++)
+		v.push_back((*it).getSocket());
+	return RequestResult(buff, nextHandler, v);
 }
 
 
+///need to change all
 RequestResult RoomAdminRequestHandler::StartGame(Request request)
 {
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(StartGameResponse(this->_m_room->getRoomData()._isActive));
 	IRequestHandler* nextHandler = this;//need to change all function
-	return RequestResult(buff, nextHandler);
+	vector<SOCKET> v;
+	for (vector<LoggedUser>::iterator it = _m_room->getAllUsers().begin(); it != _m_room->getAllUsers().end(); it++)
+		v.push_back((*it).getSocket());
+	return RequestResult(buff, nextHandler, v);
 }
 
 RequestResult RoomAdminRequestHandler::GetRoomState(Request request)
@@ -72,7 +84,7 @@ bool RoomAdminRequestHandler::isRequestRelevant(Request request)
 
 }
 
-RequestResult RoomAdminRequestHandler::handleRequest(Request request)
+RequestResult RoomAdminRequestHandler::handleRequest(Request request, SOCKET socket)
 {
 	char reqId = request._buffer[0];
 	if (reqId == 'D')

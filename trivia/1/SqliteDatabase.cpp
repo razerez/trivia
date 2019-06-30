@@ -2,7 +2,6 @@
 
 int ret;
 float floatRet;
-
 int returnIntegerCallback(void *data, int argc, char **argv, char** azColName)
 {
 	ret = atoi(argv[0]);
@@ -32,7 +31,7 @@ int returnQuestionsCallback(void *data, int argc, char **argv, char** azColName)
 
 int returnHighScoreCallback(void *data, int argc, char **argv, char** azColName)
 {
-	LoggedUser * user=new LoggedUser(argv[0]);
+	LoggedUser * user=new LoggedUser(argv[0],0);
 	int score = std::stoi(argv[1]);
 	std::pair<LoggedUser*, int> p(user, score);
 	(*(std::map<LoggedUser*, int>*) data).insert(p);

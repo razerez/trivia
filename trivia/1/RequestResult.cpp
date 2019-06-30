@@ -1,11 +1,16 @@
 #include "RequestResult.h"
 
-RequestResult::RequestResult(std::vector<char> response, IRequestHandler * newHandler)
+RequestResult::RequestResult(std::vector<char> response, IRequestHandler * newHandler,std::vector<SOCKET>whoToSendTo)
+{
+	this->_response = response;
+	this->_newHandler = newHandler;
+	_m_whoToSendTo = whoToSendTo;
+}
+RequestResult::RequestResult(std::vector<char> response, IRequestHandler* newHandler)
 {
 	this->_response = response;
 	this->_newHandler = newHandler;
 }
-
 RequestResult::~RequestResult()
 {
 	if(_newHandler!=nullptr)delete(this->_newHandler);

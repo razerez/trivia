@@ -27,7 +27,7 @@ public:
 	virtual LoggedUser getUsername();
 	virtual void setUsername(LoggedUser username);
 	virtual bool isRequestRelevant(Request request);
-	virtual RequestResult handleRequest(Request request);
+	virtual RequestResult handleRequest(Request request, SOCKET socket);
 
 
 };
