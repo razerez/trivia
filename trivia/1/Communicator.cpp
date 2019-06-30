@@ -154,16 +154,21 @@ void Communicator::clientHandler(SOCKET socket)
 		v.push_back('\0');
 		IRequestHandler* handler = _m_clients[socket];
 		if (handler != nullptr)
-		{	
+		{
+			RequestResult* res = nullptr;
 			v[0] = 'L';
-			Request leaveRoom('L',time(0),v);
+			Request leaveRoom('L', time(0), v);
 			v[0] = 'D';
-			Request closeRoom('D',time(0),v);
+			Request closeRoom('D', time(0), v);
 			if (handler->isRequestRelevant(leaveRoom))//makes sure that if the user joined a room we will leave it before he exits
-				handler->handleRequest(leaveRoom,  socket);
-			else if(handler->isRequestRelevant(closeRoom))//makes sure that if the user created a room it will by closed before he leaves 
-				handler->handleRequest(closeRoom,  socket);
-
+				*res = handler->handleRequest(leaveRoom, socket);
+			else if (handler->isRequestRelevant(closeRoom))//makes sure that if the user created a room it will by closed before he leaves 
+				*res = handler->handleRequest(closeRoom, socket);
+			for (vector<SOCKET>::iterator it = response->_m_whoToSendTo.begin(); it != response->_m_whoToSendTo.end(); it++)
+			{
+				if (*it != socket)
+					sendMsg(vectorCharToString(response->getResponse()), *it);
+			}
 		}
 		if (username != "")//send an exit request to handler that will also log the user out
 		{

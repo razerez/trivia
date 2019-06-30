@@ -24,6 +24,7 @@ namespace WpfApp1
         private ThreadStart _thS;
         private Thread _th;
         private bool _isClosed = false;
+        private bool _hasLeft = false;
         private bool _killThread = false;
         bool _isManager;
         public WaitingRoomWindow(Program p, bool isManager, string roomName, string maxUsers, string questionNum, string questionTime, string[] players)
@@ -63,6 +64,14 @@ namespace WpfApp1
 
         ~WaitingRoomWindow()
         {
+            if(this._isManager && !this._isClosed)
+            {
+                this._p.CloseRoom();
+            }
+            if(!this._hasLeft)
+            {
+                this._p.LeaveRoom();
+            }
             _killThread = true;
         }
 
@@ -107,6 +116,7 @@ namespace WpfApp1
 
         public void UpdatePlayers(string[] players)
         {
+            participants.Items.Clear();
             for (int i = 0; i < players.Length; i++)
             {
                 participants.Items.Add(players[i]);
@@ -154,6 +164,7 @@ namespace WpfApp1
             {
                 _p.LeaveRoom();
             }
+            this._hasLeft = true;
             Menu menu = new Menu(this._p, true);
             menu.Show();
             this.Close();
