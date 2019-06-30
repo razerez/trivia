@@ -44,3 +44,8 @@ RoomData Room::getRoomData() const
 	return this->_m_metadata;
 }
 
+void Room::startGame()
+{
+	this->_m_metadata._isActive = 1;
+}
+

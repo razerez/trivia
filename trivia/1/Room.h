@@ -16,6 +16,7 @@ public:
 	void deleteUser(LoggedUser user);
 	std::vector<LoggedUser> getAllUsers();
 	RoomData getRoomData() const;
+	void startGame();
 
 
 };
