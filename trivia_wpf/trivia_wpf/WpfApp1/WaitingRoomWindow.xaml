@@ -19,6 +19,7 @@
         <TextBlock FontSize="25" FontWeight="Bold" TextAlignment="Center" Margin="0,270,0.2,348.2">Current participants are:</TextBlock>
         <ComboBox Name="participants" Margin="125,317,125,319.2" >
         </ComboBox>
+        <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontWeight="Bold" FontSize="30" Margin="0,381,0.2,271.2">the room has been closed!</TextBlock>
         <Button Name="closeButton" Margin="331,443,331,182.2" FontSize="30" Click="Close_Click" Content="Close room"/>
         <Button Name="start_button" Margin="331,543,331,82.2" FontSize="30" Click="Start_Click" Content="Start"/>
         <Button Name="leave_button" Margin="331,443,331,182.2" FontSize="30" Click="Leave_Click" Content="Leave"/>
