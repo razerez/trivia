@@ -24,10 +24,12 @@ namespace WpfApp1
         private ThreadStart _thS;
         private Thread _th;
         private bool _killThread = false;
+        bool _isManager;
         public WaitingRoomWindow(Program p, bool isManager, string roomName, string maxUsers, string questionNum, string questionTime, string[] players)
         {
             InitializeComponent();
             this._p = p;
+            this._isManager = isManager;
             usernameTop.Text = this._p._username;
             usernameTop.Visibility = Visibility.Visible;
             if (isManager)
@@ -52,7 +54,7 @@ namespace WpfApp1
             Change_question_time(questionTime);
             UpdatePlayers(players);
 
-            _thS = new ThreadStart(UpdatePlayersThread);
+            _thS = new ThreadStart(MainThread);
             _th = new Thread(_thS);
             _th.IsBackground = true;
             _th.Start();
@@ -63,14 +65,43 @@ namespace WpfApp1
             _killThread = true;
         }
 
-        public void UpdatePlayersThread()
+        public void MainThread()
         {
             while (!_killThread)
             {
-                string[] players = this._p.SendAndDecodeArrMessage("0");
-                UpdatePlayers(players);
+                byte[] rec = this._p.ReciveMessage();
+                if (rec[0] == 'p')
+                {
+                    string[] players = this._p.DecodeArrMessage(rec);
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        UpdatePlayers(players);
+                    }));
+                }
+                else if(rec[0] == 'd')
+                {
+                    _killThread = true;
+                    if(!this._isManager)
+                    {
+                        this.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            error.Visibility = Visibility.Visible;
+                        }));
+                    }
+                }
+                else if(rec[0] == 's')
+                {
+                    _killThread = true;
+                    //start
+                }
+                else
+                { 
+                    _killThread = true;
+                }
             }
         }
+
+
 
         public void UpdatePlayers(string[] players)
         {
@@ -104,7 +135,6 @@ namespace WpfApp1
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            _killThread = true;
             this._p.CloseRoom();
             Menu menu = new Menu(this._p, true);
             menu.Show();
@@ -113,13 +143,11 @@ namespace WpfApp1
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            _killThread = true;
             this._p.StartGame();
         }
 
         private void Leave_Click(object sender, RoutedEventArgs e)
         {
-            _killThread = true;
             _p.LeaveRoom();
             Menu menu = new Menu(this._p, true);
             menu.Show();
