@@ -3,13 +3,20 @@
 RequestResult RoomMemberRequestHandler::leaveRoom(Request request)
 {
 	this->_m_room->deleteUser(this->_m_loggedUser);
-	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse(1));
-	IRequestHandler* nextHandler = this->_m_handlerFactory->createMenuRequestHandler(this->_m_loggedUser);
 
 	vector<SOCKET> v;
-	vector<LoggedUser> users = (*this->_m_room).getAllUsers();
-	for (vector<LoggedUser>::iterator it = users.begin(); it != users.end(); ++it)
+	vector<string> namesVec;
+	vector<LoggedUser> loggedUserVec = this->_m_room->getAllUsers();
+
+	for (vector<LoggedUser>::iterator it = loggedUserVec.begin(); it != loggedUserVec.end(); ++it)
+	{
+		namesVec.push_back((*it).getUsername());
 		v.push_back((*it).getSocket());
+	}
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse(namesVec));
+
+
+	IRequestHandler* nextHandler = this->_m_handlerFactory->createMenuRequestHandler(this->_m_loggedUser);
 
 	return RequestResult(buff, nextHandler, v);
 	
