@@ -164,10 +164,13 @@ void Communicator::clientHandler(SOCKET socket)
 				*res = handler->handleRequest(leaveRoom, socket);
 			else if (handler->isRequestRelevant(closeRoom))//makes sure that if the user created a room it will by closed before he leaves 
 				*res = handler->handleRequest(closeRoom, socket);
-			for (vector<SOCKET>::iterator it = response->_m_whoToSendTo.begin(); it != response->_m_whoToSendTo.end(); it++)
+			if (res != nullptr) 
 			{
-				if (*it != socket)
-					sendMsg(vectorCharToString(response->getResponse()), *it);
+				for (vector<SOCKET>::iterator it = response->_m_whoToSendTo.begin(); it != response->_m_whoToSendTo.end(); it++)
+				{
+					if (*it != socket)
+						sendMsg(vectorCharToString(response->getResponse()), *it);
+				}
 			}
 		}
 		if (username != "")//send an exit request to handler that will also log the user out
