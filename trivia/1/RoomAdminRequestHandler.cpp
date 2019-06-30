@@ -18,9 +18,9 @@ RequestResult RoomAdminRequestHandler::closeRoom(Request request)
 }
 
 
-///need to change all
 RequestResult RoomAdminRequestHandler::StartGame(Request request)
 {
+	this->_m_room->startGame();
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(StartGameResponse(this->_m_room->getRoomData()._isActive));
 	IRequestHandler* nextHandler = this;//need to change all function
 	vector<SOCKET> v;
