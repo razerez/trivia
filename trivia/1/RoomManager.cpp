@@ -24,7 +24,7 @@ int RoomManager::joinRoom(LoggedUser loggedUsers, int room)
 	}
 }
 
-int RoomManager::createRoom(LoggedUser loggedUsers, RoomData roomData)
+int RoomManager::createRoom(LoggedUser loggedUsers, RoomData& roomData)
 {
 	try
 	{
@@ -33,6 +33,7 @@ int RoomManager::createRoom(LoggedUser loggedUsers, RoomData roomData)
 		std::vector<LoggedUser> vec;
 		vec.push_back(loggedUsers);
 		this->_m_rooms.insert(std::pair<int, Room>(this->_m_counter, Room(roomData, vec)));
+		
 		std::cout<<"User " << loggedUsers.getUsername() << " Created The Room: " << roomData._name << std::endl;
 		return 1;
 	}
@@ -58,6 +59,13 @@ int RoomManager::deleteRoom(int ID)
 int RoomManager::getRoomState(int ID)
 {	
 	return this->_m_rooms.find(ID)->second.getRoomData()._id;
+}
+
+Room * RoomManager::getRoom(int ID)
+{
+
+	
+	return &this->_m_rooms.find(ID)->second;
 }
 
 std::vector<RoomData> RoomManager::getRooms()

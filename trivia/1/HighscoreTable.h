@@ -4,7 +4,6 @@
 #include <map>
 #include "LoggedUser.h"
 
-
 class HighscoreTable
 {
 private:

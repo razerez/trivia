@@ -1,6 +1,7 @@
 #pragma once
 #include "RequestHandlerFactory.h"
 
+
 LoginRequestHandler * RequestHandlerFactory::createLoginRequestHandler(LoggedUser l)
 {
 	LoginRequestHandler * nb = new LoginRequestHandler(this->_m_loginManager, this, l);
@@ -8,18 +9,24 @@ LoginRequestHandler * RequestHandlerFactory::createLoginRequestHandler(LoggedUse
 }
 
 
-LoginRequestHandler * RequestHandlerFactory::createLoginRequestHandler()
-{
-	LoginRequestHandler * nb = new LoginRequestHandler(this->_m_loginManager, this);
-	return nb;
-}
-
-
 MenuRequestHandler * RequestHandlerFactory::createMenuRequestHandler(LoggedUser l)
 {
-	MenuRequestHandler * nb = new MenuRequestHandler(&l, this->_m_roomManager, this->_m_highscoreTable, this);
+	MenuRequestHandler * nb = new MenuRequestHandler(&l, this->_m_roomManager, this->_m_highscoreTable, this,this->_m_myStatus);
 	return nb;
 }
+
+RoomAdminRequestHandler * RequestHandlerFactory::createRoomAdminRequesHandler(LoggedUser l, Room * r)
+{
+	RoomAdminRequestHandler * nb = new RoomAdminRequestHandler(r, &l, this->_m_roomManager, this);
+	return nb;
+}
+
+RoomMemberRequestHandler * RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser l, Room * r)
+{
+	RoomMemberRequestHandler * nb = new RoomMemberRequestHandler(r, &l, this->_m_roomManager, this);
+	return nb;
+}
+
 
 
 
@@ -30,12 +37,15 @@ RequestHandlerFactory::RequestHandlerFactory(IDataBase * l)
 	_m_loginManager = new LoginManager(l, *loggedUsers);
 	_m_roomManager = new RoomManager();
 	_m_highscoreTable = new HighscoreTable(l);
+	_m_myStatus = new MyStatusReport(l);
 }
 
 RequestHandlerFactory::~RequestHandlerFactory()
 {
 	if(_m_loginManager!=nullptr)delete(_m_loginManager);
 	_m_loginManager = nullptr;
+	if (_m_myStatus != nullptr)delete(_m_myStatus);
+	_m_myStatus = nullptr;
 	if (loggedUsers != nullptr)delete(loggedUsers);
 	loggedUsers = nullptr;
 	if (_m_highscoreTable != nullptr)delete(_m_highscoreTable);

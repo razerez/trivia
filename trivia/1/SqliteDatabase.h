@@ -19,7 +19,9 @@ class SqliteDatabase : public IDataBase
 public:
 	SqliteDatabase();
 	~SqliteDatabase();
-
+	virtual int numberOfRightOrWrongAnswers(string user, bool right);
+	virtual int numberOfGamesOfUser(string user);
+	virtual float avgTimeForAnsOfUser(string user);
 	virtual map<LoggedUser*, int> getHighscores();
 	virtual bool doesUserExiste(string name);
 	virtual bool doesPasswordExist(string name, string password);
@@ -28,7 +30,4 @@ public:
 private:
 	sqlite3 *_db;
 	bool sendMessage(string req);
-	void clean();
-	
 };
-

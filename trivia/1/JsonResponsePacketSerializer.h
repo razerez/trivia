@@ -16,7 +16,10 @@
 #include "StartGameResponse.h"
 #include "GetRoomStateResponse.h"
 #include "LeaveRoomResponse.h"
+#include "MyStatusResponse.h"
 
+#include <iomanip>
+#include <sstream>
 #include <vector>
 
 
@@ -35,5 +38,6 @@ struct JsonResponsePacketSerializer
 	static std::vector<char> serializeResponse(StartGameResponse startGameRes);
 	static std::vector<char> serializeResponse(GetRoomStateResponse getRoomStatRes);
 	static std::vector<char> serializeResponse(LeaveRoomResponse leaveRoomRes);
+	static std::vector<char> serializeResponse(MyStatusResponse myStatus);
 
 };

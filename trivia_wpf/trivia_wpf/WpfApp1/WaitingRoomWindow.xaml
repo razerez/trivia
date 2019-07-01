@@ -1,0 +1,28 @@
+﻿<Window x:Class="WpfApp1.WaitingRoomWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="WatingRoom" Width="885.347" Height="724.813"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
+        <TextBlock Visibility= "Visible" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,463.2,643.2"/>
+        <TextBlock Name='roomName1' FontWeight="Bold" FontSize="25" Text="roomName" TextAlignment="Center" Margin="0,84,0.2,560.2"/>
+        <TextBlock Name='roomName2'    FontSize="15" FontWeight="Bold" Text="room name:" Margin="213,140,-213.8,510.2"/> 
+        <TextBlock Name='questionNum'  FontSize="15" FontWeight="Bold" Text="number of questions:" Margin="213,165,-213.8,456.2"/>
+        <TextBlock Name='maxPlayers'   FontSize="15" FontWeight="Bold" Text="max number of players:" Margin="213,190,-213.8,480.2"/>
+        <TextBlock Name='questionTime' FontSize="15" FontWeight="Bold" Text="time per question:" Margin="213,215,-213.8,430.2"/>
+
+        <TextBlock FontSize="25" FontWeight="Bold" TextAlignment="Center" Margin="0,270,0.2,348.2">Current participants are:</TextBlock>
+        <ComboBox Name="participants" Margin="125,317,125,319.2" >
+        </ComboBox>
+        <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontWeight="Bold" FontSize="30" Margin="0,381,0.2,271.2">the room has been closed!</TextBlock>
+        <Button Name="closeButton" Margin="331,443,331,182.2" FontSize="30" Click="Close_Click" Content="Close room"/>
+        <Button Name="start_button" Margin="331,543,331,82.2" FontSize="30" Click="Start_Click" Content="Start"/>
+        <Button Name="leave_button" Margin="331,443,331,182.2" FontSize="30" Click="Leave_Click" Content="Leave"/>
+    </Grid>
+</Window>
+

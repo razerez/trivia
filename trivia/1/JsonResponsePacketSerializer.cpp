@@ -51,7 +51,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse roomRes)
 {
 	std::cout << "Sending rooms: ";
-	std::string data = "{\nlength:" + std::to_string(roomRes._rooms.size()) + "\nRooms[";
+	std::string data = " {\nlength:" + std::to_string(roomRes._rooms.size()) + "\nRooms[";
 
 
 
@@ -91,7 +91,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsRespon
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse playerInRoomRes)
 {
 	
-	std::string data = "{\nlength:" + std::to_string(playerInRoomRes._players.size()) + "\nNames[";
+	std::string data = " {\nlength:" + std::to_string(playerInRoomRes._players.size()) + "\nNames[";
 
 	std::cout << "Sending names: ";
 
@@ -153,7 +153,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResp
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(HighscoreResponse highscoreRes)
 {
 	
-	std::string data = "{\nlength:" + std::to_string(highscoreRes._highscores.getHighscores().size()) + "\nHighscores[";
+	std::string data = " {\nlength:" + std::to_string(highscoreRes._highscores.getHighscores().size()) + "\nHighscores[";
 	
 	map<LoggedUser*, int> mymap = highscoreRes._highscores.getHighscores();
 	
@@ -212,7 +212,49 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(StartGameRespo
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse getRoomStatRes)
 {
-	return std::vector<char>();
+
+	bool mybool = getRoomStatRes._hasGameBegun;
+	int boolInt = mybool ? 1 : 0;
+
+	std::string str = " {\nStatus:\"" + std::to_string(getRoomStatRes._status) 
+		+ "\"\nHasStarted:\"" + std::to_string(boolInt)
+		+ "\"\nQuestionCount:\"" + std::to_string(getRoomStatRes._questionCount) 
+		+ "\"\nAnswerTimeout:\"" + std::to_string(getRoomStatRes._answerTimeount) 
+		+ "\"\nlength:\"" + std::to_string(getRoomStatRes._players.size()) + "\""
+		+ "\nNames[";
+	
+
+	for (std::vector<std::string>::iterator it = getRoomStatRes._players.begin(); it != getRoomStatRes._players.end(); ++it)
+	{
+		str += "\n\"" + (*it) + "\"";
+	}
+
+	str += "\n]\n}";
+
+	std::vector<char> optionAndLenghVec;
+	optionAndLenghVec.push_back('r');
+
+	int size = str.size()+5;
+	
+	optionAndLenghVec.push_back(0b0);
+
+	char leftByte = size >> 8;
+	char rightByte = size & 0b0000000011111111;
+
+	optionAndLenghVec.push_back(leftByte);
+	optionAndLenghVec.push_back(rightByte);
+	optionAndLenghVec.push_back(1);
+	optionAndLenghVec.push_back(1);
+	optionAndLenghVec.push_back(std::to_string(getRoomStatRes._questionCount).length());
+	optionAndLenghVec.push_back(std::to_string(getRoomStatRes._answerTimeount).length());
+	optionAndLenghVec.push_back(std::to_string(getRoomStatRes._players.size()).length());
+	
+
+	std::vector<char> dataVector = stringToVectorChar(str);
+
+	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
+	
+	return optionAndLenghVec;
 }
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leaveRoomRes)
@@ -224,4 +266,49 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomRespo
 	vec.push_back(0b1);
 	vec.push_back(char(leaveRoomRes._status));
 	return vec;
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(MyStatusResponse myStatus)
+{
+	float avr = myStatus._m_avgTimePerQuestion;
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(2) << avr;
+	std::string avrString = stream.str();
+
+	int numOfGames = std::to_string(myStatus._m_numGames).size();
+	int numRight = std::to_string(myStatus._m_numRight).size();
+	int numWrong = std::to_string(myStatus._m_numWrong).size();
+	int avgTimePerAns = avrString.size();
+
+
+
+
+
+	std::string data = " {\nNumberOfGames:\"" + std::to_string(myStatus._m_numGames)
+		+ "\"\nNumRight:\"" + std::to_string(myStatus._m_numRight)
+		+ "\"\nNumWrong:\"" + std::to_string(myStatus._m_numWrong)
+		+ "\"\nAvgTimePerAns:\"" + avrString + "\"\n}";
+
+	std::vector<char> optionAndLenghVec;
+	optionAndLenghVec.push_back('m');
+
+
+	int size = data.size() + 4;
+
+	optionAndLenghVec.push_back(0b0);
+
+	char leftByte = size >> 8;
+	char rightByte = size & 0b0000000011111111;
+
+	optionAndLenghVec.push_back(leftByte);
+	optionAndLenghVec.push_back(rightByte);
+
+	optionAndLenghVec.push_back(char(numOfGames));
+	optionAndLenghVec.push_back(char(numRight));
+	optionAndLenghVec.push_back(char(numWrong));
+	optionAndLenghVec.push_back(char(avgTimePerAns));
+
+	std::vector<char> dataVector = stringToVectorChar(data);
+	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
+	return optionAndLenghVec;
 }

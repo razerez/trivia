@@ -32,7 +32,6 @@ void Room::deleteUser(LoggedUser user)
 	}
 	
 	this->_m_users.erase(this->_m_users.begin() + counter);
-	std::cout << username << " Logged Out" << std::endl;
 }
 
 std::vector<LoggedUser> Room::getAllUsers()
@@ -43,5 +42,10 @@ std::vector<LoggedUser> Room::getAllUsers()
 RoomData Room::getRoomData() const
 {
 	return this->_m_metadata;
+}
+
+void Room::startGame()
+{
+	this->_m_metadata._isActive = 1;
 }
 
