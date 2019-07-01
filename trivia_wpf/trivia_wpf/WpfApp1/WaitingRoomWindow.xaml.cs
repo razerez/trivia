@@ -103,7 +103,12 @@ namespace WpfApp1
                 else if(rec[0] == 's')
                 {
                     _killThread = true;
-                    //start
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        GameWindow game = new GameWindow(this._p);
+                        game.Show();
+                        this.Close();
+                    }));
                 }
                 else
                 { 
