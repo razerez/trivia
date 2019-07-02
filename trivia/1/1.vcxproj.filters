@@ -177,6 +177,9 @@
     <ClInclude Include="SubmitAnswerRequest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LeaveGameResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SignupRequest.cpp">
@@ -342,6 +345,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SubmitAnswerRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LeaveGameResponse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

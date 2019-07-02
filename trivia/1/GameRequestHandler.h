@@ -8,7 +8,7 @@
 #include "RequestHandlerFactory.h"
 #include "Game.h"
 #include "GameManager.h"
-
+#include "LeaveGameResponse.h"
 
 class RequestHandlerFactory;
 
