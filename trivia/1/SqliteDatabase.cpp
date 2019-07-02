@@ -122,21 +122,21 @@ vector<Question> SqliteDatabase::getQuestions(int numberOfQuestions)
 	return s;
 }
 
-int SqliteDatabase::addNewGame(string start_time)
+int SqliteDatabase::addNewGame()
 {
 	char* errMessage = nullptr;
 	ret = 0;
-	string strSqlStatement = "INSERT INTO Game (status, start_time ) VALUES(0, '"+start_time+"'); ";
+	string strSqlStatement = "INSERT INTO Game (status, start_time ) VALUES(0, DATETIME('now','localtime')); ";
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), nullptr, nullptr, &errMessage);
 	strSqlStatement = "SELECT game_id FROM Game ORDER BY game_id DESC LIMIT 1;";
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
 }
 
-void SqliteDatabase::updateGame(string end_time,int gameID)
+void SqliteDatabase::updateGame(int gameID)
 {
 	char* errMessage = nullptr;
-	string strSqlStatement = "UPDATE Game SET end_time = '"+end_time+"', status = 1 WHERE game_id = "+std::to_string(gameID)+";";
+	string strSqlStatement = "UPDATE Game SET end_time = DATETIME('now','localtime'), status = 1 WHERE game_id = "+std::to_string(gameID)+";";
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), nullptr, nullptr, &errMessage);
 }
 
