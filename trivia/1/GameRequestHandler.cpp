@@ -4,14 +4,8 @@
 
 RequestResult GameRequestHandler::getQuestion(Request req)
 {
-	this->_m_game->getQuestionForUser(this->_m_username);
-	JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse(1, ));
-
-
-	std::vector<char> buff; //= JsonResponsePacketSerializer::serializeResponse(this->_m_game->getQuestionForUser(this->_m_username));
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(this->_m_game->getQuestionForUser(this->_m_username));
 	IRequestHandler * nextHandler = this;
-
-
 	return RequestResult(buff, nextHandler);
 }
 
@@ -26,24 +20,14 @@ RequestResult GameRequestHandler::submitAnswer(Request req)
 
 RequestResult GameRequestHandler::getGameResult(Request req)
 {
-	
-	//GetGameResultsResponse(1, );
-
-
-
-
-
-
-
-	return RequestResult(vector<char>(), nullptr);
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(this->_m_game->getPlayerResult());
+	IRequestHandler * nextHandler = this;
+	return RequestResult(buff, nextHandler);
 }
 
 RequestResult GameRequestHandler::leaveGame(Request req)
 {
-
-
-
-
+	this->_m_game->removePlayer(this->_m_username);
 
 
 	return RequestResult(vector<char>(), nullptr);
