@@ -26,9 +26,9 @@ RoomMemberRequestHandler * RequestHandlerFactory::createRoomMemberRequestHandler
 	return nb;
 }
 
-GameRequestHandler * RequestHandlerFactory::createGameRequestHandler(LoggedUser * l, Game * game)
+GameRequestHandler * RequestHandlerFactory::createGameRequestHandler(LoggedUser * l, Room * r)
 {
-	GameRequestHandler * nb = new GameRequestHandler(l, this, game, this->_m_gameManager);
+	GameRequestHandler * nb = new GameRequestHandler(l, this, this->_m_gameManager->CreateGame(*r), this->_m_gameManager);
 	return nb;
 }
 
@@ -60,4 +60,6 @@ RequestHandlerFactory::~RequestHandlerFactory()
 	_m_highscoreTable = nullptr;
 	if (_m_roomManager != nullptr)delete(_m_roomManager);
 	_m_roomManager = nullptr;
+	if (_m_gameManager != nullptr)delete(_m_gameManager);
+	_m_gameManager = nullptr;
 }

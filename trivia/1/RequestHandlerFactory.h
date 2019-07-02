@@ -37,7 +37,7 @@ public:
 	MenuRequestHandler * createMenuRequestHandler(LoggedUser l);
 	RoomAdminRequestHandler * createRoomAdminRequesHandler(LoggedUser l, Room * r);
 	RoomMemberRequestHandler * createRoomMemberRequestHandler(LoggedUser l, Room * r);
-	GameRequestHandler* createGameRequestHandler(LoggedUser * l, Game * game);
+	GameRequestHandler* createGameRequestHandler(LoggedUser * l, Room * r);
 
 	RequestHandlerFactory(IDataBase* l);
 	~RequestHandlerFactory();

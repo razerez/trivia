@@ -13,7 +13,7 @@ public:
 	Question(const Question & other);
 	~Question();
 	std::string getQuestion();
-	std::string getPossibleAnswers();
+	std::vector<std::string> getPossibleAnswers();
 	std::string getCurrectAnswer();
 
 };

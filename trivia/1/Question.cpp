@@ -22,11 +22,9 @@ std::string Question::getQuestion()
 	return this->_m_question;
 }
 
-std::string Question::getPossibleAnswers()
+std::vector<std::string> Question::getPossibleAnswers()
 {
-	std::string possibleAnswer =  this->_m_possibleAnswers.back();
-	this->_m_possibleAnswers.pop_back();
-	return possibleAnswer;
+	return this->_m_possibleAnswers;
 }
 
 std::string Question::getCurrectAnswer()
