@@ -24,6 +24,10 @@ namespace WpfApp1
         public const int NUM_WRONG_SIZE_SEGMENT = 1;
         public const int AVG_TIME_PER_ANSWER_SIZE_SEGMENT = 1;
 
+        public const int QUESTION_SIZE_SEGMENT = 1;
+
+        public const int CORRECT_ANSWER_SIZE_SEGMENT = 1;
+
         public int _dataLocationSign = 1;
 
         public Room DeserializeJoinRoomResponse(byte[] buffer)
@@ -39,24 +43,13 @@ namespace WpfApp1
             return room;
         }
 
-        public Status DeserializeStatusResponse(byte[] buffer)
-        {
-            _dataLocationSign = 1;
-            string numberOfGames = AnalyzeJson(buffer, "NumberOfGames:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT, NUMBER_OF_GAMES_SIZE_SEGMENT);
-            string numRight = AnalyzeJson(buffer, "NumRight:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + NUMBER_OF_GAMES_SIZE_SEGMENT, NUM_RIGHT_SIZE_SEGMENT);
-            string numWrong = AnalyzeJson(buffer, "NumWrong:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + NUMBER_OF_GAMES_SIZE_SEGMENT + NUM_RIGHT_SIZE_SEGMENT, NUM_WRONG_SIZE_SEGMENT);
-            string avgTimePerAns = AnalyzeJson(buffer, "AvgTimePerAns:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + NUMBER_OF_GAMES_SIZE_SEGMENT + NUM_RIGHT_SIZE_SEGMENT + NUM_WRONG_SIZE_SEGMENT, AVG_TIME_PER_ANSWER_SIZE_SEGMENT);
-            return new Status(numberOfGames, numRight, numWrong, avgTimePerAns);
-        }
-
-
         public void FillNames(Room room, byte[] buffer, int startFrom)
         {
             bool stay = true;
             int j = 0;
             for (int i = startFrom; i < buffer.Length && stay; i++)
             {
-                if(buffer[i] == '"')
+                if (buffer[i] == '"')
                 {
                     int end = FindStrIndex("\"", buffer, i + 2) - 1;
                     string name = GetBytes(i + 1, end - i - 1, buffer);
@@ -68,6 +61,81 @@ namespace WpfApp1
             }
         }
 
+        public Status DeserializeStatusResponse(byte[] buffer)
+        {
+            _dataLocationSign = 1;
+            string numberOfGames = AnalyzeJson(buffer, "NumberOfGames:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT, NUMBER_OF_GAMES_SIZE_SEGMENT);
+            string numRight = AnalyzeJson(buffer, "NumRight:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + NUMBER_OF_GAMES_SIZE_SEGMENT, NUM_RIGHT_SIZE_SEGMENT);
+            string numWrong = AnalyzeJson(buffer, "NumWrong:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + NUMBER_OF_GAMES_SIZE_SEGMENT + NUM_RIGHT_SIZE_SEGMENT, NUM_WRONG_SIZE_SEGMENT);
+            string avgTimePerAns = AnalyzeJson(buffer, "AvgTimePerAns:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + NUMBER_OF_GAMES_SIZE_SEGMENT + NUM_RIGHT_SIZE_SEGMENT + NUM_WRONG_SIZE_SEGMENT, AVG_TIME_PER_ANSWER_SIZE_SEGMENT);
+            return new Status(numberOfGames, numRight, numWrong, avgTimePerAns);
+        }
+
+        public Question DeserializeGetQuestionResponse(byte[] buffer)
+        {
+            _dataLocationSign = 1;
+            string status = AnalyzeJson(buffer, "Status:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT, STATUS_SIZE_SEGMENT);
+            string question = AnalyzeJson(buffer, "Question:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT, QUESTION_SIZE_SEGMENT);
+            Question qu = new Question(status, question);
+            FillAnswers(qu, buffer, FindStrIndex("{", buffer, (FindStrIndex("{", buffer, 1)) + 1));
+            return qu
+        }
+
+        public void FillAnswers(Question qu, byte[] buffer, int startFrom)
+        {
+            bool stay = true;
+            for (int i = startFrom; i < buffer.Length && stay; i++)
+            {
+                if (buffer[i] == '"')
+                {
+                    int idEnd = FindStrIndex("\"", buffer, i + 2) - 1;
+                    string id = GetBytes(i + 1, idEnd - i - 1, buffer);
+
+                    i = FindStrIndex(":", buffer, i);
+                    int answerStart = FindStrIndex("\"", buffer, i);
+                    int answerEnd = FindStrIndex("\"", buffer, answerStart) - 1;
+                    string answer = GetBytes(answerStart + 1, answerEnd - answerStart, buffer);
+                    qu._answers.Add(Int32.Parse(id), answer);
+                }
+            }
+        }
+
+        public Answer DeserializeSubmitAnswerRespone(byte[] buffer)
+        {
+            _dataLocationSign = 1;
+            string status = AnalyzeJson(buffer, "Status:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT, STATUS_SIZE_SEGMENT);
+            string correctAnswer = AnalyzeJson(buffer, "CorrectAnswerId:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT, CORRECT_ANSWER_SIZE_SEGMENT);
+            return new Answer(status, Int32.Parse(correctAnswer));
+        }
+
+        public Results DeserializeGetGameResultsRespone(byte[] buffer)
+        {
+            _dataLocationSign = 1;
+            string status = AnalyzeJson(buffer, "Status:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT, STATUS_SIZE_SEGMENT);
+            Results res = new Results(status);
+            FillResults(res, buffer, FindStrIndex("[", buffer, 1));
+            return res;
+        }
+
+        public void FillResults(Results res, byte[] buffer, int startFrom)
+        {
+            bool stay = true;
+            for (int i = startFrom; i < buffer.Length && stay; i++)
+            {
+                if (buffer[i] == '{')
+                {
+                    int usernameStart = FindStrIndex("\"", buffer, i);
+                    int usernameEnd = FindStrIndex("\"", buffer, usernameStart) - 1;
+                    string username = GetBytes(usernameStart, usernameEnd - usernameStart - 1, buffer);
+
+                    i = FindStrIndex(",", buffer, i);
+                    int scoreStart = FindStrIndex("\"", buffer, i);
+                    int scoreEnd = FindStrIndex("\"", buffer, scoreStart) - 1;
+                    string score = GetBytes(scoreStart + 1, scoreEnd - scoreStart, buffer);
+                    res._resultsArr.Add(new Score(username, score));
+                }
+            }
+        }
 
         public string AnalyzeJson(byte[] buffer, string subject, int dataLocation, int sizeLocation, int sizeLength)
         //input: buffer, keyWord to search in json, locationOfTheKeyWord, location of the size of the segment, the length of this size
