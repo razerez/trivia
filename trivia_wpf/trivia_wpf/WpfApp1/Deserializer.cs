@@ -78,7 +78,7 @@ namespace WpfApp1
             string question = AnalyzeJson(buffer, "Question:", _dataLocationSign, CODE_SEGMENT + DATA_LENGTH_SEGMENT + STATUS_SIZE_SEGMENT, QUESTION_SIZE_SEGMENT);
             Question qu = new Question(status, question);
             FillAnswers(qu, buffer, FindStrIndex("{", buffer, (FindStrIndex("{", buffer, 1)) + 1));
-            return qu
+            return qu;
         }
 
         public void FillAnswers(Question qu, byte[] buffer, int startFrom)
