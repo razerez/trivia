@@ -17,10 +17,10 @@
         <TextBlock Name='question' FontWeight="Bold" FontSize="20" Text="what is the question?" Margin="120,154,80.2,490.2"/>
 
 
-        <Button Name="option1" Margin="80,210,80.2,445.2" Height="40" Content="option 1" FontSize="25" Click="Option1_Click"/>
-        <Button Name="option2" Margin="80,310,80.2,345.2" Height="40" Content="option 2" FontSize="25" Click="Option2_Click"/>
-        <Button Name="option3" Margin="80,409,80.2,246.2" Height="40" Content="option 3" FontSize="25" Click="Option3_Click"/>
-        <Button Name="option4" Margin="80,505,80.2,150.2" Height="40" Content="option 4" FontSize="25" Click="Option4_Click"/>
+        <Button Name="option1" Margin="80,210,80.2,435" Height="40" Content="option 1" FontSize="25" Click="Option1_Click"/>
+        <Button Name="option2" Margin="80,310,80.2,335" Height="40" Content="option 2" FontSize="25" Click="Option2_Click"/>
+        <Button Name="option3" Margin="80,409,80.2,235" Height="40" Content="option 3" FontSize="25" Click="Option3_Click"/>
+        <Button Name="option4" Margin="80,505,80.2,135" Height="40" Content="option 4" FontSize="25" Click="Option4_Click"/>
         <TextBlock x:Name='score' FontWeight="Bold" FontSize="20" TextAlignment="Center" Text="score: 0" Margin="0,607,0,37.2"/>
 
     </Grid>
