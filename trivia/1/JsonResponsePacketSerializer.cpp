@@ -360,32 +360,25 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetQuestionRes
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse gameResultRes)
 {
-	/*
-	std::string data = " {\nlength:" + std::to_string(highscoreRes._highscores.getHighscores().size()) + "\nHighscores[";
-	map<LoggedUser*, int> mymap = highscoreRes._highscores.getHighscores();
-	std::cout << "Sending highscors: ";
-	for (std::map<LoggedUser*, int>::iterator it = mymap.begin(); it != mymap.end(); ++it){
-		data += "\n\"" + it->first->getUsername() + "\":" + std::to_string(it->second);
-		std::cout << "-" << it->first->getUsername() << ":" << std::to_string(it->second);}
-	std::cout << "-\n";
-	data += "\n]\n}";
+	std::string data = "{\nStatus:\"" + std::to_string(gameResultRes._status) + "\",\nResults:\n[\n";
+	for (std::vector<PlayerResults>::iterator it = gameResultRes._result.begin(); it != gameResultRes._result.end(); ++it)
+	{
+		data += "{\nusername:\"" + it->_username + "\",\ncorrectAnswerCount::\"" + std::to_string(it->_correctAnswerCount) + "\",\n}\n";
+	}
+	data += "]\n}";
+
 	std::vector<char> optionAndLenghVec;
 	optionAndLenghVec.push_back('h');
-	int size = data.size();
+	int size = data.size() + 1;
 	optionAndLenghVec.push_back(0b0);
 	char leftByte = size >> 8;
 	char rightByte = size & 0b0000000011111111;
 	optionAndLenghVec.push_back(leftByte);
 	optionAndLenghVec.push_back(rightByte);
+	optionAndLenghVec.push_back(char(std::to_string(gameResultRes._status).size()));
 	std::vector<char> dataVector = stringToVectorChar(data);
 	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
 	return optionAndLenghVec;
-	*/
-	
-	
-
-
-	return std::vector<char>();
 }
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse leaveGameRes)
