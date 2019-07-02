@@ -1,4 +1,3 @@
-#pragma once
 #include "RequestHandlerFactory.h"
 
 
@@ -44,7 +43,9 @@ RequestHandlerFactory::RequestHandlerFactory(IDataBase * l)
 	_m_roomManager = new RoomManager();
 	_m_highscoreTable = new HighscoreTable(l);
 	_m_myStatus = new MyStatusReport(l);
-	_m_gameManager = new GameManager(l, std::vector<Game>());
+	_m_gameManager = new GameManager(l, vector<Game>());
+
+
 }
 
 RequestHandlerFactory::~RequestHandlerFactory()
