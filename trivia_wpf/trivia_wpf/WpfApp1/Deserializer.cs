@@ -132,7 +132,7 @@ namespace WpfApp1
                     int scoreStart = FindStrIndex("\"", buffer, i);
                     int scoreEnd = FindStrIndex("\"", buffer, scoreStart) - 1;
                     string score = GetBytes(scoreStart + 1, scoreEnd - scoreStart, buffer);
-                    res._resultsArr.Add(new Score(username, score));
+                    res._resultsList.Add(new Score(username, score));
                 }
             }
         }

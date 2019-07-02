@@ -19,17 +19,17 @@ namespace WpfApp1
     /// </summary>
     public partial class ScoreboardWindow : Window
     {
-        public ScoreboardWindow(Score[] scoreArr)
+        public ScoreboardWindow(List<Score> scoreList)
         {
             InitializeComponent();
             int top = 10;
             int bot = 40;
             int left = 50;
             int right = 50;
-            for (int i = 0; i < scoreArr.Length; i++)
+            for (int i = 0; i < scoreList.Count(); i++)
             {
                 TextBlock score = new TextBlock();
-                score.Text = "username: " + scoreArr[i]._username + "   score: " + scoreArr[i]._score;
+                score.Text = "username: " + scoreList[i]._username + "   score: " + scoreList[i]._score;
                 score.FontSize = 20;
                 score.FontWeight = FontWeights.Bold;
                 score.TextAlignment = TextAlignment.Center;
