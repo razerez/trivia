@@ -26,6 +26,9 @@ public:
 	virtual int numberOfRightOrWrongAnswers(string user, bool right) = 0;
 	virtual int numberOfGamesOfUser(string user) = 0;
 	virtual float avgTimeForAnsOfUser(string user) = 0;
+	virtual int addNewGame(string start_time)=0;
+	virtual void updateGame(string end_time, int gameID)=0;
+	virtual void updateAnswer(string username, int gameID, string question, string ans, bool is_correct, int answerTime)=0;
 private:
 	//vector<Question> _questions;
 };
