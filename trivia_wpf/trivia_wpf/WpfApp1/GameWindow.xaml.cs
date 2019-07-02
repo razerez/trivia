@@ -58,10 +58,10 @@ namespace WpfApp1
                     {
                         questionNum.Text = "Question: " + this._questionNum + "/" + this._numberOfQuestions;
                         question.Text = qu._question;
-                        option1.Content = qu._answers[0];
-                        option2.Content = qu._answers[1];
-                        option3.Content = qu._answers[2];
-                        option4.Content = qu._answers[3];
+                        option1.Content = qu._answers[1];
+                        option2.Content = qu._answers[2];
+                        option3.Content = qu._answers[3];
+                        option4.Content = qu._answers[4];
                     }));
                 }
                 else if (rec[0] == 'a')
