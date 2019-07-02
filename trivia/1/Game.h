@@ -30,7 +30,7 @@ public:
 	~Game();
 
 	void shuffleQuestions();
-	void removePlayer(LoggedUser user);
+	int removePlayer(LoggedUser user);
 	int submiteAnswer(int answer, LoggedUser user,float clock);
 	GetQuestionResponse getQuestionForUser(LoggedUser user);
 	GetGameResultsResponse getPlayerResult();

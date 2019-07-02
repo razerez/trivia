@@ -138,6 +138,7 @@
     <ClInclude Include="JoinRoomResponse.h" />
     <ClInclude Include="JsonRequestPacketDeserializer.h" />
     <ClInclude Include="JsonResponsePacketSerializer.h" />
+    <ClInclude Include="LeaveGameResponse.h" />
     <ClInclude Include="LeaveRoomResponse.h" />
     <ClInclude Include="LoggedUser.h" />
     <ClInclude Include="LoginManager.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="JoinRoomResponse.cpp" />
     <ClCompile Include="JsonRequestPacketDeserializer.cpp" />
     <ClCompile Include="JsonResponsePacketSerializer.cpp" />
+    <ClCompile Include="LeaveGameResponse.cpp" />
     <ClCompile Include="LeaveRoomResponse.cpp" />
     <ClCompile Include="LoggedUser.cpp" />
     <ClCompile Include="LoginManager.cpp" />

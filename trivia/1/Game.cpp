@@ -26,16 +26,30 @@ void Game::shuffleQuestions()
 	}
 }
 
-void Game::removePlayer(LoggedUser user)
+int Game::removePlayer(LoggedUser user)
 {
 
-	string username = user.getUsername();
-	for (map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
+	try
 	{
-		if ((it->first)->getUsername() == username)
+		bool isRemove = false;
+		string username = user.getUsername();
+		for (map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
 		{
-			this->_m_players.erase(it);
+			if ((it->first)->getUsername() == username)
+			{
+				isRemove = !isRemove;
+				this->_m_players.erase(it);
+			}
 		}
+		if (isRemove)
+		{
+			return 1;
+		}
+		return 0;
+	}
+	catch (...)
+	{
+		return 0;
 	}
 }
 
