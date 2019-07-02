@@ -23,8 +23,9 @@ Game * GameManager::CreateGame(Room room)
 		
 	}
 
+	int id = this->_m_database->addNewGame();
 
-	Game myGame(myQuestions, vec);
+	Game myGame(myQuestions, vec, this->_m_database, id);
 
 	this->_m_game.push_back(myGame);
 
@@ -33,5 +34,5 @@ Game * GameManager::CreateGame(Room room)
 
 void GameManager::deleteGame(Game game)
 {
-	//this->_m_game.pop_back();
+	this->_m_game.pop_back();
 }

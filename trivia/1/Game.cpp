@@ -2,11 +2,14 @@
 
 
 
-Game::Game(std::vector<Question> _m_questions, std::map<LoggedUser*, GameData*> _m_players)
+Game::Game(std::vector<Question> _m_questions, std::map<LoggedUser*, GameData*> _m_players, IDataBase * _m_database, int ID)
 {
 	this->_m_players = _m_players;
 	this->_m_questions = _m_questions;
+	this->_m_database = _m_database;
 	this->currect = nullptr;
+	this->ID = ID;
+	this->_pos = 0;
 	shuffleQuestions();
 	
 }
@@ -43,20 +46,29 @@ void Game::removePlayer(LoggedUser user)
 
 int Game::submiteAnswer(int answer, LoggedUser user, float clock)
 {
+	this->_m_database->updateGame(this->ID);
 	std::string username = user.getUsername();
 	int answerId = 0;
+	bool isOk = false;
 	for (std::map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
 	{
-		if (answer = this->currect[it->second->_currectAnswerCount + it->second->_wrongAnswerCount])
+		if (user.getUsername() == it->first->getUsername())
 		{
-			answerId = this->currect[it->second->_currectAnswerCount + it->second->_wrongAnswerCount];
-			it->second->_currectAnswerCount++;
+			
+			if (answer == this->currect[it->second->_currectAnswerCount + it->second->_wrongAnswerCount])
+			{
+				isOk = true;
+				answerId = this->currect[it->second->_currectAnswerCount + it->second->_wrongAnswerCount];
+				it->second->_currectAnswerCount++;
+			}
+			else
+			{
+				it->second->_wrongAnswerCount++;
+			}
+			it->second->_averangeAnswerTime += clock;
+			this->_m_database->updateAnswer(it->first->getUsername(), this->ID, it->second->_currectQuestion.getQuestion(), it->second->_currectQuestion.getCurrectAnswer(), isOk, clock);
 		}
-		else
-		{
-			it->second->_wrongAnswerCount++;
-		}
-		it->second->_averangeAnswerTime += clock;
+
 	}
 	return answerId;
 }

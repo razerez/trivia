@@ -122,21 +122,21 @@ vector<Question> SqliteDatabase::getQuestions(int numberOfQuestions)
 	return s;
 }
 
-int SqliteDatabase::addNewGame(string start_time)
+int SqliteDatabase::addNewGame()
 {
 	char* errMessage = nullptr;
 	ret = 0;
-	string strSqlStatement = "INSERT INTO Game (status, start_time ) VALUES(0, '"+start_time+"'); ";
+	string strSqlStatement = "INSERT INTO Game (status, start_time ) VALUES(0, DATETIME('now','localtime')); ";
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), nullptr, nullptr, &errMessage);
-	string strSqlStatement = "SELECT game_id FROM Game ORDER BY game_id DESC LIMIT 1;";
+	strSqlStatement = "SELECT game_id FROM Game ORDER BY game_id DESC LIMIT 1;";
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
 }
 
-void SqliteDatabase::updateGame(string end_time,int gameID)
+void SqliteDatabase::updateGame(int gameID)
 {
 	char* errMessage = nullptr;
-	string strSqlStatement = "UPDATE Game SET end_time = '"+end_time+"', status = 1 WHERE game_id = "+std::to_string(gameID)+";";
+	string strSqlStatement = "UPDATE Game SET end_time = DATETIME('now','localtime'), status = 1 WHERE game_id = "+std::to_string(gameID)+";";
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), nullptr, nullptr, &errMessage);
 }
 
@@ -147,7 +147,7 @@ void SqliteDatabase::updateAnswer(string username,int gameID, string question, s
 	string strSqlStatement = "SELECT question_id from Question where question='"+question+ "';";
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	int questionID = ret;
-	string strSqlStatement = "INSERT INTO PlayersAnswers(game_id, username, question_id, player_answer, is_correct, answer_time) VALUES("+std::to_string(gameID)+", '"+username+"', "+ std::to_string(questionID) +", '" + ans + "', " +std::to_string(is_correct)+", "+ std::to_string(answerTime) +"); ";
+	strSqlStatement = "INSERT INTO PlayersAnswers(game_id, username, question_id, player_answer, is_correct, answer_time) VALUES("+std::to_string(gameID)+", '"+username+"', "+ std::to_string(questionID) +", '" + ans + "', " +std::to_string(is_correct)+", "+ std::to_string(answerTime) +"); ";
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), nullptr, nullptr, &errMessage);
 }
 
