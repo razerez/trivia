@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "IDatabase.h"
 #include "LoggedUser.h"
 #include "GameData.h"
 #include "Question.h"
@@ -10,20 +10,23 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <chrono>
+#include <ctime>
 #include <map>
 
 
 class Game
 {
+	IDataBase * _m_database;
 	std::vector<Question> _m_questions;
 	std::map<LoggedUser*, GameData*> _m_players;
 	int * currect;
+	int ID;
+	int _pos;
 	PlayerResults myPlayer(LoggedUser user, GameData data);
 
 public:
 	
-	Game(std::vector<Question> _m_questions, std::map<LoggedUser*, GameData*> _m_players);
+	Game(std::vector<Question> _m_questions, std::map<LoggedUser*, GameData*> _m_players, IDataBase * _m_database, int ID);
 	~Game();
 
 	void shuffleQuestions();

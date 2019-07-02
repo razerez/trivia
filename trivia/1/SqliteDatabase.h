@@ -27,8 +27,8 @@ public:
 	virtual bool doesPasswordExist(string name, string password);
 	virtual void addUserToDB(string name, string password, string email);
 	virtual vector<Question> getQuestions(int numberOfQuestions);
-	virtual int addNewGame(string start_time);
-	virtual void updateGame(string end_time, int gameID);
+	virtual int addNewGame();
+	virtual void updateGame(int gameID);
 	virtual void updateAnswer(string username, int gameID, string question, string ans, bool is_correct, int answerTime);
 private:
 	sqlite3 *_db;
