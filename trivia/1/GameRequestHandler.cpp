@@ -4,6 +4,10 @@
 
 RequestResult GameRequestHandler::getQuestion(Request req)
 {
+	this->_m_game->getQuestionForUser(this->_m_username);
+	JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse(1, ));
+
+
 	std::vector<char> buff; //= JsonResponsePacketSerializer::serializeResponse(this->_m_game->getQuestionForUser(this->_m_username));
 	IRequestHandler * nextHandler = this;
 
