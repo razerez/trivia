@@ -176,6 +176,12 @@ namespace WpfApp1
             return SendAndReciveBoolMessage(msg);
         }
 
+        public void SubmitAnswer(string answerId)
+        {
+            string msg = "A" + "\0" + "\0" + (char)(answerId.Length) + (answerId);
+            SendMessage(msg);
+        }
+
         public void Exit()
         {
             string msg = "X" + "\0" + "\0" + (char)(14) + "\0" + " {\nusername:\"";
