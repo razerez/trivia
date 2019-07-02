@@ -26,12 +26,14 @@ namespace WpfApp1
         private bool _isClosed = false;
         private bool _hasLeft = false;
         private bool _killThread = false;
+        private string _questionNum;
         bool _isManager;
         public WaitingRoomWindow(Program p, bool isManager, string roomName, string maxUsers, string questionNum, string questionTime, string[] players)
         {
             InitializeComponent();
             this._p = p;
             this._isManager = isManager;
+            this._questionNum = questionNum;
             usernameTop.Text = this._p._username;
             usernameTop.Visibility = Visibility.Visible;
             if (isManager)
@@ -105,7 +107,7 @@ namespace WpfApp1
                     _killThread = true;
                     this.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        GameWindow game = new GameWindow(this._p);
+                        GameWindow game = new GameWindow(this._p, Int32.Parse(this._questionNum));
                         game.Show();
                         this.Close();
                     }));
