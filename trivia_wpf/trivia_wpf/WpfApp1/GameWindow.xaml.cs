@@ -24,10 +24,15 @@ namespace WpfApp1
         private ThreadStart _thS;
         private Thread _th;
         private bool _killThread = false;
-        public GameWindow(Program p)
+        private int _questionNum = 1;
+        private int _numberOfQuestions;
+        private int _score = 0;
+        private int _userAnswer;
+        public GameWindow(Program p, int numberOfQuestions)
         {
             InitializeComponent();
             this._p = p;
+            this._numberOfQuestions = numberOfQuestions;
             usernameTop.Text = this._p._username;
             _thS = new ThreadStart(GameThread);
             _th = new Thread(_thS);
@@ -35,16 +40,86 @@ namespace WpfApp1
             _th.Start();
         }
 
+        ~GameWindow()
+        {
+            this._killThread = true;
+        }
+
 
         public void GameThread()
         {
-            byte[] rec = this._p.ReciveMessage();
-            if(rec[0] == 'q')
+            while (!_killThread)
             {
+                byte[] rec = this._p.ReciveMessage();
+                if (rec[0] == 'q')
+                {
+                    Question qu = new Deserializer().DeserializeGetQuestionResponse(rec);
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        questionNum.Text = "Question: " + this._questionNum + "/" + this._numberOfQuestions;
+                        question.Text = qu._question;
+                        option1.Content = qu._answers[0];
+                        option2.Content = qu._answers[1];
+                        option3.Content = qu._answers[2];
+                        option4.Content = qu._answers[3];
+                    }));
+                }
+                else if (rec[0] == 'a')
+                {
+                    Answer ans = new Deserializer().DeserializeSubmitAnswerRespone(rec);
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        switch (ans._correctAnswer)
+                        {
+                            case (1):
+                                option1.Background = Brushes.LightGreen;
+                                break;
+                            case (2):
+                                option2.Background = Brushes.LightGreen;
+                                break;
+                            case (3):
+                                option3.Background = Brushes.LightGreen;
+                                break;
+                            case (4):
+                                option4.Background = Brushes.LightGreen;
+                                break;
+                        }
+                        if (ans._correctAnswer == this._userAnswer)
+                        {
+                            this._score++;
+                            score.Text = "score: " + this._score;
 
+                        }
+                        else
+                        {
+                            switch (this._userAnswer)
+                            {
+                                case (1):
+                                    option1.Background = Brushes.Red;
+                                    break;
+                                case (2):
+                                    option2.Background = Brushes.Red;
+                                    break;
+                                case (3):
+                                    option3.Background = Brushes.Red;
+                                    break;
+                                case (4):
+                                    option4.Background = Brushes.Red;
+                                    break;
+                            }
+                        }
+                    }));
+                }
+                else if(rec[0] == 'z')
+                {
+                    this._killThread = true;
+                    Results res = new Deserializer().DeserializeGetGameResultsRespone(rec);
+                    ScoreboardWindow scoreboard = new ScoreboardWindow(res._resultsList);
+                    scoreboard.Show();
+                    this.Close();
+                }
             }
         }
-
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
@@ -55,21 +130,25 @@ namespace WpfApp1
 
         private void Option1_Click(object sender, RoutedEventArgs e)
         {
+            this._userAnswer = 1;
             this._p.SubmitAnswer("1");
         }            
                      
         private void Option2_Click(object sender, RoutedEventArgs e)
         {
+            this._userAnswer = 2;
             this._p.SubmitAnswer("2");
         }            
                      
         private void Option3_Click(object sender, RoutedEventArgs e)
         {
+            this._userAnswer = 3;
             this._p.SubmitAnswer("3");
         }            
                      
         private void Option4_Click(object sender, RoutedEventArgs e)
         {
+            this._userAnswer = 4;
             this._p.SubmitAnswer("4");
         }
     }

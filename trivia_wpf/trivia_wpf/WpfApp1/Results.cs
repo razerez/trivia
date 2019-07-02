@@ -9,11 +9,11 @@ namespace WpfApp1
     public class Results
     {
         public string _status;
-        public List<Score> _resultsArr;
+        public List<Score> _resultsList;
         public Results(string status)
         {
             this._status = status;
-            this._resultsArr = new List<Score>();
+            this._resultsList = new List<Score>();
         }
     }
 }
