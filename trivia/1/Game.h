@@ -19,7 +19,7 @@ class Game
 	IDataBase * _m_database;
 	std::vector<Question> _m_questions;
 	std::map<LoggedUser*, GameData*> _m_players;
-	int * currect;
+	vector<int> currect;
 	int ID;
 	int _pos;
 	PlayerResults myPlayer(LoggedUser user, GameData data);
@@ -32,7 +32,7 @@ public:
 	void shuffleQuestions();
 	void removePlayer(LoggedUser user);
 	int submiteAnswer(int answer, LoggedUser user,float clock);
-	void getQuestionForUser(LoggedUser user);
+	GetQuestionResponse getQuestionForUser(LoggedUser user);
 	GetGameResultsResponse getPlayerResult();
 
 };

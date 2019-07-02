@@ -2,12 +2,11 @@
 
 
 
-Game::Game(std::vector<Question> _m_questions, std::map<LoggedUser*, GameData*> _m_players, IDataBase * _m_database, int ID)
+Game::Game(vector<Question> _m_questions, std::map<LoggedUser*, GameData*> _m_players, IDataBase * _m_database, int ID)
 {
 	this->_m_players = _m_players;
 	this->_m_questions = _m_questions;
 	this->_m_database = _m_database;
-	this->currect = nullptr;
 	this->ID = ID;
 	this->_pos = 0;
 	shuffleQuestions();
@@ -20,9 +19,8 @@ Game::~Game()
 
 void Game::shuffleQuestions()
 {
-	this->currect = new int(this->_m_questions.size());
 	int counter = 0;
-	for (std::vector<Question>::iterator it = this->_m_questions.begin(); it != this->_m_questions.end(); ++it)
+	for (vector<Question>::iterator it = this->_m_questions.begin(); it != this->_m_questions.end(); ++it, counter++)
 	{
 		currect[counter] = (*it).shufleQuestion();
 	}
@@ -31,11 +29,8 @@ void Game::shuffleQuestions()
 void Game::removePlayer(LoggedUser user)
 {
 
-	std::string username = user.getUsername();
-	bool flag = true;
-	int counter = 0;
-
-	for (std::map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
+	string username = user.getUsername();
+	for (map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
 	{
 		if ((it->first)->getUsername() == username)
 		{
@@ -73,15 +68,26 @@ int Game::submiteAnswer(int answer, LoggedUser user, float clock)
 	return answerId;
 }
 
-void Game::getQuestionForUser(LoggedUser user)
+GetQuestionResponse Game::getQuestionForUser(LoggedUser user)
 {
+	string question="";
+	map<int, string> answerAndID;
 	for (std::map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
 	{
 		if (user.getUsername() == it->first->getUsername())
 		{
+			int counter = 0;
 			it->second->_currectQuestion = this->_m_questions[it->second->_wrongAnswerCount + it->second->_currectAnswerCount];
+			question = it->second->_currectQuestion.getQuestion();
+			vector<string> answers = it->second->_currectQuestion.getPossibleAnswers();
+			for (vector<string>::iterator i=answers.begin();i!=answers.end();i++, counter++)
+			{
+				answerAndID.insert(std::pair<int, string>(counter,*i));
+			}
 		}
 	}
+	GetQuestionResponse res(1, question,answerAndID);
+	return res;
 }
 
 GetGameResultsResponse Game::getPlayerResult()
