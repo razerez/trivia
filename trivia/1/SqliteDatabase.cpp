@@ -18,7 +18,7 @@ int returnFloatCallback(void* data, int argc, char** argv, char** azColName)
 
 int returnQuestionsCallback(void *data, int argc, char **argv, char** azColName)
 {
-	list<Question>h = *(list<Question>*) data;
+	vector<Question>h = *(vector<Question>*) data;
 	string question = argv[1];
 	vector<string> ans;
 	ans.push_back(argv[2]);
@@ -114,9 +114,9 @@ void SqliteDatabase::addUserToDB(string name, string password, string email)
 }
 
 
-list<Question> SqliteDatabase::getQuestions(int numberOfQuestions)
+vector<Question> SqliteDatabase::getQuestions(int numberOfQuestions)
 {
-	list<Question> s;
+	vector<Question> s;
 	char * errMessage = nullptr;
 	string strSqlStatement = "SELECT * FROM Question ORDER BY random() LIMIT " + std::to_string(numberOfQuestions) + ";";
 	ret = 0;

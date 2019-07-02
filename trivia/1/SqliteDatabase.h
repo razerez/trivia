@@ -26,7 +26,7 @@ public:
 	virtual bool doesUserExiste(string name);
 	virtual bool doesPasswordExist(string name, string password);
 	virtual void addUserToDB(string name, string password, string email);
-	virtual list<Question> getQuestions(int numberOfQuestions);
+	virtual vector<Question> getQuestions(int numberOfQuestions);
 private:
 	sqlite3 *_db;
 	bool sendMessage(string req);

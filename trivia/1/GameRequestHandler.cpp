@@ -1,22 +1,58 @@
 #include "GameRequestHandler.h"
 
+
+/*
+GetPlayersInRoomRequest user = JsonRequestPacketDeserializer().deserializeGetPlayersRequest(req._buffer);
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse(this->_m_roomManager->getPlayersInRooms(user.roomId)));
+	IRequestHandler* nextHandler = this;
+	return RequestResult(buff, nextHandler);
+	vector<SOCKET> v;
+	vector<LoggedUser> users = (*this->_m_roomManager->getRoom(user.roomId)).getAllUsers();
+	for (vector<LoggedUser>::iterator it = users.begin(); it != users.end(); it++)
+		v.push_back((*it).getSocket());
+	return RequestResult(buff, nextHandler, v);
+
+*/
 RequestResult GameRequestHandler::getQuestion(Request req)
 {
-	return RequestResult(vector<char>(), nullptr);
+	std::vector<char> buff; //= JsonResponsePacketSerializer::serializeResponse(this->_m_game->getQuestionForUser(this->_m_username));
+	IRequestHandler * nextHandler = this;
+
+
+	return RequestResult(buff, nextHandler);
 }
 
 RequestResult GameRequestHandler::submitAnswer(Request req)
 {
-	return RequestResult(vector<char>(), nullptr);
+	SubmitAnswerRequest userAnswer = JsonRequestPacketDeserializer().deserializeSubmitAnswerRequest(req._buffer);
+	int isOk = this->_m_game->submiteAnswer(userAnswer._m_answerID, this->_m_username, 0);
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse(1, isOk));
+	IRequestHandler * nextHandler = this;
+	return RequestResult(buff, nextHandler);
 }
 
 RequestResult GameRequestHandler::getGameResult(Request req)
 {
+	
+	//GetGameResultsResponse(1, );
+
+
+
+
+
+
+
 	return RequestResult(vector<char>(), nullptr);
 }
 
 RequestResult GameRequestHandler::leaveGame(Request req)
 {
+
+
+
+
+
+
 	return RequestResult(vector<char>(), nullptr);
 }
 
@@ -44,10 +80,33 @@ void GameRequestHandler::setUsername(LoggedUser username)
 
 bool GameRequestHandler::isRequestRelevant(Request req)
 {
+	char reqId = req._buffer[0];
+	if (reqId == 'Q' || reqId == 'A' || reqId == 'Z' || reqId == 'W')
+	{
+		return true;
+	}
 	return false;
 }
 
 RequestResult GameRequestHandler::handleRequest(Request request, SOCKET socket)
 {
-	return RequestResult(vector<char>(), nullptr);
+	char reqId = request._buffer[0];
+	if (reqId == 'Q')
+	{
+		return getQuestion(request);
+	}
+	else if (reqId == 'A')
+	{
+		return submitAnswer(request);
+	}
+	else if (reqId == 'Z')
+	{
+		return getGameResult(request);
+	}
+	else if (reqId == 'W')
+	{
+		return leaveGame(request);
+	}
+
 }
+

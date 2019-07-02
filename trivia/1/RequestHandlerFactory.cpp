@@ -1,4 +1,3 @@
-#pragma once
 #include "RequestHandlerFactory.h"
 
 
@@ -27,9 +26,9 @@ RoomMemberRequestHandler * RequestHandlerFactory::createRoomMemberRequestHandler
 	return nb;
 }
 
-GameRequestHandler * RequestHandlerFactory::createGameRequestHandler(LoggedUser * l, Game * game)
+GameRequestHandler * RequestHandlerFactory::createGameRequestHandler(LoggedUser * l, Room * r)
 {
-	GameRequestHandler * nb = new GameRequestHandler(l, this, game, this->_m_gameManager);
+	GameRequestHandler * nb = new GameRequestHandler(l, this, this->_m_gameManager->CreateGame(*r), this->_m_gameManager);
 	return nb;
 }
 
@@ -44,7 +43,9 @@ RequestHandlerFactory::RequestHandlerFactory(IDataBase * l)
 	_m_roomManager = new RoomManager();
 	_m_highscoreTable = new HighscoreTable(l);
 	_m_myStatus = new MyStatusReport(l);
-	_m_gameManager = new GameManager(l, std::vector<Game>());
+	_m_gameManager = new GameManager(l, vector<Game>());
+
+
 }
 
 RequestHandlerFactory::~RequestHandlerFactory()
@@ -59,4 +60,6 @@ RequestHandlerFactory::~RequestHandlerFactory()
 	_m_highscoreTable = nullptr;
 	if (_m_roomManager != nullptr)delete(_m_roomManager);
 	_m_roomManager = nullptr;
+	if (_m_gameManager != nullptr)delete(_m_gameManager);
+	_m_gameManager = nullptr;
 }

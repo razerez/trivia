@@ -10,14 +10,28 @@ GameManager::~GameManager()
 {
 }
 
-Game GameManager::CreateGame(Room room)
+Game * GameManager::CreateGame(Room room)
 {
+	vector<Question> myQuestions = this->_m_database->getQuestions(room.getRoomData()._questionCount);
+	std::map<LoggedUser*, GameData*> vec;
 
-	std::vector<Question> vec1;
-	std::map<LoggedUser, GameData> vec2;
-	return Game(vec1, vec2);
+	for(std::vector<LoggedUser>::iterator it = room.getAllUsers().begin(); it != room.getAllUsers().end(); ++it)
+	{
+		GameData newGameData(myQuestions.front(), 0, 0, 0);
+		std::pair<LoggedUser*, GameData*> myPair(&(*it), &newGameData);
+		vec.insert(myPair);
+		
+	}
+
+
+	Game myGame(myQuestions, vec);
+
+	this->_m_game.push_back(myGame);
+
+	return &myGame;
 }
 
-void GameManager::deleteGame()
+void GameManager::deleteGame(Game game)
 {
+	//this->_m_game.pop_back();
 }
