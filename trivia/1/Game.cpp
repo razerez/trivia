@@ -1,16 +1,28 @@
 #include "Game.h"
 
 
+
 Game::Game(std::vector<Question> _m_questions, std::map<LoggedUser*, GameData*> _m_players)
 {
 	this->_m_players = _m_players;
 	this->_m_questions = _m_questions;
-	this->currect = 0;
-	this->pos = 0;
+	this->currect = nullptr;
+	shuffleQuestions();
+	
 }
 
 Game::~Game()
 {
+}
+
+void Game::shuffleQuestions()
+{
+	this->currect = new int(this->_m_questions.size());
+	int counter = 0;
+	for (std::vector<Question>::iterator it = this->_m_questions.begin(); it != this->_m_questions.end(); ++it)
+	{
+		currect[counter] = (*it).shufleQuestion();
+	}
 }
 
 void Game::removePlayer(LoggedUser user)
@@ -31,30 +43,22 @@ void Game::removePlayer(LoggedUser user)
 
 int Game::submiteAnswer(int answer, LoggedUser user, float clock)
 {
-	/*
 	std::string username = user.getUsername();
-	int isAnswer = 0;
+	int answerId = 0;
 	for (std::map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
 	{
-		if ((it->first)->getUsername() == username)
+		if (answer = this->currect[it->second->_currectAnswerCount + it->second->_wrongAnswerCount])
 		{
-			if (answer == 0)
-			{
-				isAnswer = 1;
-				it->second->_currectAnswerCount++;
-			}
-			else
-			{
-				it->second->_wrongAnswerCount++;
-			}
-			it->second->_averangeAnswerTime += clock;
+			answerId = this->currect[it->second->_currectAnswerCount + it->second->_wrongAnswerCount];
+			it->second->_currectAnswerCount++;
 		}
+		else
+		{
+			it->second->_wrongAnswerCount++;
+		}
+		it->second->_averangeAnswerTime += clock;
 	}
-	return isAnswer;
-	*/
-
-
-	return 1;
+	return answerId;
 }
 
 void Game::getQuestionForUser(LoggedUser user)
@@ -68,26 +72,21 @@ void Game::getQuestionForUser(LoggedUser user)
 	}
 }
 
-PlayerResults Game::getPlayerResult(LoggedUser user)
+GetGameResultsResponse Game::getPlayerResult()
 {
-
-	PlayerResults myResult("", 1, 1, 1);
-
-
-	std::string username = user.getUsername();
+	std::vector<PlayerResults> vec;
 	for (std::map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
 	{
-		if ((it->first)->getUsername() == username)
-		{
-
-			myResult._username = it->first->getUsername();
-			myResult._correctAnswerCount = it->second->_currectAnswerCount;
-			myResult._wrongAnswerCount = it->second->_wrongAnswerCount;
-			myResult._averageAnswerTime = it->second->_averangeAnswerTime;
-			break;
-		}
+		vec.push_back(myPlayer((*it->first), (*it->second)));
 	}
-	return myResult;
+	return GetGameResultsResponse(1, vec);
 }
+
+PlayerResults Game::myPlayer(LoggedUser user, GameData data)
+{
+	return PlayerResults(user.getUsername(), data._currectAnswerCount, data._wrongAnswerCount, (data._averangeAnswerTime / (data._currectAnswerCount + data._wrongAnswerCount)));
+}
+
+
 
 

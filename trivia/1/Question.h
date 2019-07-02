@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <algorithm>
+#include <string>
 #include <vector>
 
 class Question
@@ -15,5 +17,6 @@ public:
 	std::string getQuestion();
 	std::vector<std::string> getPossibleAnswers();
 	std::string getCurrectAnswer();
+	int shufleQuestion();
 
 };
