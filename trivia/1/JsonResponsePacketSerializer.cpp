@@ -312,3 +312,18 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(MyStatusRespon
 	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
 	return optionAndLenghVec;
 }
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse submitAnswerRes)
+{
+	return std::vector<char>();
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse questionRes)
+{
+	return std::vector<char>();
+}
+
+std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse)
+{
+	return std::vector<char>();
+}

@@ -27,6 +27,12 @@ RoomMemberRequestHandler * RequestHandlerFactory::createRoomMemberRequestHandler
 	return nb;
 }
 
+GameRequestHandler * RequestHandlerFactory::createGameRequestHandler(LoggedUser * l, Game * game)
+{
+	GameRequestHandler * nb = new GameRequestHandler(l, this, game, this->_m_gameManager);
+	return nb;
+}
+
 
 
 
@@ -38,6 +44,7 @@ RequestHandlerFactory::RequestHandlerFactory(IDataBase * l)
 	_m_roomManager = new RoomManager();
 	_m_highscoreTable = new HighscoreTable(l);
 	_m_myStatus = new MyStatusReport(l);
+	_m_gameManager = new GameManager(l, std::vector<Game>());
 }
 
 RequestHandlerFactory::~RequestHandlerFactory()
