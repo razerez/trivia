@@ -130,6 +130,12 @@ namespace WpfApp1
             SendMessage(msg);
         }
 
+        public void GetQuestion()
+        {
+            string msg = "Q" + "\0" + "\0" + "\0";
+            SendMessage(msg);
+        }
+
         public Room GetRoomState()
         {
             string msg = "R" + "\0" + "\0" + "\0";

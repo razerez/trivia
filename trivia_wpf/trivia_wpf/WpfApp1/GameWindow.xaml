@@ -22,6 +22,7 @@
         <Button Name="option3" Margin="80,409,80.2,235" Height="40" Content="option 3" FontSize="25" Click="Option3_Click"/>
         <Button Name="option4" Margin="80,505,80.2,135" Height="40" Content="option 4" FontSize="25" Click="Option4_Click"/>
         <TextBlock Name='score' FontWeight="Bold" FontSize="20" TextAlignment="Center" Text="score: 0" Margin="0,607,0,37.2"/>
+        <TextBlock Name="countDown" FontWeight="Bold" FontSize="20" Margin="804,154,17.2,500.2">0</TextBlock>
 
     </Grid>
 </Window>

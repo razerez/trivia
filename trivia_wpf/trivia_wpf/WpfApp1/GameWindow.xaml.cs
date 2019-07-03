@@ -28,9 +28,13 @@ namespace WpfApp1
         private int _numberOfQuestions;
         private int _score = 0;
         private int _userAnswer;
-        public GameWindow(Program p, int numberOfQuestions)
+        private int _questionTime;
+        private bool _gotAnswer;
+        
+        public GameWindow(Program p, int numberOfQuestions, int questionTime)
         {
             InitializeComponent();
+            this._questionTime = questionTime;
             this._p = p;
             this._numberOfQuestions = numberOfQuestions;
             usernameTop.Text = this._p._username;
@@ -48,11 +52,17 @@ namespace WpfApp1
 
         public void GameThread()
         {
+            this._p.GetQuestion();
             while (!_killThread)
             {
                 byte[] rec = this._p.ReciveMessage();
                 if (rec[0] == 'q')
                 {
+                    this._gotAnswer = false;
+                    countDown.Text = this._questionTime.ToString();
+                    Thread timeThread = new Thread(new ThreadStart(DecCountDown));
+                    timeThread.Start();
+
                     Question qu = new Deserializer().DeserializeGetQuestionResponse(rec);
                     this.Dispatcher.BeginInvoke(new Action(() =>
                     {
@@ -66,26 +76,27 @@ namespace WpfApp1
                 }
                 else if (rec[0] == 'a')
                 {
+                    this._gotAnswer = true;
                     Answer ans = new Deserializer().DeserializeSubmitAnswerRespone(rec);
                     this.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        switch (ans._correctAnswer)
-                        {
-                            case (1):
-                                option1.Background = Brushes.LightGreen;
-                                break;
-                            case (2):
-                                option2.Background = Brushes.LightGreen;
-                                break;
-                            case (3):
-                                option3.Background = Brushes.LightGreen;
-                                break;
-                            case (4):
-                                option4.Background = Brushes.LightGreen;
-                                break;
-                        }
                         if (ans._correctAnswer == this._userAnswer)
                         {
+                            switch (ans._correctAnswer)
+                            {
+                                case (1):
+                                    option1.Background = Brushes.LightGreen;
+                                    break;
+                                case (2):
+                                    option2.Background = Brushes.LightGreen;
+                                    break;
+                                case (3):
+                                    option3.Background = Brushes.LightGreen;
+                                    break;
+                                case (4):
+                                    option4.Background = Brushes.LightGreen;
+                                    break;
+                            }
                             this._score++;
                             score.Text = "score: " + this._score;
 
@@ -108,6 +119,11 @@ namespace WpfApp1
                                     break;
                             }
                         }
+                        Thread.Sleep(2000);
+                        if (this._questionNum < this._questionTime)
+                        {
+                            this._p.GetQuestion();
+                        }
                     }));
                 }
                 else if(rec[0] == 'z')
@@ -116,7 +132,33 @@ namespace WpfApp1
                     Results res = new Deserializer().DeserializeGetGameResultsRespone(rec);
                     ScoreboardWindow scoreboard = new ScoreboardWindow(res._resultsList);
                     scoreboard.Show();
+                    Menu menu = new Menu(this._p, true);
+                    menu.Show();
                     this.Close();
+                }
+            }
+        }
+
+
+        private void DecCountDown()
+        {
+            while(Int32.Parse(countDown.Text) != 0)
+            {
+                if (!this._gotAnswer)
+                {
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        countDown.Text = (Int32.Parse(countDown.Text) - 1).ToString();
+                    }));
+                    Thread.Sleep(1000); //This is milliseconds
+                }
+                
+            }
+            if (!this._gotAnswer)
+            {
+                if (this._questionNum < this._questionTime)
+                {
+                    this._p.GetQuestion();
                 }
             }
         }
