@@ -152,6 +152,10 @@ namespace WpfApp1
                     }));
                     Thread.Sleep(1000); //This is milliseconds
                 }
+                else
+                {
+                    countDown.Text = 0.ToString();
+                }
                 
             }
             if (!this._gotAnswer)
