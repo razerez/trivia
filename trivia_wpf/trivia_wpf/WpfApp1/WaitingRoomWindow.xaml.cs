@@ -35,6 +35,7 @@ namespace WpfApp1
             this._p = p;
             this._isManager = isManager;
             this._questionNum = questionNum;
+            this._questionTime = questionTime;
             usernameTop.Text = this._p._username;
             usernameTop.Visibility = Visibility.Visible;
             if (isManager)
