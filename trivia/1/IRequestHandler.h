@@ -18,7 +18,7 @@ public:
 	IRequestHandler(LoggedUser username);
 	~IRequestHandler();
 	virtual LoggedUser getUsername()=0;
-	virtual void setUsername(LoggedUser username)=0;
+	virtual void setUsername(LoggedUser user)=0;
 	virtual bool isRequestRelevant(Request req) = 0;
 	virtual RequestResult handleRequest(Request req, SOCKET socket) = 0;
 };
