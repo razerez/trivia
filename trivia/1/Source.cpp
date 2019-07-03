@@ -7,6 +7,8 @@
 int main()
 {
 	
+
+
 	SqliteDatabase * myDatabase = new SqliteDatabase{};
 	Server server(myDatabase);
 	server.run();

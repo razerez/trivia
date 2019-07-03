@@ -106,6 +106,21 @@ GetQuestionResponse Game::getQuestionForUser(LoggedUser user)
 
 GetGameResultsResponse Game::getPlayerResult()
 {
+	this->_pos++;
+	int numberOfPlayers = 0;
+
+	while (numberOfPlayers != this->_pos);
+	{
+		numberOfPlayers = 0;
+		for (map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
+		{
+			numberOfPlayers++;
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	}
+
+
+
 	std::vector<PlayerResults> vec;
 	for (std::map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
 	{
