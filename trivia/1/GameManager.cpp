@@ -27,7 +27,7 @@ Game * GameManager::CreateGame(Room room)
 		
 	}
 
-	std::unique_lock<std::mutex> myLock(mutexLock);
+	myLock.lock();
 	int id = this->_m_database->addNewGame();
 	Game myGame(myQuestions, vec, this->_m_database, id);
 	this->_m_game.push_back(myGame);
