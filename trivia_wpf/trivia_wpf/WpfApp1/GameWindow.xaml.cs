@@ -38,6 +38,7 @@ namespace WpfApp1
             this._p = p;
             this._numberOfQuestions = numberOfQuestions;
             usernameTop.Text = this._p._username;
+            this._p.GetQuestion();
             _thS = new ThreadStart(GameThread);
             _th = new Thread(_thS);
             _th.IsBackground = true;
