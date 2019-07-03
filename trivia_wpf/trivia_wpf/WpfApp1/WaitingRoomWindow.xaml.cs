@@ -27,6 +27,7 @@ namespace WpfApp1
         private bool _hasLeft = false;
         private bool _killThread = false;
         private string _questionNum;
+        private string _questionTime;
         bool _isManager;
         public WaitingRoomWindow(Program p, bool isManager, string roomName, string maxUsers, string questionNum, string questionTime, string[] players)
         {
@@ -107,7 +108,7 @@ namespace WpfApp1
                     _killThread = true;
                     this.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        GameWindow game = new GameWindow(this._p, Int32.Parse(this._questionNum));
+                        GameWindow game = new GameWindow(this._p, Int32.Parse(this._questionNum), Int32.Parse(this._questionTime));
                         game.Show();
                         this.Close();
                     }));
