@@ -260,7 +260,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateRe
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leaveRoomRes)
 {
 	std::vector<char> vec;
-	vec.push_back('s');
+	vec.push_back('l');
 	vec.push_back(0b0);
 	vec.push_back(0b0);
 	vec.push_back(0b1);
@@ -317,7 +317,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerRe
 {
 	std::string data = "{\nStatus:\"" + std::to_string(submitAnswerRes._status) + "\",\nCurrectAnswerId:\"" + std::to_string(submitAnswerRes._correctAnswerId) + "\",\n}";
 	std::vector<char> optionAndLenghVec;
-	optionAndLenghVec.push_back('h');
+	optionAndLenghVec.push_back('a');
 	int size = data.size() + 2;
 	optionAndLenghVec.push_back(0b0);
 	char leftByte = size >> 8;
@@ -343,7 +343,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetQuestionRes
 	data += "\n}\n}";
 
 	std::vector<char> optionAndLenghVec;
-	optionAndLenghVec.push_back('h');
+	optionAndLenghVec.push_back('q');
 	int size = data.size() + 2;
 	optionAndLenghVec.push_back(0b0);
 	char leftByte = size >> 8;
@@ -368,7 +368,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetGameResults
 	data += "]\n}";
 
 	std::vector<char> optionAndLenghVec;
-	optionAndLenghVec.push_back('h');
+	optionAndLenghVec.push_back('z');
 	int size = data.size() + 1;
 	optionAndLenghVec.push_back(0b0);
 	char leftByte = size >> 8;
@@ -384,7 +384,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetGameResults
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse leaveGameRes)
 {
 	std::vector<char> vec;
-	vec.push_back('s'); //need to change in protocol
+	vec.push_back('w'); //need to change in protocol
 	vec.push_back(0b0);
 	vec.push_back(0b0);
 	vec.push_back(0b1);

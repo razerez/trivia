@@ -19,7 +19,7 @@ public:
 	bool isRequestRelevant(Request req);
 	RequestResult handleRequest(Request req,SOCKET socket);
 	LoggedUser getUsername();
-	void setUsername(LoggedUser username);
+	virtual void setUsername(LoggedUser user);
 private:
 	LoggedUser _m_username;
 	LoginManager* _m_loginManager;

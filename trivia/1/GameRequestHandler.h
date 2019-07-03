@@ -30,7 +30,7 @@ public:
 	~GameRequestHandler();
 	
 	virtual LoggedUser getUsername();
-	virtual void setUsername(LoggedUser username);
+	virtual void setUsername(LoggedUser user);
 
 	virtual bool isRequestRelevant(Request req);
 	virtual RequestResult handleRequest(Request request, SOCKET socket);
