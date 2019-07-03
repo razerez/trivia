@@ -102,9 +102,9 @@ void Communicator::clientHandler(SOCKET socket)
 			std::unique_lock<std::mutex> l(lock);
 			IRequestHandler* handler = _m_clients[socket];
 			l.unlock();
-			if (req._buffer[0] == 'X')
+			if (req._id == 'X')
 				throw("EXIT NOW");
-			else if ((req._buffer[0] == 'O') && username != "")//if we need to log out
+			else if ((req._id == 'O') && username != "")//if we need to log out
 				req._buffer = bufferOfLoggedUser(username,req._buffer);
 			if (handler->isRequestRelevant(req))
 			{
@@ -113,9 +113,9 @@ void Communicator::clientHandler(SOCKET socket)
 				_m_clients[socket] = response->getNewHandler();
 				l.unlock();
 
-				if ((req._buffer[0] == 'I' || req._buffer[0] == 'U') && response->getResponse()[4] == 1)//if the user signed up or logged in
+				if ((req._id == 'I' || req._id == 'U') && response->getResponse()[4] == 1)//if the user signed up or logged in
 					username=response->getNewHandler()->getUsername().getUsername();
-				if (req._buffer[0] == 'O')//if the user logged out
+				if (req._id == 'O')//if the user logged out
 				{
 					username = "";
 					l.lock();
@@ -134,7 +134,7 @@ void Communicator::clientHandler(SOCKET socket)
 				sendMsg(vectorCharToString(response->getResponse()), socket);
 			else
 			{
-				if (req._buffer[0] == 'L')
+				if (req._id == 'L')
 					sendMsg(vectorCharToString(JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse(1))), socket);
 
 				for(vector<SOCKET>::iterator it=response->_m_whoToSendTo.begin();it!= response->_m_whoToSendTo.end();it++)

@@ -260,7 +260,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateRe
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leaveRoomRes)
 {
 	std::vector<char> vec;
-	vec.push_back('s');
+	vec.push_back('l');
 	vec.push_back(0b0);
 	vec.push_back(0b0);
 	vec.push_back(0b1);
