@@ -363,7 +363,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetGameResults
 	std::string data = "{\nStatus:\"" + std::to_string(gameResultRes._status) + "\",\nResults:\n[\n";
 	for (std::vector<PlayerResults>::iterator it = gameResultRes._result.begin(); it != gameResultRes._result.end(); ++it)
 	{
-		data += "{\nusername:\"" + it->_username + "\",\ncorrectAnswerCount::\"" + std::to_string(it->_correctAnswerCount) + "\",\n}\n";
+		data += "{\nusername:\"" + it->_username + "\",\ncorrectAnswerCount:\"" + std::to_string(it->_correctAnswerCount) + "\",\n}\n";
 	}
 	data += "]\n}";
 

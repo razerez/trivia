@@ -1,6 +1,6 @@
 #include "Game.h"
 
-
+std::mutex mutexLock;
 
 Game::Game(vector<Question> _m_questions, std::map<LoggedUser*, GameData*> _m_players, IDataBase * _m_database, int ID)
 {
@@ -22,7 +22,9 @@ void Game::shuffleQuestions()
 	int counter = 0;
 	for (vector<Question>::iterator it = this->_m_questions.begin(); it != this->_m_questions.end(); ++it, counter++)
 	{
+		std::unique_lock<std::mutex> myLock(mutexLock);
 		currect[counter] = (*it).shufleQuestion();
+		mutexLock.unlock();
 	}
 }
 
@@ -38,7 +40,9 @@ int Game::removePlayer(LoggedUser user)
 			if ((it->first)->getUsername() == username)
 			{
 				isRemove = !isRemove;
+				std::unique_lock<std::mutex> myLock(mutexLock);
 				this->_m_players.erase(it);
+				mutexLock.unlock();
 			}
 		}
 		if (isRemove)
@@ -55,7 +59,9 @@ int Game::removePlayer(LoggedUser user)
 
 int Game::submiteAnswer(int answer, LoggedUser user, float clock)
 {
+	std::unique_lock<std::mutex> myLock(mutexLock);
 	this->_m_database->updateGame(this->ID);
+	mutexLock.unlock();
 	std::string username = user.getUsername();
 	int answerId = 0;
 	bool isOk = false;
@@ -66,16 +72,22 @@ int Game::submiteAnswer(int answer, LoggedUser user, float clock)
 			
 			if (answer == this->currect[it->second->_currectAnswerCount + it->second->_wrongAnswerCount])
 			{
+				std::unique_lock<std::mutex> myLock(mutexLock);
 				isOk = true;
 				answerId = this->currect[it->second->_currectAnswerCount + it->second->_wrongAnswerCount];
 				it->second->_currectAnswerCount++;
+				mutexLock.unlock();
 			}
 			else
 			{
+				std::unique_lock<std::mutex> myLock(mutexLock);
 				it->second->_wrongAnswerCount++;
+				mutexLock.unlock();
 			}
+			std::unique_lock<std::mutex> myLock(mutexLock);
 			it->second->_averangeAnswerTime += clock;
 			this->_m_database->updateAnswer(it->first->getUsername(), this->ID, it->second->_currectQuestion.getQuestion(), it->second->_currectQuestion.getCurrectAnswer(), isOk, clock);
+			mutexLock.unlock();
 		}
 
 	}
@@ -91,6 +103,7 @@ GetQuestionResponse Game::getQuestionForUser(LoggedUser user)
 		if (user.getUsername() == it->first->getUsername())
 		{
 			int counter = 0;
+			std::unique_lock<std::mutex> myLock(mutexLock);
 			it->second->_currectQuestion = this->_m_questions[it->second->_wrongAnswerCount + it->second->_currectAnswerCount];
 			question = it->second->_currectQuestion.getQuestion();
 			vector<string> answers = it->second->_currectQuestion.getPossibleAnswers();
@@ -98,6 +111,7 @@ GetQuestionResponse Game::getQuestionForUser(LoggedUser user)
 			{
 				answerAndID.insert(std::pair<int, string>(counter,*i));
 			}
+			mutexLock.unlock();
 		}
 	}
 	GetQuestionResponse res(1, question,answerAndID);
@@ -106,6 +120,24 @@ GetQuestionResponse Game::getQuestionForUser(LoggedUser user)
 
 GetGameResultsResponse Game::getPlayerResult()
 {
+	std::unique_lock<std::mutex> myLock(mutexLock);
+	this->_pos++;
+	myLock.unlock();
+
+	int numberOfPlayers = 0;
+
+	while (numberOfPlayers != this->_pos);
+	{
+		numberOfPlayers = 0;
+		for (map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
+		{
+			numberOfPlayers++;
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	}
+
+
+
 	std::vector<PlayerResults> vec;
 	for (std::map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
 	{
