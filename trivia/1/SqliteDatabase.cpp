@@ -18,14 +18,14 @@ int returnFloatCallback(void* data, int argc, char** argv, char** azColName)
 
 int returnQuestionsCallback(void *data, int argc, char **argv, char** azColName)
 {
-	vector<Question>h = *(vector<Question>*) data;
+	
 	string question = argv[1];
 	vector<string> ans;
 	ans.push_back(argv[2]);
 	ans.push_back(argv[3]);
 	ans.push_back(argv[4]);
 	ans.push_back(argv[5]);
-	h.push_back(Question(question, ans));
+	(*(vector<Question>*)data).push_back(Question(question, ans));
 	return 0;
 }
 

@@ -23,7 +23,7 @@ void Game::shuffleQuestions()
 	for (vector<Question>::iterator it = this->_m_questions.begin(); it != this->_m_questions.end(); ++it, counter++)
 	{
 		std::unique_lock<std::mutex> myLock(mutexLockGame);
-		currect[counter] = (*it).shufleQuestion();
+		currect.push_back((*it).shufleQuestion());
 		myLock.unlock();
 	}
 }

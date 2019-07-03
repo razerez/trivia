@@ -354,6 +354,14 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetQuestionRes
 	optionAndLenghVec.push_back(char(questionRes._question.size()));
 	std::vector<char> dataVector = stringToVectorChar(data);
 	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
+
+	cout << "\n\n";
+
+	for (std::vector<char>::const_iterator i = optionAndLenghVec.begin(); i != optionAndLenghVec.end(); ++i)
+		std::cout << *i;
+
+	cout << "\n\n";
+
 	return optionAndLenghVec;
 	
 }

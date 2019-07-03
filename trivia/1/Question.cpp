@@ -44,10 +44,10 @@ int Question::shufleQuestion()
 		if (right == (*it))
 		{
 			flag = false;
+			break;
 		}
 		count++;
 	}
-
 	return count;
 }
 
