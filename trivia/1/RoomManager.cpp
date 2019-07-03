@@ -1,6 +1,8 @@
 #include "RoomManager.h"
 
 
+std::mutex mutexLock;
+
 RoomManager::RoomManager()
 {
 	this->_m_counter = 0;
@@ -14,7 +16,9 @@ int RoomManager::joinRoom(LoggedUser loggedUsers, int room)
 {
 	try
 	{
+		std::unique_lock<std::mutex> myLock(mutexLock);
 		this->_m_rooms.find(room)->second.addUser(loggedUsers);
+		myLock.unlock();
 		std::cout << loggedUsers.getUsername() << " join to the room: " << this->_m_rooms.find(room)->second.getRoomData()._name << std::endl;
 		return 1;
 	}
@@ -28,12 +32,13 @@ int RoomManager::createRoom(LoggedUser loggedUsers, RoomData& roomData)
 {
 	try
 	{
+		std::unique_lock<std::mutex> myLock(mutexLock);
 		this->_m_counter++;
 		roomData._id = _m_counter;
 		std::vector<LoggedUser> vec;
 		vec.push_back(loggedUsers);
 		this->_m_rooms.insert(std::pair<int, Room>(this->_m_counter, Room(roomData, vec)));
-		
+		myLock.unlock();
 		std::cout<<"User " << loggedUsers.getUsername() << " Created The Room: " << roomData._name << std::endl;
 		return 1;
 	}
@@ -47,7 +52,9 @@ int RoomManager::deleteRoom(int ID)
 {
 	try
 	{
+		std::unique_lock<std::mutex> myLock(mutexLock);
 		this->_m_rooms.erase(ID);
+		myLock.unlock();
 		return 1;
 	}
 	catch (...)
@@ -58,28 +65,31 @@ int RoomManager::deleteRoom(int ID)
 
 int RoomManager::getRoomState(int ID)
 {	
+	std::unique_lock<std::mutex> myLock(mutexLock);
 	return this->_m_rooms.find(ID)->second.getRoomData()._id;
 }
 
 Room * RoomManager::getRoom(int ID)
 {
-
-	
+	std::unique_lock<std::mutex> myLock(mutexLock);
 	return &this->_m_rooms.find(ID)->second;
 }
 
 std::vector<RoomData> RoomManager::getRooms()
 {
 	std::vector<RoomData> vec;
+	std::unique_lock<std::mutex> myLock(mutexLock);
 	for (std::map<int, Room>::iterator it = this->_m_rooms.begin(); it != this->_m_rooms.end(); ++it)
 		vec.push_back(it->second.getRoomData());
-
+	myLock.unlock();
 	return vec;
 }
 
 std::vector<std::string> RoomManager::getPlayersInRooms(int Id)
 {
+	std::unique_lock<std::mutex> myLock(mutexLock);
 	std::vector<LoggedUser> myUsers = this->_m_rooms.find(Id)->second.getAllUsers();
+	myLock.unlock();
 	std::vector<std::string> vec;
 	
 	for(std::vector<LoggedUser>::iterator it = myUsers.begin(); it != myUsers.end(); ++it)

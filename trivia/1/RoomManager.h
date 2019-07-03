@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <mutex>
 
 #include "LoggedUser.h"
 #include "Room.h"
