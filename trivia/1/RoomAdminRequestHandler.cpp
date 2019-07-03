@@ -26,7 +26,9 @@ RequestResult RoomAdminRequestHandler::StartGame(Request request)
 	
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createGameRequestHandler(&this->_m_username, this->_m_room);
 	vector<SOCKET> v;
-	for (vector<LoggedUser>::iterator it = _m_room->getAllUsers().begin(); it != _m_room->getAllUsers().end(); it++)
+
+	vector<LoggedUser> p = _m_room->getAllUsers();
+	for (vector<LoggedUser>::iterator it = p.begin(); it != p.end(); it++)
 		v.push_back((*it).getSocket());
 	return RequestResult(buff, nextHandler, v);
 }
