@@ -1,6 +1,6 @@
 #include "GameManager.h"
 
-std::mutex mutexLock;
+std::mutex mutexLockGameManager;
 
 GameManager::GameManager(IDataBase * database, std::vector<Game> game)
 {
@@ -14,7 +14,7 @@ GameManager::~GameManager()
 
 Game * GameManager::CreateGame(Room room)
 {
-	std::unique_lock<std::mutex> myLock(mutexLock);
+	std::unique_lock<std::mutex> myLock(mutexLockGameManager);
 	vector<Question> myQuestions = this->_m_database->getQuestions(room.getRoomData()._questionCount);
 	myLock.unlock();
 	std::map<LoggedUser*, GameData*> vec;
@@ -37,7 +37,7 @@ Game * GameManager::CreateGame(Room room)
 
 void GameManager::deleteGame(Game game)
 {
-	std::unique_lock<std::mutex> myLock(mutexLock);
+	std::unique_lock<std::mutex> myLock(mutexLockGameManager);
 	this->_m_game.pop_back();
 	myLock.unlock();
 }

@@ -1,7 +1,7 @@
 #include "RoomManager.h"
 
 
-std::mutex mutexLock;
+std::mutex mutexLockRoomManager;
 
 RoomManager::RoomManager()
 {
@@ -16,7 +16,7 @@ int RoomManager::joinRoom(LoggedUser loggedUsers, int room)
 {
 	try
 	{
-		std::unique_lock<std::mutex> myLock(mutexLock);
+		std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 		this->_m_rooms.find(room)->second.addUser(loggedUsers);
 		myLock.unlock();
 		std::cout << loggedUsers.getUsername() << " join to the room: " << this->_m_rooms.find(room)->second.getRoomData()._name << std::endl;
@@ -32,7 +32,7 @@ int RoomManager::createRoom(LoggedUser loggedUsers, RoomData& roomData)
 {
 	try
 	{
-		std::unique_lock<std::mutex> myLock(mutexLock);
+		std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 		this->_m_counter++;
 		roomData._id = _m_counter;
 		std::vector<LoggedUser> vec;
@@ -52,7 +52,7 @@ int RoomManager::deleteRoom(int ID)
 {
 	try
 	{
-		std::unique_lock<std::mutex> myLock(mutexLock);
+		std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 		this->_m_rooms.erase(ID);
 		myLock.unlock();
 		return 1;
@@ -65,20 +65,20 @@ int RoomManager::deleteRoom(int ID)
 
 int RoomManager::getRoomState(int ID)
 {	
-	std::unique_lock<std::mutex> myLock(mutexLock);
+	std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 	return this->_m_rooms.find(ID)->second.getRoomData()._id;
 }
 
 Room * RoomManager::getRoom(int ID)
 {
-	std::unique_lock<std::mutex> myLock(mutexLock);
+	std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 	return &this->_m_rooms.find(ID)->second;
 }
 
 std::vector<RoomData> RoomManager::getRooms()
 {
 	std::vector<RoomData> vec;
-	std::unique_lock<std::mutex> myLock(mutexLock);
+	std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 	for (std::map<int, Room>::iterator it = this->_m_rooms.begin(); it != this->_m_rooms.end(); ++it)
 		vec.push_back(it->second.getRoomData());
 	myLock.unlock();
@@ -87,7 +87,7 @@ std::vector<RoomData> RoomManager::getRooms()
 
 std::vector<std::string> RoomManager::getPlayersInRooms(int Id)
 {
-	std::unique_lock<std::mutex> myLock(mutexLock);
+	std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 	std::vector<LoggedUser> myUsers = this->_m_rooms.find(Id)->second.getAllUsers();
 	myLock.unlock();
 	std::vector<std::string> vec;
