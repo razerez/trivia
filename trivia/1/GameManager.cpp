@@ -19,20 +19,20 @@ Game * GameManager::CreateGame(Room room)
 	myLock.unlock();
 	std::map<LoggedUser*, GameData*> vec;
 
-	for(std::vector<LoggedUser>::iterator it = room.getAllUsers().begin(); it != room.getAllUsers().end(); ++it)
+	std::vector<LoggedUser> myPlayers= room.getAllUsers();
+
+	for(std::vector<LoggedUser>::iterator it = myPlayers.begin(); it != myPlayers.end(); ++it)
 	{
-		GameData newGameData(myQuestions.front(), 0, 0, 0);
+		GameData newGameData(Question("", std::vector<string>()), 0, 0, 0);
 		std::pair<LoggedUser*, GameData*> myPair(&(*it), &newGameData);
 		vec.insert(myPair);
-		
 	}
 
 	myLock.lock();
 	int id = this->_m_database->addNewGame();
-	Game myGame(myQuestions, vec, this->_m_database, id);
-	this->_m_game.push_back(myGame);
+	this->_m_game.push_back(Game(myQuestions, vec, this->_m_database, id));
 	myLock.unlock();
-	return &myGame;
+	return &this->_m_game.back();
 }
 
 void GameManager::deleteGame(Game game)
