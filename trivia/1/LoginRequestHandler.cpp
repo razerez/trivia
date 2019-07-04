@@ -1,5 +1,11 @@
 #include "LoginRequestHandler.h"
 
+/*
+step 1) deserialize
+step 2) the action
+step 3) serialize
+step 4) nextHandler
+*/
 
 LoginRequestHandler::LoginRequestHandler(LoginManager * m_loginManager, RequestHandlerFactory * m_handlerFactory, LoggedUser username) :_m_username(username)
 {

@@ -1,6 +1,15 @@
 
 #include "RoomAdminRequestHandler.h"
 
+
+/*
+step 1) deserialize
+step 2) the action
+step 3) serialize
+step 4) nextHandler
+*/
+
+
 RequestResult RoomAdminRequestHandler::closeRoom(Request request)
 {
 

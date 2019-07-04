@@ -169,20 +169,16 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(HighscoreRespo
 
 	data += "\n]\n}";
 
+	//copy this
 	std::vector<char> optionAndLenghVec;
 	optionAndLenghVec.push_back('h');
-
-
-	int size = data.size();
-
+	int size = data.size(); //change this number of items you push
 	optionAndLenghVec.push_back(0b0);
-
 	char leftByte = size >> 8;
 	char rightByte = size & 0b0000000011111111;
-
 	optionAndLenghVec.push_back(leftByte);
 	optionAndLenghVec.push_back(rightByte);
-
+	//push items(as char(item))
 	std::vector<char> dataVector = stringToVectorChar(data);
 	optionAndLenghVec.insert(optionAndLenghVec.end(), dataVector.begin(), dataVector.end());
 	return optionAndLenghVec;
@@ -245,9 +241,9 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateRe
 	optionAndLenghVec.push_back(rightByte);
 	optionAndLenghVec.push_back(1);
 	optionAndLenghVec.push_back(1);
-	optionAndLenghVec.push_back(std::to_string(getRoomStatRes._questionCount).length());
-	optionAndLenghVec.push_back(std::to_string(getRoomStatRes._answerTimeount).length());
-	optionAndLenghVec.push_back(std::to_string(getRoomStatRes._players.size()).length());
+	optionAndLenghVec.push_back(char(std::to_string(getRoomStatRes._questionCount).length()));
+	optionAndLenghVec.push_back(char(std::to_string(getRoomStatRes._answerTimeount).length()));
+	optionAndLenghVec.push_back(char(std::to_string(getRoomStatRes._players.size()).length()));
 	
 
 	std::vector<char> dataVector = stringToVectorChar(str);
@@ -260,7 +256,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateRe
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leaveRoomRes)
 {
 	std::vector<char> vec;
-	vec.push_back('s');
+	vec.push_back('l');
 	vec.push_back(0b0);
 	vec.push_back(0b0);
 	vec.push_back(0b1);
