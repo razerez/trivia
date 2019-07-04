@@ -1,6 +1,11 @@
 #include "MenuRequestHandler.h"
 
-
+/*
+step 1) deserialize
+step 2) the action
+step 3) serialize
+step 4) nextHandler
+*/
 
 //finish
 RequestResult MenuRequestHandler::signOut(Request req, SOCKET socket)
