@@ -139,7 +139,7 @@ void Communicator::clientHandler(SOCKET socket)
 				if (req._id == 'L')
 					sendMsg(vectorCharToString(JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse(1))), socket);
 
-				for (vector<SOCKET>::iterator it = response->_m_whoToSendTo.begin(); it != response->_m_whoToSendTo.end()&&((*it)==socket); it++)
+				for (vector<SOCKET>::iterator it = response->_m_whoToSendTo.begin(); it != response->_m_whoToSendTo.end(); it++)
 				{
 					sendMsg(vectorCharToString(response->getResponse()), *it);
 					if (req._id == 'D')
