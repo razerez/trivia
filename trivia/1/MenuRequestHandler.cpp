@@ -1,6 +1,11 @@
 #include "MenuRequestHandler.h"
 
-
+/*
+step 1) deserialize
+step 2) the action
+step 3) serialize
+step 4) nextHandler
+*/
 
 //finish
 RequestResult MenuRequestHandler::signOut(Request req, SOCKET socket)
@@ -27,11 +32,6 @@ RequestResult MenuRequestHandler::getPlayersInRoom(Request req)
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse(this->_m_roomManager->getPlayersInRooms(user.roomId)));
 	IRequestHandler* nextHandler = this;
 	return RequestResult(buff, nextHandler);
-	vector<SOCKET> v;
-	vector<LoggedUser> users = (*this->_m_roomManager->getRoom(user.roomId)).getAllUsers();
-	for (vector<LoggedUser>::iterator it = users.begin(); it != users.end(); it++)
-		v.push_back((*it).getSocket());
-	return RequestResult(buff, nextHandler, v);
 }
 
 RequestResult MenuRequestHandler::getHighscores(Request req)

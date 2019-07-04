@@ -4,6 +4,8 @@
 #include "LoggedUser.h"
 #include <vector>
 #include <string>
+#include <mutex>
+
 
 class Room
 {

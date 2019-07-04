@@ -1,5 +1,13 @@
 #include "RoomMemberRequestHandler.h"
 
+
+/*
+step 1) deserialize
+step 2) the action
+step 3) serialize
+step 4) nextHandler
+*/
+
 RequestResult RoomMemberRequestHandler::leaveRoom(Request request)
 {
 	this->_m_room->deleteUser(this->_m_loggedUser);
