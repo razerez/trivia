@@ -14,14 +14,16 @@ LoginManager::~LoginManager()
 
 int LoginManager::signup(std::string username, std::string password, std::string email,SOCKET socket)
 {
+	std::unique_lock<std::mutex> myLock(mutexLock);
 	int isOk = int(this->_m_dataBase->doesUserExiste(username));
+	myLock.unlock();
 
 	if (isOk == 0)
 	{
+		std::unique_lock<std::mutex> myLock(mutexLock);
 		this->_m_dataBase->addUserToDB(username, password, email);
 		LoggedUser newUser(username,socket);
 		std::cout << username << " Signed Up" << std::endl;
-		std::unique_lock<std::mutex> myLock(mutexLock);
 		this->_m_loggedUsers.push_back(newUser);
 		myLock.unlock();
 		return 1;
@@ -32,9 +34,10 @@ int LoginManager::signup(std::string username, std::string password, std::string
 
 int LoginManager::login(std::string username, std::string password,SOCKET socket)
 {
-
+	std::unique_lock<std::mutex> myLock(mutexLock);
 	int isOk = int(this->_m_dataBase->doesUserExiste(username));
 	int isPasswordOk = int(this->_m_dataBase->doesPasswordExist(username, password));
+	myLock.unlock();
 
 	bool flag = true;
 	int counter = 0;
