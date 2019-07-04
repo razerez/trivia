@@ -101,6 +101,8 @@ void Communicator::clientHandler(SOCKET socket)
 			Request req(getMessageFromClient(socket));// get request from client
 			std::unique_lock<std::mutex> l(lock);
 			IRequestHandler* handler = _m_clients[socket];
+			handler->setUsername(LoggedUser(username,socket));
+			_m_clients[socket] = handler;
 			l.unlock();
 			if (req._id == 'X')
 				throw("EXIT NOW");
@@ -137,8 +139,12 @@ void Communicator::clientHandler(SOCKET socket)
 				if (req._id == 'L')
 					sendMsg(vectorCharToString(JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse(1))), socket);
 
-				for(vector<SOCKET>::iterator it=response->_m_whoToSendTo.begin();it!= response->_m_whoToSendTo.end();it++)
+				for (vector<SOCKET>::iterator it = response->_m_whoToSendTo.begin(); it != response->_m_whoToSendTo.end()&&((*it)==socket); it++)
+				{
 					sendMsg(vectorCharToString(response->getResponse()), *it);
+					if (req._id == 'D')
+						_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
+				}
 			}
 			response->_newHandler = nullptr;//in order to not delete the new handler
 			if (response != nullptr)delete(response);
@@ -170,6 +176,9 @@ void Communicator::clientHandler(SOCKET socket)
 				{
 					if (*it != socket)
 						sendMsg(vectorCharToString(response->getResponse()), *it);
+					if (res!=nullptr&&res->_response[0] == 'd')
+						_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
+
 				}
 			}
 		}

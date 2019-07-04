@@ -127,7 +127,7 @@ namespace WpfApp1
         public void StartGame()
         {
             string msg = "S" + "\0" + "\0" + "\0";
-            SendMessage(msg);
+            //SendMessage(msg);
         }
 
         public Room GetRoomState()
