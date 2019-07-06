@@ -17,10 +17,16 @@ int RoomManager::joinRoom(LoggedUser loggedUsers, int room)
 	try
 	{
 		std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
-		this->_m_rooms.find(room)->second.addUser(loggedUsers);
+		//    for example the ([size is 2 (2 players connected)]    <    [max players = 3]) its work and it will add player
+		//    for example the ([size is 3 (3 players connected)]    <    [max players = 3]) its dont work and it will not add player
+		if (this->_m_rooms.find(room)->second.getAllUsers().size() < this->_m_rooms.find(room)->second.getRoomData()._maxPlayers)
+		{
+			this->_m_rooms.find(room)->second.addUser(loggedUsers);
+			std::cout << loggedUsers.getUsername() << " join to the room: " << this->_m_rooms.find(room)->second.getRoomData()._name << std::endl;
+			return 1;
+		}
 		myLock.unlock();
-		std::cout << loggedUsers.getUsername() << " join to the room: " << this->_m_rooms.find(room)->second.getRoomData()._name << std::endl;
-		return 1;
+		return 0;
 	}
 	catch (...)
 	{
