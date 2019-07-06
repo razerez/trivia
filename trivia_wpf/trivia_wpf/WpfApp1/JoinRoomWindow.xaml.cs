@@ -133,12 +133,19 @@ namespace WpfApp1
         {
             if(!string.IsNullOrEmpty(rooms.Text))//check if room is selected
             {
-                JoinRoom();
-                Room room = this._p.GetRoomState();
-                WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, false,GetRoomName()
-                                                                , "", room._questionCount, room._answerTime, room._names);
-                waiting.Show();
-                this.Close();
+                bool isWork = JoinRoom();
+                if (isWork)
+                {
+                    Room room = this._p.GetRoomState();
+                    WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, false, GetRoomName()
+                                                                    , "", room._questionCount, room._answerTime, room._names);
+                    waiting.Show();
+                    this.Close();
+                }
+                else
+                {
+                    ErrorJoinText.Visibility = Visibility.Visible;
+                }
             }
         }
 
