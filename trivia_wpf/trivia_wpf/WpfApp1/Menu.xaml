@@ -26,7 +26,7 @@
         <Button Name="myStatusButton" Margin="215,474,215.2,171.2" Height="40" Content="My Status"   IsEnabled="False" FontSize="25" Click="MyStatusButton_Click"/>
         <Button Name="bestScoresButton" Margin="215,568,215.2,77.2"  Height="40" Content="Best Scores" IsEnabled="False" FontSize="25" Click="BestScoresButton_Click"/>
         <Button Name="quitButton" Margin="350,639,350,10.2" Content="quit" Click="QuitButton_Click"/>
-        
+        <Button Name="SayHi" Margin="10,649,831.2,0.2" Content="Hello" Click="SayHi_Click" Visibility="Hidden"/>
 
     </Grid>
 </Window>

@@ -30,7 +30,7 @@ class MenuRequestHandler : public IRequestHandler
 	RequestResult joinRoom(Request req);
 	RequestResult createRoom(Request req);
 	RequestResult myStatus(Request req);
-
+	RequestResult sayHi(Request req);
 
 public:
 	MenuRequestHandler(LoggedUser* username, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory, MyStatusReport* myStatus);

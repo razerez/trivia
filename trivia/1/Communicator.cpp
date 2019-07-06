@@ -144,6 +144,8 @@ void Communicator::clientHandler(SOCKET socket)
 					sendMsg(vectorCharToString(response->getResponse()), *it);
 					if (req._id == 'D')
 						_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
+					if (*it == socket)
+						cout << "SHIT";
 				}
 			}
 			response->_newHandler = nullptr;//in order to not delete the new handler

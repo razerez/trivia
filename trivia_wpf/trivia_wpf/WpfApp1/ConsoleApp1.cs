@@ -104,7 +104,11 @@ namespace WpfApp1
             string msg = "U" + "\0" + "\0" + (char)(40 + _username.Length + password.Length + email.Length) + (char)(_username.Length) + (char)(password.Length) + (char)(email.Length) + " {\nusername:\"" + _username + "\"\npassword:\"" + password + "\"\nemail:\"" + email + "\"\n}";
             return SendAndReciveBoolMessage(msg);
         }
-
+        public void sayHi()
+        {
+            string msg = "B" + "\0" + "\0" + "\0";
+            SendMessage(msg);
+        }
         public bool Logout()
         {
             string msg = "O" + "\0" + "\0" +(char)(14)+"\0" + " {\nusername:\"";

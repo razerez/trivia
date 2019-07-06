@@ -13,10 +13,9 @@ step 4) nextHandler
 RequestResult RoomAdminRequestHandler::closeRoom(Request request)
 {
 
-	this->_m_room->deleteUser(this->_m_username);
-
+	
 	std::vector<LoggedUser> myUsers = this->_m_room->getAllUsers();
-
+	this->_m_room->deleteUser(this->_m_username);
 	int stat = this->_m_roomManager->deleteRoom(this->_m_room->getRoomData()._id);
 	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse(stat));
 	IRequestHandler* nextHandler = this->_m_handlerFactory->createMenuRequestHandler(this->_m_username);

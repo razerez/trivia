@@ -32,9 +32,9 @@ namespace WpfApp1
         public void changeScores()
         {
             Queue<KeyValuePair<string, int>> que = new Queue<KeyValuePair<string, int>>();
-
             string[] highScoresArr = this._p.GetHighScores();
-            if(highScoresArr.Length!=0)
+            List<KeyValuePair<string, int>>results = new List<KeyValuePair<string, int>>();
+            if (highScoresArr.Length!=0)
             {
                 for (int i = 0; i < highScoresArr.Length; i++)
                 {
@@ -49,14 +49,15 @@ namespace WpfApp1
                     }
 
                     string name = highScoresArr[i].Substring(0, j - 1);
-                    string score = highScoresArr[i].Substring(j, highScoresArr[i].Length - j);
-                    que.Enqueue(new KeyValuePair<string, int>(name, Int32.Parse(score)));
+                    int score = Int32.Parse(highScoresArr[i].Substring(j, highScoresArr[i].Length - j));
+                    results.Add(new KeyValuePair<string, int>(name, score));
                 }
-                KeyValuePair<string, int> current = que.Dequeue();
+                results.Sort((x, y) => (y.Value.CompareTo(x.Value)));
+                KeyValuePair<string, int> current =results[0];
                 ChangeRank(current.Key, current.Value, first);
-                current = que.Dequeue();
+                current = results[1];
                 ChangeRank(current.Key, current.Value, second);
-                current = que.Dequeue();
+                current = results[2];
                 ChangeRank(current.Key, current.Value, third);
 
             }

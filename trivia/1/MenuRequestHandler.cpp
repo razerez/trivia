@@ -91,7 +91,13 @@ RequestResult MenuRequestHandler::myStatus(Request req)
 	IRequestHandler* nextHandler = this;
 	return RequestResult(buff, nextHandler);
 }
-
+RequestResult MenuRequestHandler::sayHi(Request req)
+{
+	cout << "Hi " << _m_username.getUsername()<<endl;
+	IRequestHandler* nextHandler = this;
+	vector<char> res;
+	return RequestResult(res,nextHandler);
+}
 //finish
 MenuRequestHandler::MenuRequestHandler(LoggedUser * username, RoomManager * m_roomManager, HighscoreTable * m_highScoreTable, RequestHandlerFactory * m_handlerFactory, MyStatusReport* myStatus):_m_username(*username)
 {
@@ -121,7 +127,7 @@ bool MenuRequestHandler::isRequestRelevant(Request req)
 {
 	
 	char reqId = req._buffer[0];
-	if (reqId == 'O'|| reqId == 'G' || reqId == 'P' || reqId == 'H'|| reqId == 'J' || reqId == 'C' || reqId == 'M')
+	if (reqId == 'O'|| reqId == 'G' || reqId == 'P' || reqId == 'H'|| reqId == 'J' || reqId == 'C' || reqId == 'M'||reqId=='B')
 	{
 		return true;
 	}
@@ -159,6 +165,10 @@ RequestResult MenuRequestHandler::handleRequest(Request req, SOCKET socket)
 	else if (reqId == 'M')
 	{
 		return myStatus(req);
+	}
+	else if (reqId == 'B')
+	{
+		return sayHi(req);
 	}
 }
 
