@@ -124,6 +124,7 @@ namespace WpfApp1
         {
             players.Items.Clear();
             rooms.SelectedItem = null;
+            ErrorJoinText.Visibility = Visibility.Hidden;
             roomGrid.Visibility = Visibility.Hidden;
             JoinButton.IsEnabled = false;
             fillRoomList();
@@ -151,6 +152,7 @@ namespace WpfApp1
 
         private void Rooms_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ErrorJoinText.Visibility = Visibility.Hidden;
             if (rooms.SelectedItem != null)
             {
                 JoinButton.IsEnabled = true;

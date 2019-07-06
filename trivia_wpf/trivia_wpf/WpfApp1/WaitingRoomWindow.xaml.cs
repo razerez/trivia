@@ -97,8 +97,9 @@ namespace WpfApp1
                         {
                             error.Visibility = Visibility.Visible;
                         }));
-                        this._isClosed = true;
                     }
+                    this._isClosed = true;
+                    this._hasLeft = true;
                 }
                 else if(rec[0] == 's')
                 {

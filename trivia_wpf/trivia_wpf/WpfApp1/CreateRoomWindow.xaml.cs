@@ -41,22 +41,45 @@ namespace WpfApp1
             this.Close();
         }
 
+        private bool checkIfStringIsAPositiveNumber(string s)
+        {
+            bool worked = false;
+            try
+            {
+                int number = Int32.Parse(s);
+
+                if (number > 0)
+                    worked = true;
+
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+            return worked;
+        }
+
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            bool isWork = createRoom();
-
-            if (roomNameTextBox.Text!=""&& maxPlayersTextBox.Text != "" && questionsNumTextBox.Text != "" && questionTimeTextBox.Text != "" && isWork)
+            if (roomNameTextBox.Text != "" &&
+                checkIfStringIsAPositiveNumber(questionsNumTextBox.Text) &&
+                checkIfStringIsAPositiveNumber(questionTimeTextBox.Text) &&
+                checkIfStringIsAPositiveNumber(maxPlayersTextBox.Text) && createRoom())
             {
-            WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, true,
-                                                           roomNameTextBox.Text, maxPlayersTextBox.Text, questionsNumTextBox.Text, questionTimeTextBox.Text, this._p.GetRoomState()._names);
-            waiting.Show();
-            this.Close();
+                WaitingRoomWindow waiting = new WaitingRoomWindow
+                    (this._p, true,roomNameTextBox.Text, maxPlayersTextBox.Text,
+                    questionsNumTextBox.Text, questionTimeTextBox.Text,this._p.GetRoomState()._names);
+
+                waiting.Show();
+                this.Close();
             }
             else
             {
                 error.Visibility = Visibility.Visible;
-                error.Text = "please fill everything";
+                error.Text = "Wrong Parameters";
             }
         }
     }
+
+    
 }

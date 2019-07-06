@@ -130,7 +130,7 @@ void Communicator::clientHandler(SOCKET socket)
 			{
 				response = new RequestResult(stringToVectorChar("e"), handler);//if request is irrelevant
 				for (int i = 0; i < 3; i++)
-					response->_response.push_back('0');
+					response->_response.push_back(0);
 			}
 			if(response->_m_whoToSendTo.size()==0)
 				sendMsg(vectorCharToString(response->getResponse()), socket);
@@ -144,8 +144,6 @@ void Communicator::clientHandler(SOCKET socket)
 					sendMsg(vectorCharToString(response->getResponse()), *it);
 					if (req._id == 'D')
 						_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
-					if (*it == socket)
-						cout << "SHIT";
 				}
 			}
 			response->_newHandler = nullptr;//in order to not delete the new handler
@@ -157,7 +155,7 @@ void Communicator::clientHandler(SOCKET socket)
 	{
 		vector<char> v;
 		for (int i = 0; i < 4; i++)
-			v.push_back('\0');
+			v.push_back(0);
 		
 		IRequestHandler* handler = _m_clients[socket];
 		if (handler != nullptr)

@@ -26,11 +26,29 @@ namespace WpfApp1
             this._p = p;
         }
 
+        bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
         private void Sign_Up_Click(object sender, RoutedEventArgs e)
         {
             _p._username = usernameTextBox.Text;
-            if (passwordTextBox.Text == "" || usernameTextBox.Text == "" || emailTextBox.Text == "")
+            //////
+            ////passwordTextBox.Text.Length < 8 || usernameTextBox.Text.Length > 8
+            //////
+            if (passwordTextBox.Text == "" || usernameTextBox.Text == "" || !IsValidEmail(emailTextBox.Text))
             {
+                
                 error.Visibility = Visibility.Visible;
                 return;
             }
@@ -47,16 +65,16 @@ namespace WpfApp1
             }
         }
 
-        private void UsernameTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             Menu menu = new Menu(this._p,false);
             menu.Show();
             this.Close();
+        }
+
+        private void UsernameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
