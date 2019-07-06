@@ -156,10 +156,9 @@ void Communicator::clientHandler(SOCKET socket)
 	catch (...)
 	{
 		vector<char> v;
-		v.push_back('\0');
-		v.push_back('\0');
-		v.push_back('\0');
-		v.push_back('\0');
+		for (int i = 0; i < 4; i++)
+			v.push_back('\0');
+		
 		IRequestHandler* handler = _m_clients[socket];
 		if (handler != nullptr)
 		{

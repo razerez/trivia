@@ -47,7 +47,6 @@ namespace WpfApp1
             username.Visibility = Visibility.Hidden;
             usernameTop.Visibility = Visibility.Hidden;
             JoinRoomButton.IsEnabled = false;
-            SayHi.Visibility = Visibility.Hidden;
             createRoomButton.IsEnabled = false;
             myStatusButton.IsEnabled = false;
             bestScoresButton.IsEnabled = false;
@@ -65,7 +64,6 @@ namespace WpfApp1
             createRoomButton.IsEnabled = true;
             myStatusButton.IsEnabled = true;
             bestScoresButton.IsEnabled = true;
-            SayHi.Visibility = Visibility.Visible;
         }
 
         private void Sign_In_Click(object sender, RoutedEventArgs e)
@@ -140,9 +138,6 @@ namespace WpfApp1
             this._p.Logout();
             firstView();
         }
-        private void SayHi_Click(object sender, RoutedEventArgs e)
-        {
-            this._p.sayHi();
-        }
+
     }
 }
