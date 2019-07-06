@@ -43,7 +43,9 @@ namespace WpfApp1
 
         private void Send_Click(object sender, RoutedEventArgs e)
         {
-            if(roomNameTextBox.Text!=""&& maxPlayersTextBox.Text != "" && questionsNumTextBox.Text != "" && questionTimeTextBox.Text != "" && createRoom())
+            bool isWork = createRoom();
+
+            if (roomNameTextBox.Text!=""&& maxPlayersTextBox.Text != "" && questionsNumTextBox.Text != "" && questionTimeTextBox.Text != "" && isWork)
             {
             WaitingRoomWindow waiting = new WaitingRoomWindow(this._p, true,
                                                            roomNameTextBox.Text, maxPlayersTextBox.Text, questionsNumTextBox.Text, questionTimeTextBox.Text, this._p.GetRoomState()._names);

@@ -28,6 +28,16 @@ namespace WpfApp1
             else
                 return false;
         }
+
+        public bool SendAndReciveBoolMassageJoin(string msg)
+        {
+            byte[] res = SendAndReciveMessage(msg);
+            if (res[4] == (char)(1) || res.Length > 5)
+                return true;
+            else
+                return false;
+        }
+
         public string[] DecodeArrMessage(byte[] res)
         {
             bool flag = true;
@@ -146,7 +156,7 @@ namespace WpfApp1
         public bool JoinRoom(int roomID)
         {
             string msg = "J" + "\0" + "\0" + (char)(1) + roomID;
-            return SendAndReciveBoolMessage(msg);
+            return SendAndReciveBoolMassageJoin(msg);
         }
 
         public string[] GetPlayersInRoom(int roomID)/////////////////////////////////////needs to update response
