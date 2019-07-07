@@ -43,16 +43,12 @@ namespace WpfApp1
         private void Sign_Up_Click(object sender, RoutedEventArgs e)
         {
             _p._username = usernameTextBox.Text;
-            //////
-            ////passwordTextBox.Text.Length < 8 || usernameTextBox.Text.Length > 8
-            //////
-            if (passwordTextBox.Text == "" || usernameTextBox.Text == "" || !IsValidEmail(emailTextBox.Text))
+            if (passwordTextBox.Text == "" || usernameTextBox.Text == "" || !IsValidEmail(emailTextBox.Text) || passwordTextBox.Text.Length < 8 || usernameTextBox.Text.Length >= 8)
             {
-                
                 error.Visibility = Visibility.Visible;
                 return;
             }
-                if (this._p.Signup(passwordTextBox.Text, emailTextBox.Text))
+            if (this._p.Signup(passwordTextBox.Text, emailTextBox.Text))
             {
                 error.Visibility = Visibility.Hidden;
                 Menu menu = new Menu(this._p, true);
