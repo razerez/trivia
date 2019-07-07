@@ -90,7 +90,6 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsRespon
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse playerInRoomRes)
 {
-	
 	std::string data = " {\nlength:" + std::to_string(playerInRoomRes._players.size()) + "\nNames[";
 
 	std::cout << "Sending Names: ";

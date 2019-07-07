@@ -98,6 +98,10 @@ std::vector<RoomData> RoomManager::getRooms()
 
 std::vector<std::string> RoomManager::getPlayersInRooms(int Id)
 {
+	if (this->_m_rooms.find(Id) == this->_m_rooms.end())
+	{
+		return std::vector<std::string>();
+	}
 	std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 	std::vector<LoggedUser> myUsers = this->_m_rooms.find(Id)->second.getAllUsers();
 	myLock.unlock();
