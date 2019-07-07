@@ -39,7 +39,7 @@ void Communicator::bindAndListen()
 	// Start listening for incoming requests of clients
 	if (listen(serverSocket, SOMAXCONN) == SOCKET_ERROR)
 		throw std::exception(__FUNCTION__ " - listen");
-	std::cout << "Listening on port " << PORT << std::endl;
+	std::cout << "Listening on Port " << PORT << std::endl;
 
 	while (true)
 		startThreadForNewClient();
@@ -166,20 +166,22 @@ void Communicator::clientHandler(SOCKET socket)
 			v[0] = 'D';
 			Request closeRoom('D', time(0), v);
 			if (handler->isRequestRelevant(leaveRoom))//makes sure that if the user joined a room we will leave it before he exits
-				*res = handler->handleRequest(leaveRoom, socket);
+				res = new RequestResult(handler->handleRequest(leaveRoom, socket));
 			else if (handler->isRequestRelevant(closeRoom))//makes sure that if the user created a room it will by closed before he leaves 
-				*res = handler->handleRequest(closeRoom, socket);
+				res = new RequestResult(handler->handleRequest(closeRoom, socket));
 			if (res != nullptr) 
 			{
-				for (vector<SOCKET>::iterator it = response->_m_whoToSendTo.begin(); it != response->_m_whoToSendTo.end(); it++)
+				for (vector<SOCKET>::iterator it = res->_m_whoToSendTo.begin(); it != res->_m_whoToSendTo.end(); it++)
 				{
 					if (*it != socket)
-						sendMsg(vectorCharToString(response->getResponse()), *it);
+						sendMsg(vectorCharToString(res->getResponse()), *it);
 					if (res!=nullptr&&res->_response[0] == 'd')
 						_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
 
 				}
 			}
+			if (res != nullptr)
+				delete(res);
 		}
 		if (username != "")//send an exit request to handler that will also log the user out
 		{
@@ -193,6 +195,9 @@ void Communicator::clientHandler(SOCKET socket)
 			r->handleRequest(Request('X', time(0), v), socket);
 			if(r!=nullptr)delete(r);
 			r = nullptr;
+			std::unique_lock<std::mutex> l(lock);
+			_m_clients.erase(socket);
+			l.unlock();
 		}
 		if (response != nullptr)
 			delete(response);
@@ -225,7 +230,7 @@ void Communicator::startThreadForNewClient()
 	_m_clients.insert(std::pair<SOCKET, IRequestHandler*>(client_socket, handler));
 	l.unlock();
 
-	std::cout << "New Client. Socket: " << client_socket << std::endl;
+	std::cout << "New Client With Socket " << client_socket << std::endl;
 	std::thread  t1(&Communicator::clientHandler, this, client_socket);//new thread for the client
 	t1.detach();//thread can work separately
 }

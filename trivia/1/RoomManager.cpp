@@ -26,7 +26,7 @@ int RoomManager::joinRoom(LoggedUser loggedUsers, int room)
 		if (this->_m_rooms.find(room)->second.getAllUsers().size() < this->_m_rooms.find(room)->second.getRoomData()._maxPlayers)
 		{
 			this->_m_rooms.find(room)->second.addUser(loggedUsers);
-			std::cout << loggedUsers.getUsername() << " join to the room: " << this->_m_rooms.find(room)->second.getRoomData()._name << std::endl;
+			std::cout << loggedUsers.getUsername() << " Joined The Room: " << this->_m_rooms.find(room)->second.getRoomData()._name << std::endl;
 			return 1;
 		}
 		myLock.unlock();

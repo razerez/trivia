@@ -64,14 +64,6 @@ namespace WpfApp1
 
         ~WaitingRoomWindow()
         {
-            if(this._isManager && !this._isClosed)
-            {
-                this._p.CloseRoom();
-            }
-            if(!this._hasLeft)
-            {
-                this._p.LeaveRoom();
-            }
             _killThread = true;
         }
 

@@ -54,7 +54,7 @@ SqliteDatabase::SqliteDatabase() : IDataBase()
 	int res = sqlite3_open(dbFileName.c_str(), &_db);
 	if (res != SQLITE_OK)
 	{
-		cout << "Failed to open the DB" << endl;
+		cout << "Failed to Open DB" << endl;
 		_db = nullptr;
 		return;
 	}
