@@ -14,6 +14,10 @@ RoomManager::~RoomManager()
 
 int RoomManager::joinRoom(LoggedUser loggedUsers, int room)
 {
+	if (this->_m_rooms.find(room) == this->_m_rooms.end()) 
+	{
+		return 0;
+	}
 	try
 	{
 		std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
@@ -32,6 +36,7 @@ int RoomManager::joinRoom(LoggedUser loggedUsers, int room)
 	{
 		return 0;
 	}
+	
 }
 
 int RoomManager::createRoom(LoggedUser loggedUsers, RoomData& roomData)
