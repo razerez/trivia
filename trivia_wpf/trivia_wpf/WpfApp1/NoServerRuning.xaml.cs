@@ -22,6 +22,7 @@ namespace WpfApp1
     {
         public NoServerRuning()
         {
+            Background = Brushes.AliceBlue;
             InitializeComponent();
         }
 

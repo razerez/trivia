@@ -21,6 +21,7 @@ namespace WpfApp1
     {
         public MainWindow()
         {
+            Background = Brushes.AliceBlue;
             InitializeComponent();
             Program prog = new Program();
             this.Close();

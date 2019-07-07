@@ -8,7 +8,7 @@
         Title="Menu" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
+        <Image Source="Logo.png" Margin="317,0,297.2,624.2" Visibility="Visible"/>
         <TextBlock Visibility="Hidden" Name="username"  Text="" TextAlignment="Center" FontWeight="Bold" FontSize="25" Margin="10,97,10.2,291.2"/>
         <TextBlock Visibility= "Visible" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,463.2,643.2"/>
         <Grid Name="SignIn" Visibility="Visible">
@@ -26,6 +26,5 @@
         <Button Name="myStatusButton" Margin="215,474,215.2,171.2" Height="40" Content="My Status"   IsEnabled="False" FontSize="25" Click="MyStatusButton_Click"/>
         <Button Name="bestScoresButton" Margin="215,568,215.2,77.2"  Height="40" Content="Best Scores" IsEnabled="False" FontSize="25" Click="BestScoresButton_Click"/>
         <Button Name="quitButton" Margin="350,639,350,10.2" Content="quit" Click="QuitButton_Click"/>
-
     </Grid>
 </Window>

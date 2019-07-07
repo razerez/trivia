@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Error Detected" Height="117.186" Width="266.959"
+        Title="" Height="117.186" Width="266.959"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBlock Name="subject" FontSize="15" HorizontalAlignment="Center" Margin="0,0,-0.4,-0.2">You Do not Have a Server Running</TextBlock>

@@ -8,7 +8,7 @@
         Title="MyStatus" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
+        <Image Name="Logo" Source="Logo.png" Margin="317,0,297.2,624.2"/>
         <TextBlock Visibility= "Visible" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,463.2,643.2"/>
         <TextBlock FontWeight="Bold" FontSize="30" TextAlignment="Center" Margin="0,103,0,-103.8">My Preformences:</TextBlock>
         <TextBlock Name="gameNum" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,170,0,-169.8" Text="Number of Games: "/>

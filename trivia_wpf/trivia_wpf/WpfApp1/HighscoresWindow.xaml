@@ -8,7 +8,6 @@
         Title="Highscores" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
         <TextBlock Visibility= "Visible" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,463.2,643.2"/>
         
         <TextBlock FontWeight="Bold" FontSize="30" TextAlignment="Center" Margin="0,103,0,-103.8">Best Scores:</TextBlock>
@@ -17,6 +16,7 @@
         <TextBlock Name="third" FontWeight="Bold" FontSize="25" TextAlignment="Center" Margin="0,270,0,-169.8" Text=""/>
         <Button Margin="748,10,10.2,631.2" Click="Back_Click">Back</Button>
         <Rectangle Fill="Black" HorizontalAlignment="Left" Height="14" Margin="0,84,0,0" Stroke="Black" VerticalAlignment="Top" Width="879"/>
+        <Image Name="Logo" Source="Logo.png" Margin="317,0,297.2,624.2"/>
     </Grid>
 </Window>
 

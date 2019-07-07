@@ -8,7 +8,7 @@
         Title="SignUpWindow" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
+        <Image Name="Logo" Source="Logo.png" Margin="317,0,297.2,624.2"/>
         <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontSize="15" Margin="0,130,0.2,498.2">please fill everything</TextBlock>
         <TextBlock FontWeight="Bold" FontSize="20" Margin="121,161,210.2,252.2">Username:</TextBlock>
         <TextBox Name="usernameTextBox" TextChanged="UsernameTextBox_TextChanged" Margin="249,161,240.2,499.2"></TextBox>
@@ -19,8 +19,8 @@
         <Button Margin="379,285,379.2,356.2" Click="Sign_Up_Click" RenderTransformOrigin="0.501,0.5">Sign Up</Button>
         <Button Margin="748,10,10.2,631.2" Click="Back_Click">Back</Button>
         <TextBlock Name="Instructions" Visibility="Visible" Foreground="Green" TextAlignment="Center" FontSize="35" Margin="10,394,-9.8,252.2"><Run Text="Instructions:"/></TextBlock>
-        <TextBlock Name="Instruction_1" Visibility="Visible" Foreground="Blue" TextAlignment="Center" FontSize="25" Margin="10,454,-9.8,186.2"><Run Text="Username size should be shorter than eight"/></TextBlock>
+        <TextBlock Name="Instruction_1" Visibility="Visible" Foreground="Blue" TextAlignment="Center" FontSize="25" Margin="10,454,-9.8,186.2"><Run Text="Username Size Should Be Bigger Than 8"/></TextBlock>
         <TextBlock Name="Instruction_2" Visibility="Visible" Foreground="Blue" TextAlignment="Center" FontSize="25" Margin="10,514,-9.8,131.2"><Run Text="Password Should Be 8 Digits or More"/></TextBlock>
-        <TextBlock Name="Instruction_3" Visibility="Visible" Foreground="Blue" TextAlignment="Center" FontSize="25" Margin="10,586,-9.8,62.2"><Run Text="Email must be valid (for example: ww@hj.com)"/></TextBlock>
+        <TextBlock Name="Instruction_3" Visibility="Visible" Foreground="Blue" TextAlignment="Center" FontSize="25" Margin="10,586,-9.8,62.2"><Run Text="Email must be valid (For Example: ww@hj.com)"/></TextBlock>
     </Grid>
 </Window>

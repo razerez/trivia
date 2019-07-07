@@ -8,7 +8,6 @@
         Title="CreateRoom" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
         <Button Margin="748,10,10.2,631.2" Click="Back_Click">Back</Button>
         <TextBlock Visibility= "Visible" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,463.2,643.2"/>
 
@@ -30,6 +29,7 @@
         <TextBlock FontSize="25" FontWeight="Bold" Margin="146,403,-146.8,-103.8">Time per Question:</TextBlock>
         <TextBox Name="questionTimeTextBox" Margin="444,403,173.2,246.2"/>
         <Button Margin="380,491,380,150.2" Click="Send_Click">Send</Button>
+        <Image Name="Logo" Source="Logo.png" Margin="317,0,297.2,624.2"/>
     </Grid>
 </Window>
 

@@ -8,7 +8,7 @@
         Title="JoinRoom" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock FontWeight="Bold" FontSize="30" HorizontalAlignment="Center">Magshitrivia</TextBlock>
+        <Image Name="Logo" Source="Logo.png" Margin="317,0,297.2,624.2"/>
         <TextBlock Visibility= "Visible" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,463.2,643.2"/>
         <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontSize="15" Margin="0,169,0.2,317.2">no rooms avilable</TextBlock>
         <TextBlock FontWeight="Bold" FontSize="30" TextAlignment="Center" Margin="264,60,264.2,511.2">Rooms List:</TextBlock>
