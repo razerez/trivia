@@ -27,7 +27,7 @@ RequestResult GameRequestHandler::getGameResult(Request req)
 
 RequestResult GameRequestHandler::leaveGame(Request req)
 {
-	vector<char> buff = JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse(this->_m_game->removePlayer(this->_m_username)));
+	vector<char> buff;// = JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse(this->_m_game->removePlayer(this->_m_username)));
 	IRequestHandler * nextHandler = this->_m_HandlerFactory->createMenuRequestHandler(this->_m_username);
 	return RequestResult(buff, nullptr);
 }

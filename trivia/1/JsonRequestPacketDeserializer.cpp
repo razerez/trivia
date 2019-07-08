@@ -59,6 +59,10 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(st
 	return CreateRoomRequest(roomName, std::stoi(maxUsers), std::stoi(questionCount), std::stoi(answerTime));
 }
 
+SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(std::vector<char> buffer)
+{
+	return SubmitAnswerRequest(buffer[4]);
+}
 
 
 std::string JsonRequestPacketDeserializer::analyzeJson(std::vector<char> buffer, std::string subject, int dataLocation, int sizeLocation, int sizeLength)

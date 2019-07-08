@@ -8,6 +8,8 @@
 #include "GetPlayersInRoomRequest.h"
 #include "JoinRoomRequest.h"
 #include "CreateRoomRequest.h"
+#include "SubmitAnswerRequest.h"
+
 
 
 
@@ -20,6 +22,7 @@ struct JsonRequestPacketDeserializer
 	GetPlayersInRoomRequest deserializeGetPlayersRequest(std::vector<char> buffer);
 	JoinRoomRequest deserializeJoinRoomRequest(std::vector<char> buffer);
 	CreateRoomRequest deserializeCreateRoomRequest(std::vector<char> buffer);
+	SubmitAnswerRequest deserializeSubmitAnswerRequest(std::vector<char> buffer);
 
 
 private:

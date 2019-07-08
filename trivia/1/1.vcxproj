@@ -120,7 +120,10 @@
     <ClInclude Include="CreateRoomRequest.h" />
     <ClInclude Include="CreateRoomResponse.h" />
     <ClInclude Include="ErrorResponse.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameData.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameRequestHandler.h" />
     <ClInclude Include="GetGameResultsResponse.h" />
     <ClInclude Include="GetPlayersInRoomRequest.h" />
     <ClInclude Include="GetPlayersInRoomResponse.h" />
@@ -162,6 +165,7 @@
     <ClInclude Include="sqlite3.h" />
     <ClInclude Include="SqliteDatabase.h" />
     <ClInclude Include="StartGameResponse.h" />
+    <ClInclude Include="SubmitAnswerRequest.h" />
     <ClInclude Include="SubmitAnswerResponse.h" />
     <ClInclude Include="Vector and string.h" />
     <ClInclude Include="WSAInitializer.h" />
@@ -172,7 +176,10 @@
     <ClCompile Include="CreateRoomRequest.cpp" />
     <ClCompile Include="CreateRoomResponse.cpp" />
     <ClCompile Include="ErrorResponse.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameData.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameRequestHandler.cpp" />
     <ClCompile Include="GetGameResultsResponse.cpp" />
     <ClCompile Include="GetPlayersInRoomRequest.cpp" />
     <ClCompile Include="GetPlayersInRoomResponse.cpp" />
@@ -215,6 +222,7 @@
     <ClCompile Include="sqlite3.c" />
     <ClCompile Include="SqliteDatabase.cpp" />
     <ClCompile Include="StartGameResponse.cpp" />
+    <ClCompile Include="SubmitAnswerRequest.cpp" />
     <ClCompile Include="SubmitAnswerResponse.cpp" />
     <ClCompile Include="Vector and string.cpp" />
     <ClCompile Include="WSAInitializer.cpp" />

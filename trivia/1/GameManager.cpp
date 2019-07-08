@@ -15,7 +15,7 @@ GameManager::~GameManager()
 Game * GameManager::CreateGame(Room room)
 {
 	std::unique_lock<std::mutex> myLock(mutexLockGameManager);
-	vector<Question> myQuestions = this->_m_database->getQuestions(room.getRoomData()._questionCount);
+	vector<Question> myQuestions;// = this->_m_database->getQuestions(room.getRoomData()._questionCount);
 	myLock.unlock();
 	std::map<LoggedUser*, GameData*> vec;
 
@@ -29,7 +29,7 @@ Game * GameManager::CreateGame(Room room)
 	}
 
 	myLock.lock();
-	int id = this->_m_database->addNewGame();
+	int id = 1;// this->_m_database->addNewGame();
 	this->_m_game.push_back(Game(myQuestions, vec, this->_m_database, id));
 	myLock.unlock();
 	return &this->_m_game.back();
