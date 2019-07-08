@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="" Height="117.186" Width="266.959"
         WindowStartupLocation="CenterScreen">
-    <Grid>
+  <Grid Background="AliceBlue">
         <TextBlock Name="subject" FontSize="15" HorizontalAlignment="Center" Margin="0,0,-0.4,-0.2">You Do not Have a Server Running</TextBlock>
 
         <Button Name="try_again"

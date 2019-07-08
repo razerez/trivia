@@ -29,7 +29,6 @@ namespace WpfApp1
         bool _isManager;
         public WaitingRoomWindow(Program p, bool isManager, string roomName, string maxUsers, string questionNum, string questionTime, string[] players)
         {
-            Background = Brushes.AliceBlue;
             InitializeComponent();
             this._p = p;
             this._isManager = isManager;

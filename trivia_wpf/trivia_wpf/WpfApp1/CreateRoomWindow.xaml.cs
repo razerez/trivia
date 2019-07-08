@@ -22,7 +22,6 @@ namespace WpfApp1
         private Program _p;
         public CreateRoomWindow(Program p)
         {
-            Background = Brushes.AliceBlue;
             InitializeComponent();
             this._p = p;
             usernameTop.Text = this._p._username;
