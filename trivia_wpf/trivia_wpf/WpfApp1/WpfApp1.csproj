@@ -58,10 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Answer.cs" />
     <Compile Include="CreateRoomWindow.xaml.cs">
       <DependentUpon>CreateRoomWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Deserializer.cs" />
+    <Compile Include="GameWindow.xaml.cs" />
     <Compile Include="HighscoresWindow.xaml.cs">
       <DependentUpon>HighscoresWindow.xaml</DependentUpon>
     </Compile>
@@ -72,7 +74,10 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Question.cs" />
+    <Compile Include="Results.cs" />
     <Compile Include="Room.cs" />
+    <Compile Include="Score.cs" />
     <Compile Include="SignUpWindow.xaml.cs">
       <DependentUpon>SignUpWindow.xaml</DependentUpon>
     </Compile>
@@ -85,6 +90,9 @@
     </Compile>
     <Page Include="CreateRoomWindow.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="HighscoresWindow.xaml">
