@@ -17,8 +17,8 @@
         <TextBlock Name='questionTime' FontSize="15" FontWeight="Bold" Text="time per question:" Margin="213,215,-213.8,430.2"/>
 
         <TextBlock FontSize="25" FontWeight="Bold" TextAlignment="Center" Margin="0,270,0.2,348.2">Current participants are:</TextBlock>
-        <ComboBox Name="participants" Margin="125,317,125,319.2" >
-        </ComboBox>
+        <ListBox Name="participants" Margin="125,317,125.2,271.2" IsEnabled="False" FontSize="15">
+        </ListBox>
         <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontWeight="Bold" FontSize="30" Margin="0,381,0.2,271.2">the room has been closed!</TextBlock>
         <Button Name="closeButton" Margin="331,443,331,182.2" FontSize="30" Click="Close_Click" Content="Close room"/>
         <Button Name="start_button" Margin="331,543,331,82.2" FontSize="30" Click="Start_Click" Content="Start"/>

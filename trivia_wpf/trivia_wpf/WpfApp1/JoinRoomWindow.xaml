@@ -16,8 +16,8 @@
         </ComboBox>
         <Grid Name="roomGrid" Visibility="Hidden">
             <TextBlock FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center" Margin="175.2,202,175.2,245.2" Width="496">Selected room players:</TextBlock>
-            <ComboBox Name="players" Margin="125,267,125,369.2" >
-            </ComboBox>
+            <ListBox Name="players" Margin="125,267,125.2,294.2"  IsEnabled="False" FontSize="15">
+            </ListBox>
         </Grid>
         <Button Margin="370,462,370,183.2" Click="Refresh_Click" RenderTransformOrigin="0.5,0.504">Refresh</Button>
         <Button Margin="748,10,10.2,631.2" Click="Back_Click">Back</Button>
