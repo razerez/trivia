@@ -236,15 +236,15 @@ void Communicator::startThreadForNewClient()
 	std::unique_lock<std::mutex> l(lock);
 	_m_clients.insert(std::pair<SOCKET, IRequestHandler*>(client_socket, handler));
 	l.unlock();
-
-	std::cout << "New Client With Socket " << client_socket << std::endl;
+	/// for nitay
+	std::cout << "New Client With Socket " << client_socket << std::endl;/// for nitay
 	std::thread  t1(&Communicator::clientHandler, this, client_socket);//new thread for the client
 	t1.detach();//thread can work separately
 }
 
 
 void Communicator::exit(SOCKET s)
-{
+{/// for nitay
 	cout << "Client With Socket " << s << " Exited" << endl;
 	std::unique_lock<std::mutex> l(lock);
 	_m_clients.erase(s);

@@ -13,13 +13,13 @@
         <TextBlock Name='roomName1' FontWeight="Bold" FontSize="25" Text="roomName" TextAlignment="Center" Margin="0,84,0.2,560.2"/>
         <TextBlock Name='roomName2'    FontSize="15" FontWeight="Bold" Text="room name:" Margin="213,140,-213.8,510.2"/> 
         <TextBlock Name='questionNum'  FontSize="15" FontWeight="Bold" Text="number of questions:" Margin="213,165,-213.8,456.2"/>
-        <TextBlock Name='maxPlayers'   FontSize="15" FontWeight="Bold" Text="max number of players:" Margin="213,190,-213.8,480.2"/>
-        <TextBlock Name='questionTime' FontSize="15" FontWeight="Bold" Text="time per question:" Margin="213,215,-213.8,430.2"/>
+        <TextBlock Name='maxPlayers'   FontSize="15" FontWeight="Bold" Text="max number of players:" Margin="213,223,-213.8,447.2"/>
+        <TextBlock Name='questionTime' FontSize="15" FontWeight="Bold" Text="time per question:" Margin="213,190,-213.8,455.2"/>
 
         <TextBlock FontSize="25" FontWeight="Bold" TextAlignment="Center" Margin="0,270,0.2,348.2">Current participants are:</TextBlock>
         <ListBox Name="participants" Margin="125,317,125.2,271.2" IsEnabled="False" FontSize="15">
         </ListBox>
-        <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontWeight="Bold" FontSize="30" Margin="0,381,0.2,271.2">the room has been closed!</TextBlock>
+        <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontWeight="Bold" FontSize="30" Margin="10,642,-9.8,10.2" >The Room Has Been Closed!</TextBlock>
         <Button Name="closeButton" Margin="331,443,331,182.2" FontSize="30" Click="Close_Click" Content="Close room"/>
         <Button Name="start_button" Margin="331,543,331,82.2" FontSize="30" Click="Start_Click" Content="Start"/>
         <Button Name="leave_button" Margin="331,443,331,182.2" FontSize="30" Click="Leave_Click" Content="Leave"/>
