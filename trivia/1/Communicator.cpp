@@ -141,9 +141,13 @@ void Communicator::clientHandler(SOCKET socket)
 
 				for (vector<SOCKET>::iterator it = response->_m_whoToSendTo.begin(); it != response->_m_whoToSendTo.end(); it++)
 				{
-					sendMsg(vectorCharToString(response->getResponse()), *it);
-					if (req._id == 'D')
-						_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
+					try 
+					{
+						sendMsg(vectorCharToString(response->getResponse()), *it);
+						if (req._id == 'D')
+							_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
+					}
+					catch (...) {}
 				}
 			}
 			response->_newHandler = nullptr;//in order to not delete the new handler
@@ -173,11 +177,14 @@ void Communicator::clientHandler(SOCKET socket)
 			{
 				for (vector<SOCKET>::iterator it = res->_m_whoToSendTo.begin(); it != res->_m_whoToSendTo.end(); it++)
 				{
-					if (*it != socket)
-						sendMsg(vectorCharToString(res->getResponse()), *it);
-					if (res!=nullptr&&res->_response[0] == 'd')
-						_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
-
+					try 
+					{
+						if (*it != socket)
+							sendMsg(vectorCharToString(res->getResponse()), *it);
+						if (res != nullptr && res->_response[0] == 'd')
+							_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
+					}
+					catch (...) {}
 				}
 			}
 			if (res != nullptr)
