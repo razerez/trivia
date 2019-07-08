@@ -47,15 +47,6 @@ namespace WpfApp1
             int length;
             int strIndex = 0;
             string currStr = "";
-            //"C000{\nlength:4\nNames[\n\"Elay\":1\n\"Nitay\":2\n\"Raz\":3\n\"Dana\":4\n]\n}"
-            /*
-             C000{
-             length:1
-             Names[
-             "Elay":2
-             ]
-
-             */
             string[] arr = new string[0];
             while (Convert.ToChar(res[i]).ToString() != "]")
             {
@@ -120,7 +111,7 @@ namespace WpfApp1
             return SendAndReciveBoolMessage(msg);
         }
 
-        public string[] GetRooms()////////////////////////////////////needs to update response
+        public string[] GetRooms()
         {
             string msg = "G" + "\0" + "\0" + "\0";
             string[] roomsArr=SendAndDecodeArrMessage(msg);
@@ -159,20 +150,20 @@ namespace WpfApp1
             return SendAndReciveBoolMassageJoin(msg);
         }
 
-        public string[] GetPlayersInRoom(int roomID)/////////////////////////////////////needs to update response
+        public string[] GetPlayersInRoom(int roomID)
         {
             string msg = "P" + "\0" + "\0" + (char)(1) + roomID;
             string[] playersArr = SendAndDecodeArrMessage(msg);
             return playersArr;
         }
-        public Status myStatus()/////////////////////////////////////needs to update response
+        public Status myStatus()
         {
             string msg = "M" + "\0" + "\0" + "\0";
             byte[] s = SendAndReciveMessage(msg);
             Status stat = new Deserializer().DeserializeStatusResponse(s);
             return stat;
         }
-        public string[] GetHighScores()////////////////////////////////////needs to update response
+        public string[] GetHighScores()
         {
             string msg = "H" + "\0" + "\0" + "\0";
             string[] highScoresArr = SendAndDecodeArrMessage(msg);
