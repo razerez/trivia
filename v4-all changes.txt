@@ -1,0 +1,43 @@
+Server:
++++++++++++++++++++++++++++++++++++++++++++++
+Response:
+
+GetQuestion
+SubmitAnswer
+GetGameResults
+PlayerResults
+------------------------------------------------------------------------------
+serialize:
+
+serializeResponse(GetResultsResponse) : Buffer
+serializeResponse(SubmitAnswerResponse) : Buffer
+serializeResponse(GetResultsResponse) : 
+BufferserializeResultsResponse(GetResultsResponse) : Buffer
+-------------------------------------------------------------------------------
+Request:
+
+SubmitAnswer
+-------------------------------------------------------------------------------
+Deserialize:
+
+deserializeSubmitAnswerRequest(Buffer): SubmitBufferRequest
+-------------------------------------------------------------------------------
+Handlers:
+
+GameRequestHandler
+-------------------------------------------------------------------------------
+Infrastructure:
+
+createGameRequestHandler(): GameRequestHandler
+--------------------------------------------------------------------------------
+Managers:
+
+GameManager
+Game
+Question
+GameData
+--------------------------------------------------------------------------------
+===============================================
+--------------------------------------------------------------------------------
+Client:
++++++++++++++++++++++++++++++++++++++++++++++++
