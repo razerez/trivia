@@ -127,7 +127,7 @@ namespace WpfApp1
         public void StartGame()
         {
             string msg = "S" + "\0" + "\0" + "\0";
-            //SendMessage(msg);
+            SendMessage(msg);
         }
 
         public Room GetRoomState()
@@ -174,6 +174,18 @@ namespace WpfApp1
         {
             string msg = "C" + "\0" + "\0" + (char)(64+roomName.Length+maxUsers.Length+questionsCount.Length+answerTime.Length)+ (char)(roomName.Length)+ (char)(maxUsers.Length)+ (char)(questionsCount.Length)+(char)(answerTime.Length) + " {\nRoomName:\"" + roomName + "\"\nMaxUsers:\"" + maxUsers+ "\"\nQuestionsCount:\"" + questionsCount+ "\"\nAnswerTime:\"" + answerTime+ "\"\n}";
             return SendAndReciveBoolMessage(msg);
+        }
+
+        public void GetQuestion()
+        {
+            string msg = "Q" + "\0" + "\0" + "\0";
+            SendMessage(msg);
+        }
+
+        public void SubmitAnswer(string answerId)
+        {
+            string msg = "A" + "\0" + "\0" + (char)(answerId.Length) + (answerId);
+            SendMessage(msg);
         }
 
         public void Exit()
