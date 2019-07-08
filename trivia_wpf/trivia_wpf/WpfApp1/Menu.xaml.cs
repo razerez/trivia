@@ -22,10 +22,9 @@ namespace WpfApp1
         private Program _p;
         public Menu(Program p, bool loggedIn)
         {
-            Background = Brushes.AliceBlue;
             InitializeComponent();
             this._p = p;
-            JoinRoomButton.IsEnabled = true;//\\
+            JoinRoomButton.IsEnabled = true;
             if(loggedIn)
             {
                 secondView();

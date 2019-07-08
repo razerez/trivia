@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Menu" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
-    <Grid>
+  <Grid Background="AliceBlue">
         <Image Source="Logo.png" Margin="317,0,297.2,624.2" Visibility="Visible"/>
         <TextBlock Visibility="Hidden" Name="username"  Text="" TextAlignment="Center" FontWeight="Bold" FontSize="25" Margin="10,97,10.2,291.2"/>
         <TextBlock Visibility= "Visible" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,463.2,643.2"/>

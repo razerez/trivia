@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="JoinRoom" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
-    <Grid>
+  <Grid Background="AliceBlue">
         <Image Name="Logo" Source="Logo.png" Margin="317,0,297.2,624.2"/>
         <TextBlock Visibility= "Visible" Name="usernameTop"  Text="" FontWeight="Bold" FontSize="25" Margin="10,5,463.2,643.2"/>
         <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontSize="15" Margin="0,169,0.2,317.2">no rooms avilable</TextBlock>

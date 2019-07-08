@@ -22,7 +22,6 @@ namespace WpfApp1
         private Program _p;
         public SignUpWindow(Program p)
         {
-            Background = Brushes.AliceBlue;
             InitializeComponent();
             this._p = p;
         }

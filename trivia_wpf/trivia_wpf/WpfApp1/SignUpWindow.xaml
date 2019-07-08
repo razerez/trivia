@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="SignUpWindow" Width="885.347" Height="724.813"
         WindowStartupLocation="CenterScreen">
-    <Grid>
+  <Grid Background="AliceBlue">
         <Image Name="Logo" Source="Logo.png" Margin="317,0,297.2,624.2"/>
         <TextBlock Name="error" Visibility="Hidden" Foreground="Red" TextAlignment="Center" FontSize="15" Margin="0,130,0.2,498.2">please fill everything</TextBlock>
         <TextBlock FontWeight="Bold" FontSize="20" Margin="121,161,210.2,252.2">Username:</TextBlock>
