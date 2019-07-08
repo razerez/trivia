@@ -50,7 +50,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(LogoutResponse
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse roomRes)
 {
-	std::cout << "Sending Rooms: ";/// for nitay
+	std::cout << "Sending Rooms: ";
 	std::string data = " {\nlength:" + std::to_string(roomRes._rooms.size()) + "\nRooms[";
 
 
@@ -58,10 +58,10 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetRoomsRespon
 	for (std::vector<RoomData>::iterator it = roomRes._rooms.begin(); it != roomRes._rooms.end(); ++it)
 	{
 		data += "\n\"" + (*it)._name + "\":" + std::to_string((*it)._id);
-		std::cout << "-"<<(*it)._name << ":" << std::to_string((*it)._id);/// for nitay
+		std::cout << "-" << (*it)._name << ":" << std::to_string((*it)._id);
 	}
 
-	std::cout << "-\n";/// for nitay
+	std::cout << "-\n";
 
 	data += "\n]\n}";
 
@@ -92,15 +92,15 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRo
 {
 	std::string data = " {\nlength:" + std::to_string(playerInRoomRes._players.size()) + "\nNames[";
 
-	std::cout << "Sending Names: ";/// for nitay
+	std::cout << "Sending Names: ";
 
 	for (std::vector<std::string>::iterator it = playerInRoomRes._players.begin(); it != playerInRoomRes._players.end(); ++it)
 	{
 		data += "\n\"" + (*it) + "\"";
-		std::cout << "-" << (*it);/// for nitay
+		std::cout << "-" << (*it);
 	}
 
-	std::cout << "-\n";/// for nitay
+	std::cout << "-\n";
 
 	data += "\n]\n}";
 
@@ -156,15 +156,15 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(HighscoreRespo
 	
 	map<LoggedUser*, int> mymap = highscoreRes._highscores.getHighscores();
 	
-	std::cout << "Sending Highscores: ";/// for nitay
+	std::cout << "Sending Highscores: ";
 
 	for (std::map<LoggedUser*, int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
 	{
 		data += "\n\"" + it->first->getUsername() + "\":" + std::to_string(it->second);
-		std::cout << "-" << it->first->getUsername() << ":" << std::to_string(it->second);/// for nitay
+		std::cout << "-" << it->first->getUsername() << ":" << std::to_string(it->second);
 	}
 
-	std::cout << "-\n";/// for nitay
+	std::cout << "-\n";
 
 	data += "\n]\n}";
 

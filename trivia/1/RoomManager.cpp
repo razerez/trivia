@@ -14,19 +14,22 @@ RoomManager::~RoomManager()
 
 int RoomManager::joinRoom(LoggedUser loggedUsers, int room)
 {
+
+	std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 	if (this->_m_rooms.find(room) == this->_m_rooms.end()) 
 	{
 		return 0;
 	}
+	myLock.unlock();
 	try
 	{
-		std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
+		myLock.lock();
 		//    for example the ([size is 2 (2 players connected)]    <    [max players = 3]) its work and it will add player
 		//    for example the ([size is 3 (3 players connected)]    <    [max players = 3]) its dont work and it will not add player
 		if (this->_m_rooms.find(room)->second.getAllUsers().size() < this->_m_rooms.find(room)->second.getRoomData()._maxPlayers)
 		{
 			this->_m_rooms.find(room)->second.addUser(loggedUsers);
-			std::cout << loggedUsers.getUsername() << " Joined The Room: " << this->_m_rooms.find(room)->second.getRoomData()._name << std::endl;/// for nitay
+			std::cout << loggedUsers.getUsername() << " Joined The Room: " << this->_m_rooms.find(room)->second.getRoomData()._name << std::endl;
 			return 1;
 		}
 		myLock.unlock();
@@ -50,7 +53,7 @@ int RoomManager::createRoom(LoggedUser loggedUsers, RoomData& roomData)
 		vec.push_back(loggedUsers);
 		this->_m_rooms.insert(std::pair<int, Room>(this->_m_counter, Room(roomData, vec)));
 		myLock.unlock();
-		std::cout << "User " << loggedUsers.getUsername() << " Created The Room: " << roomData._name << std::endl;/// for nitay
+		std::cout << "User " << loggedUsers.getUsername() << " Created The Room: " << roomData._name << std::endl;
 		return 1;
 	}
 	catch (...)
@@ -98,11 +101,11 @@ std::vector<RoomData> RoomManager::getRooms()
 
 std::vector<std::string> RoomManager::getPlayersInRooms(int Id)
 {
+	std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 	if (this->_m_rooms.find(Id) == this->_m_rooms.end())
 	{
 		return std::vector<std::string>();
 	}
-	std::unique_lock<std::mutex> myLock(mutexLockRoomManager);
 	std::vector<LoggedUser> myUsers = this->_m_rooms.find(Id)->second.getAllUsers();
 	myLock.unlock();
 	std::vector<std::string> vec;

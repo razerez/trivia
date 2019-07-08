@@ -143,9 +143,11 @@ void Communicator::clientHandler(SOCKET socket)
 				{
 					try 
 					{
+						l.lock();
 						sendMsg(vectorCharToString(response->getResponse()), *it);
 						if (req._id == 'D')
 							_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
+						l.unlock();
 					}
 					catch (...) {}
 				}
@@ -157,6 +159,9 @@ void Communicator::clientHandler(SOCKET socket)
 	}
 	catch (...)
 	{
+		std::unique_lock<std::mutex> l(lock);
+		l.unlock();
+
 		vector<char> v;
 		for (int i = 0; i < 4; i++)
 			v.push_back(0);
@@ -179,10 +184,12 @@ void Communicator::clientHandler(SOCKET socket)
 				{
 					try 
 					{
+						l.lock();
 						if (*it != socket)
 							sendMsg(vectorCharToString(res->getResponse()), *it);
 						if (res != nullptr && res->_response[0] == 'd')
 							_m_clients[*it] = _m_handlerFactory->createMenuRequestHandler(LoggedUser("", *it));
+						l.unlock();
 					}
 					catch (...) {}
 				}
@@ -236,15 +243,15 @@ void Communicator::startThreadForNewClient()
 	std::unique_lock<std::mutex> l(lock);
 	_m_clients.insert(std::pair<SOCKET, IRequestHandler*>(client_socket, handler));
 	l.unlock();
-	/// for nitay
-	std::cout << "New Client With Socket " << client_socket << std::endl;/// for nitay
+	
+	std::cout << "New Client With Socket " << client_socket << std::endl;
 	std::thread  t1(&Communicator::clientHandler, this, client_socket);//new thread for the client
 	t1.detach();//thread can work separately
 }
 
 
 void Communicator::exit(SOCKET s)
-{/// for nitay
+{
 	cout << "Client With Socket " << s << " Exited" << endl;
 	std::unique_lock<std::mutex> l(lock);
 	_m_clients.erase(s);

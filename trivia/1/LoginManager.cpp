@@ -55,7 +55,7 @@ int LoginManager::login(std::string username, std::string password,SOCKET socket
 	if (isOk && isPasswordOk && flag)
 	{
 		LoggedUser newUser(username,socket);
-		std::cout << username <<" Logged In"<< std::endl;/// for nitay
+		std::cout << username <<" Logged In"<< std::endl;
 		std::unique_lock<std::mutex> myLock(mutexLock);
 		this->_m_loggedUsers.push_back(newUser);
 		myLock.unlock();
@@ -68,6 +68,7 @@ int LoginManager::logout(std::string username)
 {
 	try
 	{
+		std::unique_lock<std::mutex> myLock(mutexLock);
 		bool flag = true;
 		int counter = 0;
 
@@ -80,10 +81,9 @@ int LoginManager::logout(std::string username)
 			}
 			counter++;
 		}
-		std::unique_lock<std::mutex> myLock(mutexLock);
 		if(!flag)_m_loggedUsers.erase(_m_loggedUsers.begin() + counter);
 		myLock.unlock();
-		std::cout << username << " Logged Out" << std::endl;/// for nitay
+		std::cout << username << " Logged Out" << std::endl;
 		return 1;
 	}
 	catch (...)
