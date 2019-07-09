@@ -27,8 +27,16 @@ namespace WpfApp1
         private bool _hasLeft = false;
         private bool _killThread = false;
         bool _isManager;
+
+        int numberOfQuestions;
+        int questionTimeAnswer;
+
         public WaitingRoomWindow(Program p, bool isManager, string roomName, string maxUsers, string questionNum, string questionTime, string[] players)
         {
+            
+            this.numberOfQuestions = Int32.Parse(questionNum);
+            this.questionTimeAnswer = Int32.Parse(questionTime);
+
             InitializeComponent();
             this._p = p;
             this._isManager = isManager;
@@ -149,6 +157,11 @@ namespace WpfApp1
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             this._p.StartGame();
+            GameWindow gameWindow = new GameWindow(this._p, this.numberOfQuestions, this.questionTimeAnswer);
+            gameWindow.Show();
+            this.Close();
+
+
         }
 
         private void Leave_Click(object sender, RoutedEventArgs e)

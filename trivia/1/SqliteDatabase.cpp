@@ -18,20 +18,20 @@ int returnFloatCallback(void* data, int argc, char** argv, char** azColName)
 
 int returnQuestionsCallback(void *data, int argc, char **argv, char** azColName)
 {
-	list<Question>h = *(list<Question>*) data;
+
 	string question = argv[1];
 	vector<string> ans;
 	ans.push_back(argv[2]);
 	ans.push_back(argv[3]);
 	ans.push_back(argv[4]);
 	ans.push_back(argv[5]);
-	h.push_back(Question(question, ans));
+	(*(vector<Question>*)data).push_back(Question(question, ans));
 	return 0;
 }
 
 int returnHighScoreCallback(void *data, int argc, char **argv, char** azColName)
 {
-	LoggedUser * user=new LoggedUser(argv[0],0);
+	LoggedUser * user = new LoggedUser(argv[0], 0);
 	int score = std::stoi(argv[1]);
 	std::pair<LoggedUser*, int> p(user, score);
 	(*(std::map<LoggedUser*, int>*) data).insert(p);
@@ -47,6 +47,7 @@ bool SqliteDatabase::sendMessage(string req)
 		return false;
 	return true;
 }
+
 SqliteDatabase::SqliteDatabase() : IDataBase()
 {
 	string dbFileName = "TriviaDB.sqlite";
@@ -54,7 +55,7 @@ SqliteDatabase::SqliteDatabase() : IDataBase()
 	int res = sqlite3_open(dbFileName.c_str(), &_db);
 	if (res != SQLITE_OK)
 	{
-		cout << "Failed to Open DB" << endl;
+		cout << "Failed to open the DB" << endl;
 		_db = nullptr;
 		return;
 	}
@@ -72,7 +73,6 @@ SqliteDatabase::SqliteDatabase() : IDataBase()
 	}
 }
 
-
 SqliteDatabase::~SqliteDatabase()
 {
 	// CLEAR AND DELETE DATA TYPES
@@ -83,10 +83,10 @@ SqliteDatabase::~SqliteDatabase()
 map<LoggedUser*, int> SqliteDatabase::getHighscores()
 {
 	//s.clear();
-	map<LoggedUser*, int>*s=new map<LoggedUser*,int>();
+	map<LoggedUser*, int>*s = new map<LoggedUser*, int>();
 	string strSqlStatement = "SELECT username, count(*) FROM PlayersAnswers where is_correct = 1 group by username order by count(*) desc limit 3;";
 	char * errMessage = nullptr;
-	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnHighScoreCallback,s, &errMessage);
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnHighScoreCallback, s, &errMessage);
 	return *s;
 }
 
@@ -113,16 +113,44 @@ void SqliteDatabase::addUserToDB(string name, string password, string email)
 	sendMessage(strSqlStatement);
 }
 
-
-list<Question> SqliteDatabase::getQuestions(int numberOfQuestions)
+vector<Question> SqliteDatabase::getQuestions(int numberOfQuestions)
 {
-	list<Question> s;
+	vector<Question> s;
 	char * errMessage = nullptr;
 	string strSqlStatement = "SELECT * FROM Question ORDER BY random() LIMIT " + std::to_string(numberOfQuestions) + ";";
-	ret = 0;
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnQuestionsCallback, &s, &errMessage);
 	return s;
 }
+
+int SqliteDatabase::addNewGame()
+{
+	char* errMessage = nullptr;
+	ret = 0;
+	string strSqlStatement = "INSERT INTO Game (status, start_time ) VALUES(0, DATETIME('now','localtime')); ";
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), nullptr, nullptr, &errMessage);
+	strSqlStatement = "SELECT game_id FROM Game ORDER BY game_id DESC LIMIT 1;";
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
+	return ret;
+}
+
+void SqliteDatabase::updateGame(int gameID)
+{
+	char* errMessage = nullptr;
+	string strSqlStatement = "UPDATE Game SET end_time = DATETIME('now','localtime'), status = 1 WHERE game_id = " + std::to_string(gameID) + ";";
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), nullptr, nullptr, &errMessage);
+}
+
+void SqliteDatabase::updateAnswer(string username, int gameID, string question, string ans, bool is_correct, int answerTime)
+{
+	char* errMessage = nullptr;
+	ret = 0;
+	string strSqlStatement = "SELECT question_id from Question where question='" + question + "';";
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
+	int questionID = ret;
+	strSqlStatement = "INSERT INTO PlayersAnswers(game_id, username, question_id, player_answer, is_correct, answer_time) VALUES(" + std::to_string(gameID) + ", '" + username + "', " + std::to_string(questionID) + ", '" + ans + "', " + std::to_string(is_correct) + ", " + std::to_string(answerTime) + "); ";
+	sqlite3_exec(this->_db, strSqlStatement.c_str(), nullptr, nullptr, &errMessage);
+}
+
 int SqliteDatabase::numberOfRightOrWrongAnswers(string user, bool right)
 {
 	string strSqlStatement = "SELECT count(*) FROM PlayersAnswers where is_correct = " + std::to_string(right) + " and username='" + user + "' group by username;";
@@ -131,6 +159,7 @@ int SqliteDatabase::numberOfRightOrWrongAnswers(string user, bool right)
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
 }
+
 int SqliteDatabase::numberOfGamesOfUser(string user)
 {
 	string strSqlStatement = "SELECT count(DISTINCT game_id) FROM PlayersAnswers where username = '" + user + "' group by username";
@@ -139,6 +168,7 @@ int SqliteDatabase::numberOfGamesOfUser(string user)
 	sqlite3_exec(this->_db, strSqlStatement.c_str(), returnIntegerCallback, nullptr, &errMessage);
 	return ret;
 }
+
 float SqliteDatabase::avgTimeForAnsOfUser(string user)
 {
 	string strSqlStatement = "SELECT avg(answer_time) FROM PlayersAnswers where username='" + user + "';";

@@ -29,10 +29,11 @@ RequestResult RoomAdminRequestHandler::closeRoom(Request request)
 RequestResult RoomAdminRequestHandler::StartGame(Request request)
 {
 	this->_m_room->startGame();
-	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(StartGameResponse(this->_m_room->getRoomData()._isActive));
-	IRequestHandler* nextHandler = this;//need to change all function
+	std::vector<char> buff = JsonResponsePacketSerializer::serializeResponse(StartGameResponse(this->_m_room->getRoomData()._isActive));	
+	IRequestHandler* nextHandler = this->_m_handlerFactory->createGameRequestHandler(&this->_m_username, this->_m_room);
 	vector<SOCKET> v;
-	for (vector<LoggedUser>::iterator it = _m_room->getAllUsers().begin(); it != _m_room->getAllUsers().end(); it++)
+	vector<LoggedUser> p = _m_room->getAllUsers();
+	for (vector<LoggedUser>::iterator it = p.begin(); it != p.end(); it++)
 		v.push_back((*it).getSocket());
 	return RequestResult(buff, nextHandler, v);
 }

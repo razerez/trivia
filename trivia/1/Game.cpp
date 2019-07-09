@@ -23,7 +23,7 @@ void Game::shuffleQuestions()
 	for (vector<Question>::iterator it = this->_m_questions.begin(); it != this->_m_questions.end(); ++it, counter++)
 	{
 		std::unique_lock<std::mutex> myLock(mutexLockGame);
-		currect[counter] = (*it).shufleQuestion();
+		currect.push_back((*it).shufleQuestion());
 		myLock.unlock();
 	}
 }
@@ -60,7 +60,7 @@ int Game::removePlayer(LoggedUser user)
 int Game::submiteAnswer(int answer, LoggedUser user, float clock)
 {
 	std::unique_lock<std::mutex> myLock(mutexLockGame);
-	//this->_m_database->updateGame(this->ID);
+	this->_m_database->updateGame(this->ID);
 	myLock.unlock();
 	std::string username = user.getUsername();
 	int answerId = 0;
@@ -86,7 +86,7 @@ int Game::submiteAnswer(int answer, LoggedUser user, float clock)
 			}
 			std::unique_lock<std::mutex> myLock(mutexLockGame);
 			it->second->_averangeAnswerTime += clock;
-			//this->_m_database->updateAnswer(it->first->getUsername(), this->ID, it->second->_currectQuestion.getQuestion(), it->second->_currectQuestion.getCurrectAnswer(), isOk, clock);
+			this->_m_database->updateAnswer(it->first->getUsername(), this->ID, it->second->_currectQuestion.getQuestion(), it->second->_currectQuestion.getCurrectAnswer(), isOk, clock);
 			myLock.unlock();
 		}
 
