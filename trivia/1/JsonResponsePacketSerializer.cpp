@@ -329,10 +329,10 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerRe
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse questionRes)
 {
-	std::string data = "{\nStatus:\"" + std::to_string(questionRes._status) + "\",\nQuestion:\"" + questionRes._question + "\"\nAnswers:\n{";
+	std::string data = " {\nStatus:\"" + std::to_string(questionRes._status) + "\",\nQuestion:\"" + questionRes._question + "\"\nAnswers:\n{";
 	for (std::map<int, std::string>::iterator it = questionRes._answers.begin(); it != questionRes._answers.end(); ++it)
 	{
-		data += "\n\"" + std::to_string(it->first) + "\":\"" + it->second + "\"";
+		data += "\n\"" + std::to_string(it->first + 1) + "\":\"" + it->second + "\"";
 		std::cout << "-" << std::to_string(it->first) << ":" << it->second;
 	}
 	std::cout << "-\n";

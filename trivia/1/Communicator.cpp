@@ -132,8 +132,15 @@ void Communicator::clientHandler(SOCKET socket)
 				for (int i = 0; i < 3; i++)
 					response->_response.push_back(0);
 			}
-			if(response->_m_whoToSendTo.size()==0)
+			if (response->_m_whoToSendTo.size() == 0)
+			{
+				std::vector<char> path = response->getResponse();
+				std::cout << std::endl;
+				for (std::vector<char>::iterator i = path.begin(); i != path.end(); ++i)
+					std::cout << *i;
+				std::cout << std::endl;
 				sendMsg(vectorCharToString(response->getResponse()), socket);
+			}
 			else
 			{
 				if (req._id == 'L')

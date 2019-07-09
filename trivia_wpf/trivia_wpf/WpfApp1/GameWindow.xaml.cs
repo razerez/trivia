@@ -59,9 +59,9 @@ namespace WpfApp1
                 if (rec[0] == 'q')
                 {
                     this._gotAnswer = false;
-                    countDown.Text = this._questionTime.ToString();
-                    Thread timeThread = new Thread(new ThreadStart(DecCountDown));
-                    timeThread.Start();
+                    //countDown.Text = this._questionTime.ToString();
+                    //Thread timeThread = new Thread(new ThreadStart(DecCountDown));
+                    //timeThread.Start();
 
                     Question qu = new Deserializer().DeserializeGetQuestionResponse(rec);
                     this.Dispatcher.BeginInvoke(new Action(() =>
