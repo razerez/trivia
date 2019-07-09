@@ -98,6 +98,8 @@ GetQuestionResponse Game::getQuestionForUser(LoggedUser user)
 {
 	string question="";
 	map<int, string> answerAndID;
+
+	
 	for (std::map<LoggedUser*, GameData*>::iterator it = this->_m_players.begin(); it != this->_m_players.end(); ++it)
 	{
 		if (user.getUsername() == it->first->getUsername())

@@ -23,8 +23,9 @@ Game * GameManager::CreateGame(Room room)
 
 	for(std::vector<LoggedUser>::iterator it = myPlayers.begin(); it != myPlayers.end(); ++it)
 	{
-		GameData newGameData(Question("", std::vector<string>()), 0, 0, 0);
-		std::pair<LoggedUser*, GameData*> myPair(&(*it), &newGameData);
+		GameData * newGameData = new GameData(Question("", std::vector<string>()), 0, 0, 0);
+		LoggedUser * newLoggedUser = new LoggedUser((*it).getUsername(), (*it).getSocket());
+		std::pair<LoggedUser*, GameData*> myPair(newLoggedUser, newGameData);
 		vec.insert(myPair);
 	}
 
