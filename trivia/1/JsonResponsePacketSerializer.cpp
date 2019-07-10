@@ -311,7 +311,7 @@ std::vector<char> JsonResponsePacketSerializer::serializeResponse(MyStatusRespon
 
 std::vector<char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse submitAnswerRes)
 {
-	std::string data = "{\nStatus:\"" + std::to_string(submitAnswerRes._status) + "\",\nCurrectAnswerId:\"" + std::to_string(submitAnswerRes._correctAnswerId) + "\",\n}";
+	std::string data = " {\nStatus:\"" + std::to_string(submitAnswerRes._status) + "\",\nCurrectAnswerId:\"" + std::to_string(submitAnswerRes._correctAnswerId+1) + "\",\n}";
 	std::vector<char> optionAndLenghVec;
 	optionAndLenghVec.push_back('a');
 	int size = data.size() + 2;

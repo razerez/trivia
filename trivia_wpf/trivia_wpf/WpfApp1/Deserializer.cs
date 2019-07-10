@@ -94,9 +94,10 @@ namespace WpfApp1
 
                     i = FindStrIndex(":", buffer, i);
                     int answerStart = FindStrIndex("\"", buffer, i);
-                    int answerEnd = FindStrIndex("\"", buffer, answerStart) - 1;
-                    string answer = GetBytes(answerStart + 1, answerEnd - answerStart, buffer);
+                    int answerEnd = FindStrIndex("\"", buffer, answerStart+1) - 1;
+                    string answer = GetBytes(answerStart, answerEnd - answerStart, buffer);
                     qu._answers.Add(Int32.Parse(id), answer);
+                    i = answerEnd;
                 }
             }
         }
