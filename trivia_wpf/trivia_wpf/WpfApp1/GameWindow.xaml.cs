@@ -48,7 +48,7 @@ namespace WpfApp1
         {
             this._killThread = true;
         }
-
+        private readonly object balanceLock = new object();
 
         public void GameThread()
         {
@@ -59,10 +59,6 @@ namespace WpfApp1
                 if (rec[0] == 'q')
                 {
                     this._gotAnswer = false;
-                    //countDown.Text = this._questionTime.ToString();
-                    //Thread timeThread = new Thread(new ThreadStart(DecCountDown));
-                    //timeThread.Start();
-
                     Question qu = new Deserializer().DeserializeGetQuestionResponse(rec);
                     this.Dispatcher.BeginInvoke(new Action(() =>
                     {
@@ -72,7 +68,11 @@ namespace WpfApp1
                         option2.Content = qu._answers[2];
                         option3.Content = qu._answers[3];
                         option4.Content = qu._answers[4];
+                        countDown.Text = this._questionTime.ToString();
+
                     }));
+                    Thread timeThread = new Thread(new ThreadStart(DecCountDown));
+                    timeThread.Start();
                 }
                 else if (rec[0] == 'a')
                 {
@@ -142,29 +142,32 @@ namespace WpfApp1
 
         private void DecCountDown()
         {
-            while(Int32.Parse(countDown.Text) != 0)
+            this.Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (!this._gotAnswer)
+                while (Int32.Parse(countDown.Text) != 0)
                 {
-                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    if (!this._gotAnswer)
                     {
                         countDown.Text = (Int32.Parse(countDown.Text) - 1).ToString();
-                    }));
-                    Thread.Sleep(1000); //This is milliseconds
-                }
-                else
-                {
-                    countDown.Text = 0.ToString();
-                }
+                        Thread.Sleep(1000); //This is milliseconds
+                    }
+                    else
+                    {
+                        this.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            countDown.Text = "0";
+                        }));                       
+                    }
                 
-            }
-            if (!this._gotAnswer)
-            {
-                if (this._questionNum < this._questionTime)
-                {
-                    this._p.GetQuestion();
                 }
-            }
+                if (!this._gotAnswer)
+                {
+                    if (this._questionNum < this._questionTime)
+                    {
+                        this._p.GetQuestion();
+                    }
+                }
+            }));
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
