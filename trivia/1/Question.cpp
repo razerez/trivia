@@ -35,7 +35,32 @@ std::string Question::getCurrectAnswer()
 int Question::shufleQuestion()
 {
 	std::string right = this->_m_possibleAnswers[0];
-	std::random_shuffle(this->_m_possibleAnswers.begin(), this->_m_possibleAnswers.end());
+
+	srand(time(NULL));
+	int random_number;
+
+
+	std::vector<std::string> vec = this->_m_possibleAnswers;
+
+	this->_m_possibleAnswers.clear();
+
+	int arr[4] = { -1,-1,-1,-1 };
+
+
+	for (int i = 0; i < 4; i++)
+	{
+		random_number = std::rand() % 4;
+		
+		while (arr[0] == random_number || arr[1] == random_number || arr[2] == random_number || arr[3] == random_number)
+		{
+			random_number = std::rand() % 3;
+		}
+		
+		arr[i] = random_number;
+		this->_m_possibleAnswers.push_back(vec[random_number]);
+		
+	}
+
 
 	int count = 0;
 	bool flag = true;
@@ -48,6 +73,6 @@ int Question::shufleQuestion()
 		count++;
 	}
 
-	return count;
+	return count--;
 }
 

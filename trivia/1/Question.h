@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <random>
+#include <ctime>
 
 class Question
 {
